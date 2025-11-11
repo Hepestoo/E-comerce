@@ -99,7 +99,7 @@ PLAN:       Free
 ```
 NAME:                   artemania-front
 BUILD COMMAND:          cd front && npm install && npm run build
-PUBLISH DIRECTORY:      dist/front/browser
+PUBLISH DIRECTORY:      dist/front
 ```
 
 ### Agregar Variable (ANTES de crear):
