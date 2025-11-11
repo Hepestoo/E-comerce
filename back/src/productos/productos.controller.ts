@@ -54,7 +54,7 @@ export class ProductosController {
       }
     })
   }))
-  uploadImagen(@UploadedFile() file: Express.Multer.File) {
+  uploadImagen(@UploadedFile() file: any) {
     return { imagen_url: file.filename };
   }
 
