@@ -30,7 +30,7 @@ git push origin main
 ```
 NAME:              artemania-back
 BUILD COMMAND:     cd back && npm install && npm run build
-START COMMAND:     cd back && npm run start:prod
+PUBLISH DIRECTORY:      front/dist/front/browser
 PLAN:              Free
 REGION:            Ohio
 ```
@@ -99,7 +99,8 @@ PLAN:       Free
 ```
 NAME:                   artemania-front
 BUILD COMMAND:          cd front && npm install && npm run build
-PUBLISH DIRECTORY:      front/dist/front
+PUBLISH DIRECTORY:      
+
 ```
 
 ### Agregar Variable (ANTES de crear):
