@@ -77,12 +77,11 @@ Después de crear:
 - Copiar "Internal Database URL"
 - Pegar en `artemania-back` → Settings → Environment → `DATABASE_URL`
 
-### PASO 4: Static Site (Frontend)
-
+STATIC SITE (Frontend):
 ```
 NAME:              artemania-front
 BUILD COMMAND:     cd front && npm install && npm run build
-PUBLISH DIRECTORY: front/dist/front/browser
+PUBLISH DIRECTORY: dist/front/browser
 ```
 
 ### PASO 5: Variables de Entorno (Frontend)

@@ -220,7 +220,7 @@ Significa que está listo ✅
 ```
 NAME:                  artemania-front
 BUILD COMMAND:         cd front && npm install && npm run build
-PUBLISH DIRECTORY:     front/dist/front/browser
+PUBLISH DIRECTORY:     dist/front/browser
 ```
 
 ### Paso 4.3: Agregar Variable de Entorno

@@ -27,7 +27,7 @@ services:
     name: artemania-front
     runtime: static
     buildCommand: "cd front && npm install && npm run build"
-    staticPublishPath: front/dist/front/browser
+    staticPublishPath: dist/front/browser
     routes:
       - path: /*
         destination: /index.html

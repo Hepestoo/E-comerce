@@ -136,8 +136,9 @@ PASO 5: BACKEND EN LÍNEA ✅
 PASO 6: DEPLOY FRONTEND
   ├─ Dashboard → New ➕ → Static Site
   ├─ Conectar repositorio
-  ├─ BUILD: cd front && npm install && npm run build
-  ├─ PUBLISH: front/dist/front/browser
+  ├─ Build: cd front && npm install && npm run build
+  ├─ Publish: dist/front/browser         ← CORRECTO
+  └─ Auto-deploy on git push
   ├─ Variable: NEXT_PUBLIC_API_URL=https://artemania-back.onrender.com
   └─ Click "Create Static Site"
 
@@ -270,7 +271,7 @@ Render Builds & Deploys:
   │
   └─ artemania-front (Static Site)
      ├─ Build: cd front && npm install && npm run build
-     ├─ Publish Directory: front/dist/front/browser
+     ├─ Publish Directory: dist/front/browser
      ├─ Environment Variables (1 variable)
      └─ Auto-deploy on git push
 ```

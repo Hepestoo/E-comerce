@@ -77,7 +77,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 2. Conectar GitHub (igual que backend)
 3. Llenar:
    - Build: `cd front && npm install && npm run build`
-   - Publish: `front/dist/front/browser`
+   - Publish: `dist/front/browser`
 4. Variable:
    ```
    NEXT_PUBLIC_API_URL=https://artemania-back.onrender.com

@@ -230,7 +230,7 @@ Llenar el formulario:
 ```
 NAME:                           artemania-front
 BUILD COMMAND:                  cd front && npm install && npm run build
-PUBLISH DIRECTORY:              front/dist/front/browser
+PUBLISH DIRECTORY:              dist/front/browser
 ```
 
 ### 4.4 Agregar Variables de Entorno
@@ -400,7 +400,16 @@ Frontend Logs:
 # 1. En Render → artemania-front → Settings
 # 2. Verificar:
 #    BUILD COMMAND:     cd front && npm install && npm run build
-#    PUBLISH DIRECTORY: front/dist/front/browser
+### ❌ INCORRECTO
+```
+PUBLISH DIRECTORY: front/dist/front/browser
+```
+**¿Por qué falla?** Render dobla la ruta.
+
+### ✅ CORRECTO
+```
+#    PUBLISH DIRECTORY: dist/front/browser
+```
 # 3. Si está mal, editar y guardar
 # 4. Hacer manual deploy: Click "Deploy" → "Clear build cache and deploy"
 ```
