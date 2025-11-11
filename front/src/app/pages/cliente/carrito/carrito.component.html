@@ -1,0 +1,75 @@
+<section class="carrito-container">
+
+  <!-- Encabezado y botón siempre visibles -->
+  <div class="carrito-lista">
+    <div class="encabezado-carrito">
+      <p>MI CARRITO</p>
+      <button class="btn-vaciar" (click)="vaciarCarrito()">Vaciar carrito</button>
+    </div>
+
+    <!-- Lista de productos -->
+    <ng-container *ngIf="carrito.items.length > 0; else sinProductos">
+      <div class="producto" *ngFor="let item of carrito.items">
+        <p class="alerta">Este producto puede estar sujeto a cambios</p>
+        <div class="producto-info">
+          <img [src]="apiUrl + '/uploads/productos/' + item.producto.imagen_url" alt="Producto">
+          
+          <div class="detalles">
+            <p class="nombre">{{ item.producto.nombre }}</p>
+            <div class="acciones">
+              <span>{{ item.cantidad }}x</span>
+              <button class="btn-eliminar" (click)="eliminarItem(item.id)">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
+          </div>
+          <div class="precio">
+            <p class="valor">{{ item.producto.precio | currency }}</p>
+            <small>Subtotal: {{ item.producto.precio * item.cantidad | currency }}</small>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Vista cuando no hay productos -->
+    <ng-template #sinProductos>
+      <div class="mensaje-vacio">Tu carrito no contiene productos.</div>
+    </ng-template>
+  </div>
+
+  <!-- Resumen y acciones siempre visibles -->
+  <div class="carrito-resumen">
+    <h3>Detalle de la compra</h3>
+
+    <div class="resumen-productos" *ngIf="carrito.items.length > 0; else sinResumen">
+      <p class="total-item">Artículos totales: {{ carrito.items.length }}</p>
+      <div class="item" *ngFor="let item of carrito.items">
+        <p>{{ item.producto.nombre }}</p>
+        <span>{{ item.cantidad }}x</span>
+        <span>{{ item.producto.precio * item.cantidad | currency }}</span>
+      </div>
+    </div>
+
+    <!-- Si no hay productos -->
+    <ng-template #sinResumen>
+      <p class="total-item">Aún no has agregado productos.</p>
+    </ng-template>
+
+    <div class="opciones-envio">
+      <p><strong>Envío</strong></p>
+      <label><input type="radio" name="envio"> Efectivo</label>
+      <label><input type="radio" name="envio"> Recogida en el local</label>
+      <label><input type="radio" name="envio"> Coordinar envío</label>
+      <label><input type="radio" name="envio"> Envío por servientrega</label>
+      <label><input type="radio" name="envio"> Envío por cooperativa</label>
+    </div>
+
+    <div class="total">
+      <p>Precio total</p>
+      <h3>{{ calcularTotal() | currency }}</h3>
+    </div>
+
+    <button class="btn-pago" (click)="generarOrden()" [disabled]="carrito.items.length === 0">Generar orden</button>
+  </div>
+
+</section>

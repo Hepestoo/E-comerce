@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: artemania-back
+    runtime: node
+    plan: free
+    buildCommand: "cd back && npm install && npm run build"
+    startCommand: "cd back && npm run start:prod"
+    healthCheckPath: /
+    routes:
+      - path: /
+        destination: /
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: CORS_ORIGINS
+        value: "https://artemania-front.vercel.app"
+      - key: NODE_ENV
+        value: production
+
+  - type: static_site
+    name: artemania-front
+    runtime: static
+    buildCommand: "cd front && npm install && npm run build"
+    staticPublishPath: front/dist/front/browser
+    routes:
+      - path: /*
+        destination: /index.html
+        match: none
