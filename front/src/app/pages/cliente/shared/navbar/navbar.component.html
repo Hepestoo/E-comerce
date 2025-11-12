@@ -1,28 +1,23 @@
 <nav class="navbar"> 
   <div class="logo">
-    <span style="color: fuchsia;">Arte</span><strong>mania</strong>
+    <span>Arte</span><strong>mania</strong>
   </div>
 
   <ul class="nav-links">
-    <li><a routerLink="/home" routerLinkActive="activo">Inicio</a></li>
+    <li><a routerLink="/home" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="activo">Inicio</a></li>
     <li><a routerLink="/catalogo" routerLinkActive="activo">Catálogo</a></li>
     <li><a routerLink="/contacto" routerLinkActive="activo">Contáctanos</a></li>
     <li><a routerLink="/nosotros" routerLinkActive="activo">Sobre Nosotros</a></li>
   </ul>
 
   <div class="nav-actions">
-    <!-- Carrito -->
     <button class="btn-icon" routerLink="/carrito">
       <i class="pi pi-shopping-cart"></i>
       <span *ngIf="totalCarrito > 0" class="carrito-contador">{{ totalCarrito }}</span>
     </button>
-
-    <!-- Usuario (login) -->
     <button class="btn-icon" routerLink="/login" *ngIf="!auth.isAuthenticated()" title="Iniciar sesión">
       <i class="pi pi-user"></i>
     </button>
-
-    <!-- Logout -->
     <button class="btn-icon" *ngIf="auth.isAuthenticated()" (click)="logout()" title="Cerrar sesión">
       <i class="pi pi-sign-out"></i>
     </button>

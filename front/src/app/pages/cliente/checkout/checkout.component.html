@@ -7,7 +7,7 @@
   </div>
 
   <form (ngSubmit)="finalizarCompra(form)" #form="ngForm" class="formulario-factura">
-    <h3>Finalizar Compra</h3>
+    <h3>Información de Facturación</h3>
 
     <div class="campo">
       <label for="nombre">Nombre completo</label>
@@ -16,6 +16,7 @@
         [(ngModel)]="datosCliente.nombre"
         name="nombre"
         #nombre="ngModel"
+        placeholder="Tu nombre y apellido"
         required
       />
       <div class="error" *ngIf="nombre.invalid && nombre.touched">
@@ -30,6 +31,7 @@
         [(ngModel)]="datosCliente.direccion"
         name="direccion"
         #direccion="ngModel"
+        placeholder="Calle, número, sector"
         required
       />
       <div class="error" *ngIf="direccion.invalid && direccion.touched">
@@ -44,6 +46,7 @@
         [(ngModel)]="datosCliente.telefono"
         name="telefono"
         #telefono="ngModel"
+        placeholder="E.g., 0991234567"
         required
       />
       <div class="error" *ngIf="telefono.invalid && telefono.touched">
@@ -54,17 +57,20 @@
     <div class="campo">
       <label for="metodoPago">Método de pago</label>
       <select [(ngModel)]="metodoPagoSeleccionado" name="metodoPagoSeleccionado" required>
+        <option [ngValue]="undefined" disabled>Selecciona un método...</option>
         <option *ngFor="let metodo of metodosPago" [value]="metodo.id">
           {{ metodo.nombre }}
         </option>
       </select>
     </div>
 
-    <button type="submit" [disabled]="form.invalid">Finalizar compra</button>
+    <button type="submit" [disabled]="form.invalid" class="btn-principal">
+      Finalizar compra
+    </button>
   </form>
 </div>
 
 <div class="resumen-vacio" *ngIf="!orden">
+  <i class="pi pi-info-circle"></i>
   <p>No hay ninguna orden generada aún.</p>
 </div>
-

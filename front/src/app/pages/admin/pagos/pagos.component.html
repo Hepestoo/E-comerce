@@ -1,24 +1,49 @@
-<section class="tabla-pagos">
+<section class="gestion-pagos">
   <h2>Pagos</h2>
 
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Orden</th>
-        <th>Método</th>
-        <th>Monto</th>
-        <th>Fecha</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let pago of pagos">
-        <td>{{ pago.id }}</td>
-        <td>{{ pago.orden_id }}</td>
-        <td>{{ pago.metodo?.nombre || pago.metodo_pago_id }}</td>
-        <td>{{ pago.monto | currency }}</td>
-        <td>{{ pago.fecha_pago | date: 'short' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="lista-header">
+    <div class="col-id">ID Pago</div>
+    <div class="col-orden">ID Orden</div>
+    <div class="col-metodo">Método</div>
+    <div class="col-monto">Monto</div>
+    <div class="col-fecha">Fecha</div>
+  </div>
+
+  <div class="lista-items">
+    <div class="pago-item" *ngFor="let pago of pagos">
+      
+      <div class="info-id">
+        <span class="label-movil">ID Pago:</span>
+        <strong>#{{ pago.id }}</strong>
+      </div>
+      
+      <div class="info-orden">
+        <span class="label-movil">ID Orden:</span>
+        <span>#{{ pago.orden_id }}</span>
+      </div>
+
+      <div class="info-metodo">
+        <span class="label-movil">Método:</span>
+        <span class="metodo-badge">
+          <i class="pi pi-credit-card"></i>
+          {{ pago.metodo?.nombre || pago.metodo_pago_id }}
+        </span>
+      </div>
+      
+      <div class="info-monto">
+        <span class="label-movil">Monto:</span>
+        <span class="monto-badge">{{ pago.monto | currency }}</span>
+      </div>
+      
+      <div class="info-fecha">
+        <span class="label-movil">Fecha:</span>
+        <span>{{ pago.fecha_pago | date: 'short' }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="pagos.length === 0" class="item-vacio">
+      <p>No hay pagos registrados para mostrar.</p>
+    </div>
+  </div>
+
 </section>

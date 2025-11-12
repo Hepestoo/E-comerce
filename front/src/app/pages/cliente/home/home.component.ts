@@ -3,8 +3,6 @@ import { RouterModule } from '@angular/router';
 import { ProductoService, Producto } from '../../../services/producto.service';
 import { CommonModule } from '@angular/common';
 import { SubcategoriaService } from '../../../services/subcategorias.service';
-
-// --- PASO 1: Importa el environment ---
 import { environment } from '../../../../environments/environments';
 
 @Component({
@@ -47,7 +45,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   scrollAutomatico() {
-    // ... (tu código de scroll sin cambios)
     const carousel = this.carouselRef.nativeElement;
     setInterval(() => {
       const maxScroll = carousel.scrollWidth - carousel.clientWidth;
@@ -58,4 +55,5 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     }, 15); // velocidad
   }
+
 }

@@ -5,8 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ProductoService, Producto, ProductoDTO } from '../../../services/producto.service';
 import Swal from 'sweetalert2';
 
-// --- PASO 1: Importa el environment ---
-// Asumo 5 niveles (productos -> admin -> pages -> app -> src)
+// --- Importa el environment ---
 import { environment } from "../../../../environments/environments";
 
 
@@ -15,14 +14,14 @@ import { environment } from "../../../../environments/environments";
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './productos.component.html',
-  styleUrl: './productos.component.scss'
+  styleUrl: './productos.component.scss' 
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   subcategorias: any[] = [];
   busqueda: string = '';
 
-  // --- PASO 2: Define la URL de la API (pública para el HTML) ---
+  // --- URL de la API (pública para el HTML) ---
   public apiUrl = environment.apiUrl;
 
   imagenPreview: string | null = null;
@@ -44,7 +43,6 @@ export class ProductosComponent implements OnInit {
   }
 
   cargarProductos() {
-    // Esta llamada está bien (usa el servicio ya corregido)
     this.productoService.listar().subscribe((res) => {
       this.productos = res;
     });
@@ -86,27 +84,32 @@ export class ProductosComponent implements OnInit {
   procesarGuardar() {
     const esNuevo = !this.nuevoProducto.id;
   
-    // Esta llamada está bien (usa el servicio ya corregido)
     const observable = esNuevo
       ? this.productoService.crear(this.nuevoProducto)
-      // ...
       : this.productoService.actualizar(this.nuevoProducto.id!, this.nuevoProducto);
   
     observable.subscribe(() => {
       this.resetFormulario();
       this.cargarProductos();
   
+      // --- CAMBIO: Alerta de éxito "bonita" ---
       Swal.fire({
         icon: 'success',
-        title: esNuevo ? 'Producto creado' : 'Producto actualizado',
+        title: esNuevo ? 'Producto Creado' : 'Producto Actualizado',
         text: esNuevo
           ? 'El producto ha sido agregado correctamente.'
           : 'El producto ha sido actualizado correctamente.',
         timer: 2000,
-        showConfirmButton: false
+        showConfirmButton: false,
+        timerProgressBar: true,
+        background: '#fff', // Fondo limpio
+        iconColor: 'fuchsia', // Icono con color de marca
+        color: '#5a3a7d' // Texto con color de marca
       });
+      // --- FIN DEL CAMBIO ---
     });
   }
+
 
   resetFormulario() {
     this.nuevoProducto = {
@@ -121,22 +124,46 @@ export class ProductosComponent implements OnInit {
   }
 
   eliminar(id: number) {
+    // --- CAMBIO: Alerta de confirmación "bonita" ---
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'Esta acción eliminará el producto permanentemente.',
+      text: "Esta acción eliminará el producto permanentemente.",
       icon: 'warning',
       showCancelButton: true,
+      
+      // Colores de botones de marca
       confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonColor: '#B71C1C', // Rojo de eliminar
+      
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#aaa',
+
+      // Estilos de fondo y texto
+      background: '#fff',
+      color: '#5a3a7d'
+      
     }).then((result) => {
       if (result.isConfirmed) {
-        // Esta llamada está bien (usa el servicio ya corregido)
         this.productoService.eliminar(id).subscribe(() => {
           this.cargarProductos();
-          Swal.fire('Eliminado', 'El producto ha sido eliminado.', 'success');
+          
+          // --- CAMBIO: Alerta de "Eliminado" "bonita" ---
+          Swal.fire({
+            title: 'Eliminado',
+            text: 'El producto ha sido eliminado.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            background: '#fff',
+            iconColor: 'fuchsia', // Icono de marca
+            color: '#5a3a7d' // Texto de marca
+          });
+          // --- FIN DEL CAMBIO ---
         });
       }
     });
+    // --- FIN DEL CAMBIO ---
   }
 
   editar(producto: Producto) {
@@ -146,7 +173,7 @@ export class ProductosComponent implements OnInit {
       descripcion: producto.descripcion,
       precio: producto.precio,
       stock: producto.stock,
-      subcategoria_id: producto.subcategoria.id??0,
+      subcategoria_id: producto.subcategoria.id ?? 0,
       imagen_url: producto.imagen_url
     };
 

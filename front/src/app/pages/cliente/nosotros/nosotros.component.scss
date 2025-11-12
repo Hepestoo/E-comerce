@@ -1,12 +1,13 @@
-/* Banner */
+/* ============ BANNER NOSOTROS ============ */
 .banner-nosotros {
   position: relative;
-  height: 600px;
+  height: 70vh; /* Un poco menos alto para ser más dinámico */
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+  /* CAMBIO: Overlay de marca, no negro */
+  background: linear-gradient(135deg, rgba(90, 58, 125, 0.8) 0%, rgba(31, 9, 63, 0.7) 100%),
               url('https://images.pexels.com/photos/1470163/pexels-photo-1470163.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') center/cover no-repeat;
   color: white;
 }
@@ -14,18 +15,19 @@
 .banner-nosotros h1 {
   font-family: "Raleway", sans-serif;
   font-size: 4.5rem;
-  font-weight: bold;
-  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+  font-weight: 800;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .flecha-abajo {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   font-size: 4rem;
   color: white;
   text-decoration: none;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
   animation: bounce 2s infinite;
+  cursor: pointer;
 }
 
 .flecha-abajo:hover {
@@ -38,260 +40,361 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(8px);
+    transform: translateY(10px);
   }
 }
 
   
-  /* Quienes somos */
-  .quienes-somos {
-    display: flex;
-    height: 400px;
-    width: 100%;
-    background-color: #FAFFF6;
+/* ============ QUIÉNES SOMOS ============ */
+.quienes-somos {
+  display: flex;
+  flex-wrap: wrap; /* Responsividad */
+  min-height: 400px;
+  width: 100%;
+  background-color: #FFFFFF; /* CAMBIO: Fondo blanco limpio */
+}
+
+.quienes-somos .texto {
+  flex: 1 1 55%; /* Más espacio */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 3rem;
+  min-width: 300px;
+}
+
+.quienes-somos .texto h2 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #5a3a7d; /* CAMBIO: Color de marca */
+}
+
+/* NUEVO: Línea de acento */
+.quienes-somos .texto .linea {
+  width: 60px;
+  height: 4px;
+  background: fuchsia;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.quienes-somos .texto p {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+.quienes-somos .imagen-quienes {
+  flex: 1 1 45%;
+  background-image: url('https://images.pexels.com/photos/7054382/pexels-photo-7054382.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-size: cover;
+  background-position: center;
+  min-height: 300px;
+}
+
+
+/* ============ MISIÓN Y VISIÓN (Totalmente rediseñado) ============ */
+.mision-vision {
+  /* CAMBIO: Fondo oscuro de la marca, como el footer */
+  background-color: #5a3a7d;
+  color: #f5f0f8; /* CAMBIO: Texto lila claro */
+  padding: 5rem 2rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.mision-vision h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: white; /* CAMBIO: Color blanco */
+}
+
+.contenido-mv {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 4rem; /* CAMBIO: Menos gap */
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.bloque {
+  max-width: 450px;
+  min-width: 300px;
+}
+
+.bloque h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: white; /* CAMBIO: Color blanco */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.bloque h3 .pi {
+  color: fuchsia; /* CAMBIO: Acento de marca */
+  font-size: 1.6rem;
+}
+
+.bloque p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #e0d8ea; /* CAMBIO: Lila un poco más oscuro */
+}
+
+
+/* ============ COMPROMISO BLOQUE ÚNICO ============ */
+.compromiso {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 5%;
+  /* CAMBIO: Fondo lila suave */
+  background-color: #f5f0f8;
+  gap: 3rem;
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.compromiso img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  border-radius: 16px; /* CAMBIO: Más redondeado */
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.texto-compromiso {
+  flex: 1;
+  min-width: 300px;
+  max-width: 700px;
+  padding-left: 2rem;
+  text-align: left;
+}
+
+.texto-compromiso h3 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #5a3a7d; 
+}
+
+/* NUEVO: Línea de acento */
+.texto-compromiso .linea {
+  width: 60px;
+  height: 4px;
+  background: fuchsia;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.texto-compromiso p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+
+/* ============ DIFERENCIADORES ============ */
+.diferencias {
+  width: 100%;
+  background-color: white; /* CAMBIO: Fondo base limpio */
+  margin: 0;
+  padding: 0;
+}
+
+.encabezado {
+  /* CAMBIO: Gradiente sutil, no color sólido */
+  background: linear-gradient(135deg, #f5f0f8 0%, #eac2f2 100%);
+  padding: 2rem 2rem;
+  text-align: center;
+  height: 450px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.encabezado h2 {
+  font-family: "Raleway", sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #5a3a7d; /* CAMBIO: Color de marca */
+  margin: 0;
+}
+
+.fila {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+}
+
+.diferencia {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; /* Clave para responsividad */
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+/* CAMBIO: CSS estándar (no SCSS) y responsivo */
+.diferencia img {
+  width: 50%;
+  height: 450px; /* Altura fija para alinear */
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.diferencia .texto {
+  width: 50%;
+  padding: 4rem 3rem;
+  box-sizing: border-box;
+}
+
+.diferencia .texto h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #5a3a7d; /* CAMBIO: Color de marca */
+  font-family: 'Poppins', sans-serif;
+}
+
+.diferencia .texto p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.diferencia.reverso {
+  flex-direction: row-reverse;
+}
+
+.diferencia.sube {
+  margin-top: -180px;
+  position: relative;
+  z-index: 2;
+  /* CAMBIO: Sombra para destacar */
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+}
+
+/* ============ BANNER FINAL ============ */
+.banner-final {
+  background-color: #f5f0f8; /* CAMBIO: Fondo lila suave */
+  color: #333;
+  text-align: center;
+  padding: 6rem 2rem;
+}
+
+.banner-final h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #5a3a7d; /* CAMBIO: Color de marca */
+  font-family: 'Poppins', sans-serif;
+}
+
+.beneficios {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+/* CAMBIO: Estilo de tarjeta unificado (como en Contacto) */
+.beneficio {
+  background: white;
+  color: #333;
+  border-radius: 10px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.beneficio:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(121, 81, 155, 0.12);
+  border-color: #eac2f2;
+}
+
+.beneficio i {
+  font-size: 2.5rem;
+  color: fuchsia; /* CAMBIO: Color de marca */
+  margin-bottom: 1.5rem;
+}
+
+.beneficio h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #5a3a7d; /* CAMBIO: Color de marca */
+}
+
+.beneficio p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ============ MEDIA QUERIES (Responsividad) ============ */
+
+@media (max-width: 992px) {
+  .banner-nosotros h1 {
+    font-size: 3.5rem;
   }
-  
+}
+
+@media (max-width: 768px) {
   .quienes-somos .texto {
-    flex: 1.5; /* ocupa más espacio que la imagen */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 3rem;
+    padding: 2.5rem 1.5rem;
+    flex-basis: 100%; /* Ocupa todo el ancho */
   }
-  
-  .quienes-somos .texto h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+  .quienes-somos .imagen-quienes {
+    flex-basis: 100%;
   }
-  
-  .quienes-somos .texto p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-  }
-  
-  .quienes-somos .imagen {
-    flex: 1; /* un poco menos ancha */
-    background-image: url('https://images.pexels.com/photos/7054382/pexels-photo-7054382.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-    background-size: cover;
-    background-position: center;
-  }
-  
-  
-  
-  
-  /* Misión y visión */
-  .mision-vision {
-    background-color: #3a2c2c;
-    color: #BCBCBC;
-    padding: 4rem 2rem;
-    text-align: center;
-  }
-  
-  .mision-vision h2 {
-    font-size: 2.2rem;
-    margin-bottom: 2.5rem;
-    color: #BCBCBC;
-  }
-  
-  .contenido-mv {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    gap: 12rem;
-    flex-wrap: wrap;
-    text-align: center; /* Cambiado de left a center */
-  }
-  
-  .bloque {
-    max-width: 450px;
-    min-width: 300px;
-  }
-  
-  .bloque h3 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    font-weight: bold;
-  }
-  
-  .bloque p {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-  
-  
-  
-  
-  /* Compromiso bloque único */
+
   .compromiso {
-    font-family: "Montserrat", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6rem 5%;
-    background-color: #FAFFF6;
-    gap: 3rem;
-    flex-wrap: wrap;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 4rem 1.5rem;
   }
-  
-  .compromiso img {
-    width: 100%;
-    max-width: 450px;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    flex-shrink: 0;
-  }
-  
   .texto-compromiso {
-    flex: 1;
-    min-width: 300px;
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;   /* verticalmente centrado */
-    align-items: flex-start;   /* alinea a la izquierda del contenedor */
-    padding-left: 2rem;        /* empuja un poco a la derecha */
-    text-align: left;          /* asegura alineación izquierda del texto */
-  }
-  
-  
-  .texto-compromiso h3 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .texto-compromiso p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
-  
-  
-  
-  /* Diferenciadores */
-  .diferencias {
-    width: 100%;
-    background-color: #f9fdf4;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .encabezado {
-    background-color: #F1D5F9;
-    padding: 3rem;
+    padding-left: 0;
     text-align: center;
-    height: 450px;
-    position: relative;
-    z-index: 1;
   }
-  
-  .encabezado h2 {
-    font-family: "Raleway", sans-serif;
-    font-size: 3rem;
-    font-weight: bold;
-    margin: 80px 0;
-    position: relative;
-    top: -10px; /* centra mejor el texto */
+  .texto-compromiso .linea {
+    margin: 0 auto 1.5rem auto;
   }
-  
-  
-  .fila {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: stretch;
-  }
-  
+
+  /* CAMBIO: Responsividad de diferenciadores */
   .diferencia {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  
-    img {
-      width: 50%;
-      object-fit: cover;
-      border-radius: 0; /* sin bordes redondeados */
-    }
-  
-    .texto {
-      width: 50%;
-      padding: 3rem;
-      box-sizing: border-box;
-  
-      h3 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-      }
-  
-      p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-      }
-    }
+    flex-direction: column !important; /* Forza la columna en todos */
   }
-  
-  .diferencia.reverso {
-    flex-direction: row-reverse;
+  .diferencia img,
+  .diferencia .texto {
+    width: 100%;
+    height: auto; /* Altura automática */
+  }
+  .diferencia .texto {
+    padding: 2.5rem 1.5rem;
   }
   .diferencia.sube {
-    margin-top: -180px; /* ajusta según cuánto quieres que suba */
-    position: relative;
-    z-index: 2;
+    margin-top: -120px; /* Menos superposición en móvil */
   }
-  // banner final
-
-  .banner-final {
-    background-color: #FAFFF6;
-    color: black;
-    text-align: center;
-    padding: 9rem 2rem;
-    height: 650px;
+  .encabezado {
+    height: 300px;
   }
-  
-  .banner-final h2 {
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+  .encabezado h2 {
+    font-size: 2.2rem;
   }
-  
-  .beneficios {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    flex-wrap: wrap;
-  }
-  
-  .beneficio {
-    background-color: #f5f5f5;
-    color: #111;
-    border-radius: 12px;
-    padding: 2rem 1.5rem;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-  }
-  
-  .beneficio:hover {
-    transform: translateY(-5px);
-  }
-  
-  .beneficio i {
-    font-size: 2.5rem;
-    color: #800080;
-    margin-bottom: 1rem;
-  }
-  
-  .beneficio h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .beneficio p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-  
+}

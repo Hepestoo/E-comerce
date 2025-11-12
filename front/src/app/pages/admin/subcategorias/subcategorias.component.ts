@@ -4,9 +4,6 @@ import { FormsModule } from "@angular/forms";
 import { SubcategoriaService } from "../../../services/subcategorias.service";
 import { HttpClient } from "@angular/common/http";
 import Swal from 'sweetalert2';
-
-// --- PASO 1: Importa el environment ---
-// Asumo 5 niveles (subcategorias -> admin -> pages -> app -> src)
 import { environment } from "../../../../environments/environments"; 
 
 
@@ -15,6 +12,7 @@ import { environment } from "../../../../environments/environments";
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './subcategorias.component.html',
+  // CAMBIO: Asegúrate que la ruta a tu CSS sea correcta (usando .css)
   styleUrl: './subcategorias.component.scss'
 })
 export class SubcategoriasComponent implements OnInit {
@@ -31,7 +29,6 @@ export class SubcategoriasComponent implements OnInit {
     categoria_id: 0
   };
 
-  // --- PASO 2: Define la URL de la API ---
   private apiUrl = environment.apiUrl;
 
   constructor(
@@ -42,14 +39,12 @@ export class SubcategoriasComponent implements OnInit {
   ngOnInit(): void {
     this.listar();
     
-    // --- PASO 3: Corrige la llamada hardcodeada ---
     this.http.get(`${this.apiUrl}/categorias`).subscribe((res: any) => {
       this.categorias = res;
     });
   }
 
   listar() {
-    // Esta llamada ya está corregida porque usa el servicio que arreglamos
     this.subcategoriaService.listar().subscribe((res) => {
       this.subcategorias = res;
     });
@@ -66,26 +61,40 @@ export class SubcategoriasComponent implements OnInit {
       this.subcategoriaService.crear(dto).subscribe(() => {
         this.reset();
         this.listar();
+        
+        // --- CAMBIO: Alerta de éxito "bonita" ---
         Swal.fire({
           icon: 'success',
-          title: 'Subcategoría creada',
+          title: 'Subcategoría Creada',
           text: 'La subcategoría fue registrada correctamente.',
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
+          timerProgressBar: true,
+          background: '#fff',
+          iconColor: 'fuchsia',
+          color: '#5a3a7d'
         });
+        // --- FIN DEL CAMBIO ---
       });
     } else {
       // Actualizar
       this.subcategoriaService.actualizar(this.nueva.id, dto).subscribe(() => {
         this.reset();
         this.listar();
+
+        // --- CAMBIO: Alerta de éxito "bonita" ---
         Swal.fire({
           icon: 'success',
-          title: 'Subcategoría actualizada',
+          title: 'Subcategoría Actualizada',
           text: 'Los cambios se guardaron correctamente.',
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
+          timerProgressBar: true,
+          background: '#fff',
+          iconColor: 'fuchsia',
+          color: '#5a3a7d'
         });
+        // --- FIN DEL CAMBIO ---
       });
     }
   }
@@ -99,21 +108,46 @@ export class SubcategoriasComponent implements OnInit {
   }
 
   eliminar(id: number) {
+    // --- CAMBIO: Alerta de confirmación "bonita" ---
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción eliminará la subcategoría permanentemente.',
       icon: 'warning',
       showCancelButton: true,
+      
+      // Colores de botones de marca
       confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonColor: '#B71C1C', // Rojo de eliminar
+      
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#aaa',
+
+      // Estilos de fondo y texto
+      background: '#fff',
+      color: '#5a3a7d'
+      
     }).then((result) => {
       if (result.isConfirmed) {
         this.subcategoriaService.eliminar(id).subscribe(() => {
           this.listar();
-          Swal.fire('Eliminado', 'La subcategoría ha sido eliminada.', 'success');
+          
+          // --- CAMBIO: Alerta de "Eliminado" "bonita" ---
+          Swal.fire({
+            title: 'Eliminado',
+            text: 'La subcategoría ha sido eliminada.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            background: '#fff',
+            iconColor: 'fuchsia',
+            color: '#5a3a7d'
+          });
+          // --- FIN DEL CAMBIO ---
         });
       }
     });
+    // --- FIN DEL CAMBIO ---
   }
 
   reset() {

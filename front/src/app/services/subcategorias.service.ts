@@ -1,9 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-
-// --- PASO 1: Importa el environment ---
-// La ruta es ../../ porque estamos en src/app/services/
 import { environment } from "../../environments/environments";
 
 export interface Subcategoria {

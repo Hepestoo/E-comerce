@@ -1,21 +1,25 @@
 <div class="dashboard-container">
-  <!-- Encabezado -->
   <div class="dashboard-header">
     <h1>Panel de administración</h1>
     <button class="logout-btn" (click)="logout()">Cerrar sesión</button>
   </div>
 
-  <!-- Cuerpo principal: sidebar + contenido -->
   <div class="dashboard-body">
-    <!-- Sidebar de navegación -->
     <aside class="dashboard-sidebar">
-      <button (click)="mostrarVista('productos')" [class.active]="vistaActual === 'productos'">Productos</button>
-      <button (click)="mostrarVista('subcategorias')" [class.active]="vistaActual === 'subcategorias'">Subcategorías</button>
-      <button (click)="mostrarVista('ordenes')" [class.active]="vistaActual === 'ordenes'">Órdenes</button>
-      <button (click)="mostrarVista('pagos')" [class.active]="vistaActual === 'pagos'">Pagos</button>
+      <button (click)="mostrarVista('productos')" [class.active]="vistaActual === 'productos'">
+        <i class="pi pi-box"></i> Productos
+      </button>
+      <button (click)="mostrarVista('subcategorias')" [class.active]="vistaActual === 'subcategorias'">
+        <i class="pi pi-tags"></i> Subcategorías
+      </button>
+      <button (click)="mostrarVista('ordenes')" [class.active]="vistaActual === 'ordenes'">
+        <i class="pi pi-shopping-cart"></i> Órdenes
+      </button>
+      <button (click)="mostrarVista('pagos')" [class.active]="vistaActual === 'pagos'">
+        <i class="pi pi-credit-card"></i> Pagos
+      </button>
     </aside>
 
-    <!-- Contenido dinámico -->
     <main class="dashboard-content">
       <div *ngIf="vistaActual === 'productos'">
         <app-productos></app-productos>

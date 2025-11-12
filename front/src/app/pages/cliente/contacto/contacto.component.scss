@@ -1,14 +1,17 @@
-/* Banner */
+/* ============ BANNER CONTACTANOS ============ */
 .banner-contactanos {
   display: flex;
-  height: 600px;
+  flex-wrap: wrap; /* Para responsividad */
+  min-height: 70vh; /* Más flexible que 600px */
   width: 100%;
+  background-color: #1f093f; /* Fondo para la parte de texto */
 }
 
 .imagen-banner {
-  flex: 1;
+  flex: 1 1 50%; /* Ocupa la mitad */
   position: relative;
   overflow: hidden;
+  min-height: 300px;
 }
 
 .imagen-banner img {
@@ -16,10 +19,59 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0.8; /* Se combina con el overlay */
 }
 
+/* CAMBIO: Overlay de color de marca, no negro */
+.imagen-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #1f093f 0%, rgba(90, 58, 125, 0.5) 100%);
+  z-index: 1;
+}
+
+.texto-banner {
+  flex: 1 1 50%; /* Ocupa la otra mitad */
+  color: white;
+  padding: 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+  font-family: 'Poppins', sans-serif;
+}
+
+.texto-banner h2 {
+  font-family: "Raleway", sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.texto-banner .linea {
+  width: 100px;
+  height: 5px;
+  /* CAMBIO: Color de la paleta */
+  background-color: fuchsia;
+  margin-bottom: 1.5rem;
+  border-radius: 5px;
+}
+
+.texto-banner p {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+/* ============ AVISO CONTACTO (SEPARADOR) ============ */
 .aviso-contacto {
-  background-color: #f9fcf8;
+  /* CAMBIO: Color de fondo unificado */
+  background-color: #f5f0f8;
   padding: 3rem;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
@@ -29,234 +81,345 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 500;
-  color: #222;
+  /* CAMBIO: Color de texto de la paleta */
+  color: #5a3a7d;
 }
 
-.aviso-contacto strong {
+.aviso-contacto p .pi {
+  font-size: 1.5rem;
+  color: #25D366; /* Color WhatsApp */
+  margin-right: 0.5rem;
+}
+
+.aviso-contacto.separador {
+  background: white;
+  padding: 2.5rem 1rem 1rem;
+}
+
+.aviso-contacto h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
   font-weight: 700;
+  color: #5a3a7d;
+  margin: 0;
 }
 
 
-/* Overlay */
-.imagen-banner::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
+/* ============ INFO RÁPIDA ============ */
+.info-rapida {
+  /* CAMBIO: Gradiente suave de la paleta */
+  background: linear-gradient(135deg, #f5f0f8 0%, #eac2f2 100%);
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.servicio-cliente {
+  display: flex;
+  flex-wrap: wrap; /* Responsivo */
+  max-width: 1000px;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* tono oscuro semitransparente */
-  z-index: 1;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
 }
 
-.texto-banner {
-  flex: 0.8;
-  background-color: #1f093f;
-  color: white;
-  padding: 2rem;
+.cliente-titulo {
+  flex: 1;
+  text-align: left;
+}
+
+.cliente-titulo h3 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #5a3a7d;
+}
+
+.cliente-titulo .linea {
+  width: 50px;
+  height: 4px;
+  /* CAMBIO: Color de la paleta */
+  background-color: fuchsia;
+  margin: 0;
+  border-radius: 2px;
+}
+
+.cliente-lista {
+  flex: 2;
+  min-width: 300px;
+}
+
+.cliente-lista ul {
+  /* CAMBIO: Sin bullets */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cliente-lista li {
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+/* CAMBIO: Iconos en la lista */
+.cliente-lista li .pi {
+  color: fuchsia;
+  font-size: 1.2rem;
+  margin-right: 0.8rem;
+}
+
+
+/* ============ FORMULARIO CONTACTO (MODERNO) ============ */
+.formulario-contacto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 2rem;
+  background-color: #f9fcf8; /* Fondo muy claro */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+form {
+  flex: 1 1 400px; /* El formulario toma espacio */
+  max-width: 500px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
+  gap: 1.5rem; /* Espacio entre grupos de form */
 }
 
-.texto-banner h2 {
-  font-family: "Raleway", sans-serif;
-  font-size: 3rem;
+.img-container-form {
+  flex: 1 1 400px; /* La imagen toma espacio */
+  max-width: 450px;
+}
+
+.img-form {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #5a3a7d;
   margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
-.texto-banner .linea {
-  width: 100px;
-  height: 4px;
-  background-color: #e7b6a4;
+input[type="text"],
+input[type="email"],
+textarea {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  outline: none;
+  /* CAMBIO: Foco de la paleta */
+  border-color: fuchsia;
+  box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.15);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* CAMBIO: Botón principal de la marca */
+.btn-principal {
+  background: linear-gradient(135deg, #7951a8 0%, #a47bc4 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(121, 81, 155, 0.2);
+}
+
+.btn-principal:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(121, 81, 155, 0.3);
+}
+
+
+/* ============ INFO LOCAL ============ */
+.info-local {
+  /* CAMBIO: Fondo unificado */
+  background-color: #f5f0f8;
+  padding: 4rem 2rem;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.box {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 10px;
+  max-width: 350px;
+  min-width: 280px;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(121, 81, 155, 0.12);
+  border-color: #eac2f2;
+}
+
+.box h4 {
+  font-size: 1.4rem;
   margin-bottom: 1rem;
+  color: #5a3a7d;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.texto-banner p {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.6rem;
-  line-height: 1.5;
+/* CAMBIO: Iconos añadidos */
+.box h4 .pi {
+  margin-right: 0.8rem;
+  font-size: 1.5rem;
+  color: fuchsia;
+}
+
+.box p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  padding-left: 2.3rem; /* Alineado con el texto de h4 */
 }
 
 
-  
-  /* Info rápida */
-  .info-rapida {
-    background-color: #e5c7eb;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    font-family: 'Poppins', sans-serif;
+/* ============ UBICACIÓN (MAPA) ============ */
+.ubicacion {
+  padding: 0;
+  text-align: center;
+  background-color: #f5f0f8;
+}
+
+.ubicacion iframe {
+  /* CAMBIO: Filtro CSS para teñir el mapa */
+  filter: grayscale(80%) hue-rotate(280deg) opacity(0.8) brightness(1.1);
+  transition: filter 0.3s ease;
+}
+
+.ubicacion iframe:hover {
+  filter: none;
+}
+
+/* ============ REDES SOCIALES ============ */
+.redes {
+  padding: 4rem;
+  text-align: center;
+  background-color: white;
+}
+
+.redes h3 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  color: #5a3a7d;
+}
+
+.iconos {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* CAMBIO: Estilos de iconos consistentes con el footer */
+.iconos a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: rgba(90, 58, 125, 0.1);
+  color: #5a3a7d;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1.8rem;
+}
+
+.iconos a:hover {
+  background: fuchsia;
+  color: white;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(255, 0, 255, 0.3);
+}
+
+/* ============ Media Queries para Responsividad ============ */
+@media (max-width: 992px) {
+  .texto-banner h2 {
+    font-size: 2.8rem;
   }
-  
+  .texto-banner p {
+    font-size: 1.3rem;
+  }
   .servicio-cliente {
-    display: flex;
-    background-color: #e5c7eb;
-    max-width: 1000px;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    border-radius: 8px;
-  }
-  
-  .cliente-titulo {
-    flex: 1;
-    text-align: center;
-    padding-right: 1rem;
-    border-right: 1px solid #2b2b2b;
-  }
-  
-  .cliente-titulo h3 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 0.3rem;
-  }
-  
-  .cliente-titulo .linea {
-    width: 50px;
-    height: 4px;
-    background-color: #000;
-    margin: 0 auto;
-  }
-  
-  .cliente-lista {
-    flex: 2;
-    padding-left: 1.5rem;
-  }
-  
-  .cliente-lista ul {
-    list-style: disc;
-    padding-left: 1rem;
-    margin: 0;
-  }
-  
-  .cliente-lista li {
-    margin-bottom: 0.6rem;
-    font-size: 1rem;
-  }
-  
-  
-  /* Formulario */
-  .formulario-contacto {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 2rem;
-    background-color: #f6f6f6;
-  }
-  
-  form {
-    flex: 1 1 300px;
-    max-width: 400px;
-  }
-  
-  .img-form {
-    max-width: 400px;
-    flex: 1 1 300px;
-    border-radius: 10px;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-    display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
-  
-  input, textarea {
-    padding: 0.7rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .banner-contactanos {
+    min-height: auto;
   }
-  
-  button {
-    background-color: purple;
-    color: white;
-    padding: 0.7rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  .texto-banner {
+    padding: 3rem 1.5rem;
+    text-align: center;
   }
-  
-  /* Info local */
+  .texto-banner .linea {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .aviso-contacto p {
+    font-size: 1.2rem;
+  }
+  .formulario-contacto {
+    padding: 2rem 1rem;
+  }
   .info-local {
-    background-color: #f3dcf5;
-    padding: 4rem 2rem;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
+    padding: 3rem 1rem;
   }
-  
-  .boxes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2.5rem;
-  }
-  
-  .box {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 320px;
-    min-width: 250px;
-    text-align: left;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .box:hover {
-    transform: translateY(-5px);
-  }
-  
-  .box h4 {
-    font-size: 1.4rem;
-    margin-bottom: 0.7rem;
-    color: #771379;
-    position: relative;
-  }
-  
-  .box h4::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 3px;
-    background-color: #771379;
-    margin-top: 6px;
-  }
-  
-  .box p {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #333;
-  }
-  
-  
-  /* Ubicación */
-  .ubicacion {
-    padding: 2rem;
-    text-align: center;
-  }
-  
-  /* Redes sociales */
   .redes {
-    height: 400px;
-    padding: 4rem;
-    text-align: center;
+    padding: 3rem 1rem;
   }
-  .redes h3{
-    font-family: "Montserrat", sans-serif;
-    font-weight: 500;
-    font-size: 2rem;
-    margin-bottom: 80px;
-  }
-  .iconos i {
-    font-size: 5rem;
-    margin: 0 2rem;
-    cursor: pointer;
-    color: #000000;
-  }
-  
+}

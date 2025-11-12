@@ -3,12 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
 import { Producto, ProductoService } from '../../../services/producto.service';
 import { SubcategoriaService } from '../../../services/subcategorias.service';
 import { CarritoService } from '../../../services/carrito.service';
-
-// --- PASO 1: Importa el environment ---
 import { environment } from '../../../../environments/environments';
 
 @Component({
@@ -24,13 +21,10 @@ export class CatalogoComponent implements OnInit {
   productosOriginal: Producto[] = [];
   cantidades: { [id: number]: number } = {};
   subcategoriaSeleccionada: number | null = null;
-
-  // --- PASO 2: Haz pública la URL de la API para el HTML ---
   public apiUrl = environment.apiUrl;
 
   // Paginación
   paginaActual: number = 1;
-// ... (resto del código sin cambios)
   productosPorPagina: number = 16;
   paginas: number[] = [];
 
@@ -45,7 +39,6 @@ export class CatalogoComponent implements OnInit {
   ngOnInit(): void {
     // 1. Cargar subcategorías (usa el servicio ya corregido)
     this.subcategoriaService.listar().subscribe((res) => {
-// ... (resto del código sin cambios)
       this.subcategorias = res;
 
       // 2. Verificar si hay query param "sub" y cargar productos
@@ -64,7 +57,6 @@ export class CatalogoComponent implements OnInit {
   }
 
   generarSessionIdSiNoExiste() {
-// ... (resto del código sin cambios)
     const id = localStorage.getItem('session_id');
     if (!id) {
       const nuevoId = crypto.randomUUID();
@@ -80,7 +72,6 @@ export class CatalogoComponent implements OnInit {
     this.productoService.obtenerPorSubcategoria(id).subscribe((res) => {
       this.productosOriginal = res;
       this.productos = [...res];
-// ... (resto del código sin cambios)
       this.generarPaginas();
 
       // Actualizar URL con query param
@@ -93,7 +84,6 @@ export class CatalogoComponent implements OnInit {
   }
 
   agregarAlCarrito(producto: Producto) {
-// ... (resto del código sin cambios)
     const cantidad = this.cantidades[producto.id] || 1;
   
     if (cantidad > producto.stock) {
@@ -106,7 +96,6 @@ export class CatalogoComponent implements OnInit {
     }
   
     Swal.fire({
-// ... (resto del código sin cambios)
       title: `¿Agregar ${producto.nombre} al carrito?`,
       text: `Cantidad: ${cantidad}`,
       icon: 'question',
@@ -120,7 +109,6 @@ export class CatalogoComponent implements OnInit {
         // (usa el servicio ya corregido)
         this.carritoService.agregarProducto(producto.id, cantidad, session_id).subscribe({
           next: () => {
-// ... (resto del código sin cambios)
             Swal.fire({
               icon: 'success',
               title: 'Producto agregado',
@@ -147,7 +135,6 @@ export class CatalogoComponent implements OnInit {
 
   // Paginación
   generarPaginas() {
-// ... (resto del código sin cambios)
     const totalPaginas = Math.ceil(this.productos.length / this.productosPorPagina);
     this.paginas = Array.from({ length: totalPaginas }, (_, i) => i + 1);
   }
@@ -159,7 +146,6 @@ export class CatalogoComponent implements OnInit {
   }
 
   paginaSiguiente() {
-// ... (resto del código sin cambios)
     if (this.paginaActual < this.paginas.length) {
       this.paginaActual++;
     }
@@ -177,7 +163,6 @@ export class CatalogoComponent implements OnInit {
 
   // Filtro por precio
   filtrarPorPrecio(min: number, max: number) {
-// ... (resto del código sin cambios)
     this.productos = this.productosOriginal.filter(
       (p) => p.precio >= min && p.precio <= max
     );
@@ -191,7 +176,6 @@ buscarProducto() {
   const termino = this.terminoBusqueda.trim().toLowerCase();
 
   if (termino === '') {
-// ... (resto del código sin cambios)
     this.productos = [...this.productosOriginal];
   } else {
     this.productos = this.productosOriginal.filter(producto =>

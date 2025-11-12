@@ -1,121 +1,264 @@
+/* ============ FORMULARIO DE SUBCATEGORÍA ============ */
 .formulario-subcategoria {
-    background-color: #ffffff;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(121, 81, 155, 0.08);
+  margin-bottom: 2rem;
+  /* CAMBIO: Centrado y con ancho máximo */
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.formulario-subcategoria h3 {
+  margin: 0 0 1.5rem 0;
+  color: #5a3a7d;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.form-grid-sub {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  align-items: flex-end; /* Alinear con el botón */
+}
+
+.form-grid-sub label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #5a3a7d;
+  font-size: 0.9rem;
+}
+
+/* CAMBIO: Inputs y Selects modernos */
+.form-grid-sub input,
+.form-grid-sub select {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fcfcfc;
+  transition: all 0.3s;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+.form-grid-sub input:focus,
+.form-grid-sub select:focus {
+  border-color: fuchsia;
+  box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.15);
+  outline: none;
+  background-color: white;
+}
+
+/* CAMBIO: Botón de guardar con estilos de marca */
+.form-actions {
+  grid-column: 1 / -1; /* Ocupa toda la fila */
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.btn-guardar {
+  padding: 0.9rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #7951a8 0%, #a47bc4 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(121, 81, 155, 0.3);
+}
+
+.btn-guardar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(121, 81, 155, 0.4);
+}
+
+.btn-guardar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+
+/* ============ LISTA DE SUBCATEGORÍAS (ADIÓS TABLA) ============ */
+.lista-subcategorias {
+  background-color: #ffffff;
+  padding: 1.5rem 0; /* Padding solo arriba/abajo */
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(121, 81, 155, 0.08);
+  max-width: 100%;
+}
+
+.lista-subcategorias h3 {
+  margin: 0 1.5rem 1.2rem 1.5rem;
+  color: #5a3a7d;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.lista-items {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Encabezado de la lista */
+.item-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr; /* Dividir el espacio */
+  gap: 1rem;
+  padding: 0.8rem 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+  font-weight: 600;
+  color: #5a3a7d;
+  font-size: 0.9rem;
+}
+
+.header-acciones {
+  text-align: right;
+}
+
+/* Fila de cada item */
+.item-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f5f0f8; /* Línea lila sutil */
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.item-row:last-child {
+  border-bottom: none;
+}
+
+.item-row:hover {
+  background-color: #fcfaff; /* Fondo hover sutil */
+}
+
+/* Contenido de la fila */
+.item-info h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.item-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #777;
+  display: none; /* Oculto, se muestra en el badge */
+}
+
+.categoria-badge {
+  background-color: #f5f0f8;
+  color: #5a3a7d;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.item-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.item-vacio {
+  text-align: center;
+  padding: 2rem;
+  color: #777;
+  font-style: italic;
+}
+
+/* ============ BOTONES DE ACCIÓN (REUTILIZADOS) ============ */
+.btn-editar, .btn-eliminar {
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-editar {
+  background-color: #f5f0f8;
+  color: #5a3a7d;
+}
+
+.btn-editar:hover {
+  background-color: #eac2f2;
+}
+
+.btn-eliminar {
+  background-color: #FFEBEE;
+  color: #B71C1C;
+}
+
+.btn-eliminar:hover {
+  background-color: #FFCDD2;
+}
+
+/* ============ RESPONSIVIDAD ============ */
+@media (max-width: 768px) {
+  .formulario-subcategoria {
+    max-width: 100%;
     padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-    margin-bottom: 2rem;
-    max-width: 600px;
-  }
-  
-  .formulario-subcategoria h3 {
-    margin-bottom: 1rem;
   }
   
   .form-grid-sub {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    grid-template-columns: 1fr; /* Una columna en móvil */
   }
   
-  .form-grid-sub label {
-    font-weight: 600;
-    margin-bottom: 4px;
-    display: block;
-  }
-  
-  .form-grid-sub input,
-  .form-grid-sub select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  .form-grid-sub .boton {
-    grid-column: span 2;
-    text-align: right;
-  }
-  
-  .form-grid-sub button {
-    padding: 0.6rem 1.2rem;
-    background-color: #800080;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  .form-grid-sub button:hover {
-    background-color: #5e005e;
-  }
-  
-  // Tabla
-  .tabla-subcategorias {
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-    overflow-x: auto;
-    max-width: 100%;
-  }
-  
-  .tabla-subcategorias h3 {
-    margin-bottom: 1.2rem;
-    font-size: 1.4rem;
-  }
-  
-  .tabla-subcategorias table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .tabla-subcategorias th,
-  .tabla-subcategorias td {
-    padding: 0.9rem 1rem;
+  .form-actions {
     text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-    vertical-align: middle;
+  }
+
+  /* Ocultar encabezado de lista en móvil */
+  .item-header {
+    display: none;
   }
   
-  .tabla-subcategorias thead {
-    background-color: #f5f5f5;
+  .item-row {
+    grid-template-columns: 1fr; /* Una columna */
+    gap: 0.8rem;
+    padding: 1rem;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    margin: 0.5rem 1rem;
   }
   
-  .tabla-subcategorias th {
-    font-weight: 600;
-    color: #333;
+  .item-info p {
+    display: block; /* Mostrar la categoría debajo del nombre */
+  }
+
+  .item-categoria {
+    display: none; /* Ocultar el badge (ya se muestra arriba) */
   }
   
-  /* Botones */
-  .tabla-subcategorias button {
-    padding: 0.4rem 0.8rem;
-    margin-right: 0.3rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background-color 0.3s ease;
+  .item-acciones {
+    justify-content: flex-start; /* Botones a la izquierda */
+    padding-top: 0.5rem;
+    border-top: 1px dashed #eee;
   }
-  
-  .tabla-subcategorias button:first-child {
-    background-color: #4a90e2;
-    color: #fff;
-  }
-  
-  .tabla-subcategorias button:first-child:hover {
-    background-color: #3b7bc4;
-  }
-  
-  .tabla-subcategorias button:last-child {
-    background-color: #e74c3c;
-    color: white;
-  }
-  
-  .tabla-subcategorias button:last-child:hover {
-    background-color: #c0392b;
-  }
-  
+}

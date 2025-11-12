@@ -1,116 +1,337 @@
-// Estilos generales de la tabla de órdenes
-.tabla-ordenes {
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-    overflow-x: auto;
-    max-width: 100%;
-    margin-bottom: 2rem;
+/* ============ GESTIÓN DE ÓRDENES (TARJETA PRINCIPAL) ============ */
+.gestion-ordenes {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(121, 81, 155, 0.08);
+  max-width: 100%;
+  margin-bottom: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.gestion-ordenes h2 {
+  margin: 0 0 1.5rem 0;
+  color: #5a3a7d;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* ============ ENCABEZADO DE LA LISTA (SOLO DESKTOP) ============ */
+.lista-header {
+  display: grid;
+  /* Columnas alineadas con las tarjetas */
+  grid-template-columns: 0.5fr 1.5fr 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 0 1rem 0.8rem;
+  border-bottom: 2px solid #f0f0f0;
+  font-weight: 600;
+  color: #5a3a7d;
+  font-size: 0.9rem;
+}
+
+.lista-header .col-acciones {
+  text-align: right;
+}
+
+/* ============ LISTA DE ITEMS (TARJETAS) ============ */
+.lista-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.orden-item {
+  display: grid;
+  /* Columnas alineadas con el header */
+  grid-template-columns: 0.5fr 1.5fr 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid #f5f0f8; /* Línea lila sutil */
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.orden-item:hover {
+  background-color: #fcfaff;
+}
+
+/* Ocultar etiquetas de móvil en desktop */
+.label-movil {
+  display: none;
+}
+
+.info-id strong {
+  font-size: 1rem;
+  color: #5a3a7d;
+}
+
+.info-cliente .cliente-detalle {
+  display: flex;
+  flex-direction: column;
+}
+.info-cliente strong {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+.info-cliente small {
+  font-size: 0.85rem;
+  color: #777;
+}
+.direccion-movil {
+  display: none; /* Oculto en desktop */
+}
+
+.info-fecha {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.total-badge {
+  background-color: #E8F5E9;
+  color: #1B5E20;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Estilo del Select (Estado) */
+.info-estado .select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.info-estado select {
+  font-family: 'Poppins', sans-serif;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  font-size: 0.9rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f9f9f9;
+}
+
+/* Color basado en el estado */
+.info-estado select.pendiente {
+  border-color: #FFB74D;
+  background-color: #FFF3E0;
+  color: #E65100;
+}
+.info-estado select.pagado {
+  border-color: #81C784;
+  background-color: #E8F5E9;
+  color: #1B5E20;
+}
+
+/* Botones de acción */
+.info-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.btn-accion {
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 40px;
+  height: 40px;
+  font-size: 1.1rem; /* Solo ícono */
+}
+
+.btn-ver {
+  background-color: #f5f0f8;
+  color: #5a3a7d;
+}
+.btn-ver:hover { background-color: #eac2f2; }
+
+.btn-reporte {
+  background-color: #E0F7FA;
+  color: #006064;
+}
+.btn-reporte:hover { background-color: #B2EBF2; }
+
+.btn-eliminar {
+  background-color: #FFEBEE;
+  color: #B71C1C;
+}
+.btn-eliminar:hover { background-color: #FFCDD2; }
+
+
+/* ============ DETALLES DE LA ORDEN (MODAL) ============ */
+.detalle-orden-container {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.detalle-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.detalle-orden {
+  background-color: #ffffff;
+  border: none;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 700px;
+  z-index: 1002;
+  position: relative; /* Para el botón cerrar */
+}
+
+.detalle-orden h3 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #5a3a7d;
+}
+
+/* Tabla interna de detalles (moderna) */
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+.detalle-orden table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.detalle-orden th,
+.detalle-orden td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+}
+
+.detalle-orden thead {
+  background-color: #f5f0f8;
+}
+.detalle-orden th {
+  font-weight: 600;
+  color: #5a3a7d;
+  font-size: 0.9rem;
+}
+
+/* Botón cerrar */
+.btn-cerrar {
+  background: #f0f0f0;
+  color: #555;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  float: right; /* A la derecha */
+}
+.btn-cerrar:hover {
+  background-color: #e0e0e0;
+}
+
+/* ============ RESPONSIVIDAD (MÓVIL) ============ */
+@media (max-width: 768px) {
+  .gestion-ordenes {
+    padding: 1rem;
   }
   
-  .tabla-ordenes h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+  /* Ocultar el encabezado de la lista en móvil */
+  .lista-header {
+    display: none;
   }
   
-  // Tabla general
-  .tabla-ordenes table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'Segoe UI', sans-serif;
+  .lista-items {
+    gap: 1rem; /* Espacio entre tarjetas */
   }
-  
-  .tabla-ordenes th,
-  .tabla-ordenes td {
-    padding: 0.9rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
+
+  .orden-item {
+    grid-template-columns: 1fr 1fr; /* 2 columnas */
+    gap: 0.8rem;
+    padding: 1rem;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
   }
-  
-  .tabla-ordenes thead {
-    background-color: #f9f9f9;
+
+  /* Mostrar etiquetas de móvil */
+  .label-movil {
+    display: block;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: #333;
+    color: #5a3a7d;
+    margin-bottom: 0.25rem;
   }
   
-  .tabla-ordenes select {
-    padding: 0.4rem 0.6rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+  .info-id { grid-area: 1 / 1 / 2 / 2; }
+  .info-fecha { grid-area: 1 / 2 / 2 / 3; text-align: right;}
+  
+  .info-cliente { 
+    grid-area: 2 / 1 / 3 / 3; /* Ocupa todo el ancho */
+    border-top: 1px dashed #eee;
+    padding-top: 0.8rem;
+  }
+  .direccion-movil { display: block; }
+
+  .info-total { 
+    grid-area: 3 / 1 / 4 / 2; 
+    border-top: 1px dashed #eee;
+    padding-top: 0.8rem;
+  }
+  .info-estado { 
+    grid-area: 3 / 2 / 4 / 3; 
+    border-top: 1px dashed #eee;
+    padding-top: 0.8rem;
   }
   
-  // Botones de acción
-  .tabla-ordenes button {
-    padding: 0.4rem 0.8rem;
-    margin-right: 0.3rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background-color 0.3s ease;
+  .info-acciones {
+    grid-area: 4 / 1 / 5 / 3; /* Ocupa todo el ancho */
+    justify-content: center;
+    border-top: 1px solid #eee;
+    padding-top: 0.8rem;
   }
   
-  .tabla-ordenes button:first-child {
-    background-color: #4a90e2;
-    color: white;
+  .total-badge {
+    font-size: 1rem;
   }
   
-  .tabla-ordenes button:first-child:hover {
-    background-color: #3b7bc4;
+  .info-estado select {
+    width: 100%;
   }
-  
-  .tabla-ordenes button:last-child {
-    background-color: #e74c3c;
-    color: white;
-  }
-  
-  .tabla-ordenes button:last-child:hover {
-    background-color: #c0392b;
-  }
-  
-  // Detalles de la orden
+
   .detalle-orden {
-    background-color: #fefefe;
-    border: 1px solid #ddd;
     padding: 1.5rem;
-    margin-top: 2rem;
-    border-radius: 10px;
   }
-  
-  .detalle-orden h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .detalle-orden table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-  }
-  
-  .detalle-orden th,
-  .detalle-orden td {
-    padding: 0.6rem 0.8rem;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  
-  .detalle-orden thead {
-    background-color: #f2f2f2;
-    font-weight: 600;
-  }
-  
-  // Botón cerrar
-  .detalle-orden button {
-    background-color: #5e00aa;
-    color: white;
-    border: none;
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  .detalle-orden button:hover {
-    background-color: #430080;
-  }
-  
+}

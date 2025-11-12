@@ -1,105 +1,106 @@
 <h2>Gestión de Productos</h2>
 
-
-<!-- Sección: Formulario de producto -->
 <section class="formulario-producto">
   <h3>{{ nuevoProducto.id ? 'Editar Producto' : 'Nuevo Producto' }}</h3>
 
   <form (ngSubmit)="guardar()" #form="ngForm" enctype="multipart/form-data" class="form-grid">
-    <!-- Nombre -->
     <div>
       <label for="nombre">Nombre</label>
       <input type="text" id="nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" required />
     </div>
 
-    <!-- Descripción -->
     <div>
       <label for="descripcion">Descripción</label>
       <input type="text" id="descripcion" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" required />
     </div>
 
-    <!-- Precio -->
     <div>
       <label for="precio">Precio</label>
       <input type="number" id="precio" [(ngModel)]="nuevoProducto.precio" name="precio" required />
     </div>
 
-    <!-- Stock -->
     <div>
       <label for="stock">Stock</label>
       <input type="number" id="stock" [(ngModel)]="nuevoProducto.stock" name="stock" required />
     </div>
 
-    <!-- Subcategoría -->
     <div>
       <label for="subcategoria">Subcategoría</label>
       <select id="subcategoria" [(ngModel)]="nuevoProducto.subcategoria_id" name="subcategoria_id" required>
-        <option value="" disabled>Seleccione subcategoría</option>
+        <option [ngValue]="undefined" disabled>Seleccione subcategoría</option>
         <option *ngFor="let cat of subcategorias" [value]="cat.id">
           {{ cat.nombre }}
         </option>
       </select>
     </div>
 
-    <!-- Imagen -->
     <div>
       <label for="imagen">Imagen</label>
-      <input type="file" id="imagen" (change)="onFileChange($event)" />
+      <input type="file" id="imagen" (change)="onFileChange($event)" class="input-file" />
     </div>
 
-    <!-- Preview -->
-    <!-- (Esto está bien, 'imagenPreview' se genera en el .ts y ya lo corregimos) -->
-    <div *ngIf="imagenPreview">
+    <div *ngIf="imagenPreview" class="preview-container">
       <label>Vista previa</label>
       <img [src]="imagenPreview" alt="Preview" />
     </div>
 
-    <!-- Botón -->
-    <div style="grid-column: span 2">
-      <button type="submit" [disabled]="form.invalid">
+    <div class="form-actions">
+      <button type="submit" class="btn-guardar" [disabled]="form.invalid">
+        <i class="pi pi-save"></i>
         {{ nuevoProducto.id ? 'Actualizar' : 'Guardar' }}
       </button>
-    </div>
+      
+      </div>
   </form>
 </section>
 
-<input type="text" [(ngModel)]="busqueda" placeholder="Buscar producto por nombre..."
-  style="margin-bottom: 15px; padding: 6px; width: 300px; border: 1px solid #ccc; border-radius: 4px;">
+<hr class="separador">
 
-<hr style="margin: 30px 0;">
-
-<!-- Sección: Lista de productos -->
 <section class="lista-productos">
-  <h3>Listado de Productos</h3>
+  <div class="header-lista">
+    <h3>Listado de Productos</h3>
+    <div class="search-wrapper">
+      <i class="pi pi-search"></i>
+      <input type="text" [(ngModel)]="busqueda" placeholder="Buscar producto por nombre..." class="search-input">
+    </div>
+  </div>
 
-  <table border="1" cellpadding="10" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Precio</th>
-        <th>Stock</th>
-        <th>SubCategoría</th>
-        <th>Imagen</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let prod of productosFiltrados">
-        <td>{{ prod.nombre }}</td>
-        <td>{{ prod.descripcion }}</td>
-        <td>{{ prod.precio | currency }}</td>
-        <td>{{ prod.stock }}</td>
-        <td>{{ prod.subcategoria.nombre }}</td>
-        <td>
-          <img [src]="apiUrl + '/uploads/productos/' + prod.imagen_url" width="80" alt="Producto" />
+  <div class="grid-productos-admin">
+    
+    <div class="producto-admin-card" *ngFor="let prod of productosFiltrados">
+      
+      <div class="card-imagen">
+        <img [src]="apiUrl + '/uploads/productos/' + prod.imagen_url" alt="Producto" />
+      </div>
+      
+      <div class="card-info">
+        <h4 class="card-nombre">{{ prod.nombre }}</h4>
+        <p class="card-subcategoria">{{ prod.subcategoria.nombre }}</p>
+        <p class="card-descripcion">{{ prod.descripcion }}</p>
+        
+        <div class="card-stats">
+          <div class="stat">
+            <strong>Precio:</strong>
+            <span>{{ prod.precio | currency }}</span>
+          </div>
+          <div class="stat">
+            <strong>Stock:</strong>
+            <span class="stock-badge" [class.agotado]="prod.stock === 0">
+              {{ prod.stock }}
+            </span>
+          </div>
+        </div>
+      </div>
 
-        </td>
-        <td>
-          <button (click)="editar(prod)">Editar</button>
-          <button (click)="eliminar(prod.id)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+      <div class="card-acciones">
+        <button class="btn-editar" (click)="editar(prod)">
+          <i class="pi pi-pencil"></i> Editar
+        </button>
+        <button class="btn-eliminar" (click)="eliminar(prod.id)">
+          <i class="pi pi-trash"></i> Eliminar
+        </button>
+      </div>
+
+    </div>
+  </div>
+  </section>

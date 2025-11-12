@@ -3,77 +3,109 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: #F2F2F2;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  font-family: 'Quicksand', sans serif;
-
-  .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-  }
-
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-
-    li a {
-      text-decoration: none;
-      color: #604730;
-      font-weight: 600;
-
-      &.activo {
-        border-bottom: 3px solid purple;
-        padding-bottom: 0.2rem;
-      }
-    }
-  }
-
-  .nav-actions {
-    display: flex;
-    gap: 1rem;
-
-    .btn-light {
-      background-color: #900acf;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background-color: rgb(0, 0, 0);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-  }
+  /* CAMBIO: Fondo blanco es más nítido y moderno que #F2F2F2 */
+  background: #FFFFFF;
+  /* CAMBIO: Sombra más suave para un efecto "flotante" */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'Quicksand', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 70px; /* Alto fijo para consistencia */
 }
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* NUEVO: Estilo del logo movido de HTML a CSS */
+.logo span {
+  color: fuchsia;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem; /* Un poco más de espacio */
+}
+
+.nav-links li a {
+  text-decoration: none;
+  /* CAMBIO: Un gris oscuro es más legible y moderno que el marrón (#604730) */
+  color: #4a4a4a; 
+  font-weight: 600;
+  position: relative; /* Necesario para el efecto ::after */
+  padding-bottom: 0.5rem; /* Espacio para la línea */
+  transition: color 0.3s ease;
+}
+
+/* CAMBIO: Efecto de hover moderno */
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: fuchsia;
+  transition: width 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #000;
+}
+
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+/* CAMBIO: El "activo" ahora es más limpio */
+.nav-links li a.activo {
+  color: fuchsia;
+  font-weight: 700;
+}
+
+/* Ya no necesitamos la clase .activo con borde */
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* (Tu CSS para .btn-light y .btn-primary fue eliminado 
+   ya que no se usa en tu HTML, limpiando el código) */
+
+
 .btn-icon {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 1.5rem; /* Un poco más grande */
   color: #4a4a4a;
   margin-left: 1rem;
   position: relative;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 50%;
 }
 
 .btn-icon:hover {
-  color: #771379;
+  color: fuchsia;
+  /* CAMBIO: Un fondo sutil al pasar el mouse */
+  background: #f5f0f8; 
 }
 
 .carrito-contador {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  background: red;
+  top: -2px;  /* Ajustado */
+  right: -2px; /* Ajustado */
+  /* CAMBIO: De 'red' a 'fuchsia' para que coincida con la marca */
+  background: fuchsia; 
   color: white;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
+  font-weight: bold;
   padding: 2px 6px;
   border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
-

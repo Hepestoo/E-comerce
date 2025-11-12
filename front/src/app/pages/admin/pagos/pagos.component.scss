@@ -1,33 +1,168 @@
-.tabla-pagos {
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-    overflow-x: auto;
-    max-width: 100%;
+/* ============ GESTIÓN DE PAGOS (TARJETA PRINCIPAL) ============ */
+.gestion-pagos {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(121, 81, 155, 0.08);
+  max-width: 100%;
+  margin-bottom: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.gestion-pagos h2 {
+  margin: 0 0 1.5rem 0;
+  color: #5a3a7d;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* ============ ENCABEZADO DE LA LISTA (SOLO DESKTOP) ============ */
+.lista-header {
+  display: grid;
+  /* 5 columnas */
+  grid-template-columns: 0.5fr 0.5fr 1.5fr 1fr 1fr;
+  gap: 1rem;
+  padding: 0 1rem 0.8rem;
+  border-bottom: 2px solid #f0f0f0;
+  font-weight: 600;
+  color: #5a3a7d;
+  font-size: 0.9rem;
+}
+
+/* ============ LISTA DE ITEMS (TARJETAS) ============ */
+.lista-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.pago-item {
+  display: grid;
+  /* 5 columnas alineadas con el header */
+  grid-template-columns: 0.5fr 0.5fr 1.5fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid #f5f0f8; /* Línea lila sutil */
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.pago-item:last-child {
+  border-bottom: none;
+}
+
+.pago-item:hover {
+  background-color: #fcfaff;
+}
+
+/* Ocultar etiquetas de móvil en desktop */
+.label-movil {
+  display: none;
+}
+
+.info-id strong {
+  font-size: 0.95rem;
+  color: #5a3a7d;
+  font-weight: 600;
+}
+
+.info-orden span {
+  font-size: 0.95rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.info-fecha span {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Badges de Método y Monto */
+.metodo-badge {
+  background-color: #f5f0f8;
+  color: #5a3a7d;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.metodo-badge .pi {
+  font-size: 0.9rem;
+}
+
+.monto-badge {
+  background-color: #E8F5E9;
+  color: #1B5E20;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-block; /* Para que el badge no ocupe todo */
+}
+
+.item-vacio {
+  text-align: center;
+  padding: 2rem;
+  color: #777;
+  font-style: italic;
+  border-top: 1px solid #f5f0f8;
+}
+
+/* ============ RESPONSIVIDAD (MÓVIL) ============ */
+@media (max-width: 768px) {
+  .gestion-pagos {
+    padding: 1rem;
   }
   
-  .tabla-pagos h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+  /* Ocultar el encabezado de la lista en móvil */
+  .lista-header {
+    display: none;
   }
   
-  .tabla-pagos table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'Segoe UI', sans-serif;
+  .lista-items {
+    gap: 1rem; /* Espacio entre tarjetas */
   }
-  
-  .tabla-pagos th,
-  .tabla-pagos td {
-    padding: 0.9rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
+
+  .pago-item {
+    grid-template-columns: 1fr 1fr; /* 2 columnas */
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
   }
-  
-  .tabla-pagos thead {
-    background-color: #f9f9f9;
+
+  /* Mostrar etiquetas de móvil */
+  .label-movil {
+    display: block;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: #333;
+    color: #5a3a7d;
+    margin-bottom: 0.25rem;
   }
   
+  /* Reordenar con Grid Areas */
+  .info-id { grid-area: 1 / 1 / 2 / 2; }
+  .info-orden { grid-area: 1 / 2 / 2 / 3; }
+  
+  .info-monto { 
+    grid-area: 2 / 1 / 3 / 2; 
+    border-top: 1px dashed #eee;
+    padding-top: 0.8rem;
+  }
+  .info-fecha { 
+    grid-area: 2 / 2 / 3 / 3; 
+    border-top: 1px dashed #eee;
+    padding-top: 0.8rem;
+  }
+  
+  .info-metodo {
+    grid-area: 3 / 1 / 4 / 3; /* Ocupa todo el ancho */
+    border-top: 1px dashed #eee;
+    padding-top: 0.8rem;
+  }
+}

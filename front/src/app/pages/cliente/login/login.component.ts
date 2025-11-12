@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
-// --- IMPORTACIÓN AÑADIDA ---
 import { environment } from '../../../../environments/environments';
 
 @Component({
@@ -25,10 +24,9 @@ export class LoginComponent {
   password = '';
   error = '';
 
-  // --- LÍNEA AÑADIDA: URL base de la API ---
   private apiUrl = environment.apiUrl;
 
-  // --- Sin cambios ---
+
   mostrarPassword: boolean = false;
   togglePasswordVisibility() {
     this.mostrarPassword = !this.mostrarPassword;
@@ -36,10 +34,9 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  // --- Función LOGIN (sin cambios) ---
+  // --- Función LOGIN ---
   login() {
     this.error = '';
-    // --- LÍNEA MODIFICADA: Se usa la variable apiUrl ---
     this.http.post<{ access_token: string }>(`${this.apiUrl}/users/login`, {
       email: this.email,
       password: this.password
@@ -48,9 +45,6 @@ export class LoginComponent {
         localStorage.setItem('token', res.access_token);
         const payload = JSON.parse(atob(res.access_token.split('.')[1]));
         localStorage.setItem('rol', payload.role);
-        
-        // CORRECCIÓN: El payload que generaste en el backend es { sub: user.id, ... }
-        // Deberías usar 'sub' en lugar de 'id'
         localStorage.setItem('usuario_id', payload.sub); 
 
         Swal.fire({

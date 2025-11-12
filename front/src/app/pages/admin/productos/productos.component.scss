@@ -1,144 +1,315 @@
+/* ============ FORMULARIO DE PRODUCTO (MEJORADO) ============ */
 .formulario-producto {
-    background-color: #ffffff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.07);
-    max-width: 100%;
-    margin-bottom: 3rem;
-  
-    h3 {
-      margin-bottom: 1.5rem;
-      color: #4a216c;
-      font-size: 1.4rem;
-    }
-  
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      align-items: flex-start;
-    }
-  
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-      color: #333;
-    }
-  
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 0.7rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-      background-color: #fafafa;
-      transition: border-color 0.3s;
-    }
-  
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #800080;
-      outline: none;
-    }
-  
-    img {
-      max-width: 100px;
-      border-radius: 8px;
-      margin-top: 0.5rem;
-    }
-  
-    button {
-      background-color: #800080;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-  
-    button:hover {
-      background-color: #5e005e;
-    }
-  }
-  
-  .lista-productos {
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-    overflow-x: auto;
-    max-width: 100%;
-  }
-  
-  .lista-productos h3 {
-    margin-bottom: 1.2rem;
-  }
-  
-  .lista-productos table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .lista-productos th,
-  .lista-productos td {
-    padding: 0.9rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-    vertical-align: middle;
-  }
-  
-  .lista-productos thead {
-    background-color: #f5f5f5;
-  }
-  
-  .lista-productos th {
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .lista-productos td img {
-    width: 60px;
-    height: auto;
-    border-radius: 6px;
-    object-fit: cover;
-  }
-  
-  /* Botones */
-  .lista-productos button {
-    padding: 0.4rem 0.8rem;
-    margin-right: 0.3rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .lista-productos button:first-child {
-    background-color: #4a90e2;
-    color: #fff;
-  }
-  
-  .lista-productos button:first-child:hover {
-    background-color: #3b7bc4;
-  }
-  
-  .lista-productos button:last-child {
-    background-color: #e74c3c;
-    color: white;
-  }
-  
-  .lista-productos button:last-child:hover {
-    background-color: #c0392b;
-  }
-  
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(121, 81, 155, 0.08);
+  max-width: 100%;
+  margin-bottom: 2rem;
+}
+
+.formulario-producto h3 {
+  margin: 0 0 1.5rem 0;
+  color: #5a3a7d;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.form-grid label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #5a3a7d;
+  font-size: 0.9rem;
+}
+
+.form-grid input[type="text"],
+.form-grid input[type="number"],
+.form-grid select {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fcfcfc;
+  transition: all 0.3s;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box; /* Importante para el padding */
+}
+
+.form-grid input[type="text"]:focus,
+.form-grid input[type="number"]:focus,
+.form-grid select:focus {
+  border-color: fuchsia;
+  box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.15);
+  outline: none;
+  background-color: white;
+}
+
+/* Estilo para input de archivo */
+.input-file {
+  font-size: 0.9rem;
+  padding: 0.7rem;
+}
+
+.preview-container img {
+  max-width: 100px;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  border: 1px solid #eee;
+}
+
+/* Botones del formulario */
+.form-actions {
+  grid-column: 1 / -1; /* Ocupa toda la fila */
+  display: flex;
+  flex-wrap: wrap; /* Para móvil */
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-guardar {
+  padding: 0.9rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #7951a8 0%, #a47bc4 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(121, 81, 155, 0.3);
+}
+
+.btn-guardar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(121, 81, 155, 0.4);
+}
+
+.btn-guardar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Separador */
+.separador {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 2rem 0;
+}
+
+/* ============ LISTA DE PRODUCTOS (HEADER) ============ */
+.lista-productos {
+  max-width: 100%;
+}
+
+.header-lista {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.header-lista h3 {
+  margin: 0;
+  color: #5a3a7d;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.search-wrapper {
+  position: relative;
+}
+
+.search-input {
+  padding: 0.8rem 1rem 0.8rem 2.5rem;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  width: 300px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-input:focus {
+  border-color: fuchsia;
+  box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.15);
+  outline: none;
+}
+
+.search-wrapper .pi {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+/* ============ GRID DE TARJETAS DE ADMIN ============ */
+.grid-productos-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.producto-admin-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(121, 81, 155, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.producto-admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(121, 81, 155, 0.12);
+}
+
+.card-imagen {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.card-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.producto-admin-card:hover .card-imagen img {
+  transform: scale(1.05);
+}
+
+.card-info {
+  padding: 1.5rem;
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+.card-nombre {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #5a3a7d;
+  margin: 0 0 0.25rem 0;
+}
+
+.card-subcategoria {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: fuchsia;
+  margin: 0 0 1rem 0;
+}
+
+.card-descripcion {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-stats {
+  display: flex;
+  gap: 1.5rem;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 1rem;
+}
+
+.stat {
+  font-size: 0.9rem;
+}
+.stat strong {
+  color: #5a3a7d;
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.stat span {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.stock-badge {
+  background-color: #E8F5E9; 
+  color: #1B5E20; 
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.stock-badge.agotado {
+  background-color: #FFEBEE; 
+  color: #B71C1C; 
+}
+
+/* Acciones en el pie de la tarjeta */
+.card-acciones {
+  background: #fcfaff;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+.btn-editar, .btn-eliminar {
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-editar {
+  background-color: #f5f0f8;
+  color: #5a3a7d;
+}
+
+.btn-editar:hover {
+  background-color: #eac2f2;
+}
+
+.btn-eliminar {
+  background-color: #FFEBEE;
+  color: #B71C1C;
+}
+
+.btn-eliminar:hover {
+  background-color: #FFCDD2;
+}

@@ -3,9 +3,24 @@
   <div class="texto">
     <h1>Bienvenidos a <br><span>ARTEMANIA!</span></h1>
     <h2>Manualidades, cursos, talleres y más...</h2>
-    <button [routerLink]="'/catalogo'">Ver productos →</button>
+    <button [routerLink]="'/catalogo'">
+      <i class="pi pi-arrow-right" style="margin-right: 0.5rem;"></i>
+      Ver productos
+    </button>
   </div>
-  <img src="https://images.pexels.com/photos/5512621/pexels-photo-5512621.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Hero imagen">
+  
+  <div class="hero-images">
+  <div class="center-circle"></div>
+  
+  <img src="https://images.pexels.com/photos/1616403/pexels-photo-1616403.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Pintura" class="circle-image circle-1">
+  <img src="https://images.pexels.com/photos/301703/pexels-photo-301703.jpeg" alt="Resina" class="circle-image circle-2">
+  <img src="https://images.pexels.com/photos/1084606/pexels-photo-1084606.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Cerámica" class="circle-image circle-3">
+  <img src="https://images.pexels.com/photos/8148644/pexels-photo-8148644.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Velas" class="circle-image circle-4">
+  <img src="https://images.pexels.com/photos/1020054/pexels-photo-1020054.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Bisutería" class="circle-image circle-5">
+  <img src="https://images.pexels.com/photos/3654772/pexels-photo-3654772.jpeg" alt="Tejido" class="circle-image circle-6">
+  <img src="https://images.pexels.com/photos/4241300/pexels-photo-4241300.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Costura" class="circle-image circle-7">
+  <img src="https://images.pexels.com/photos/669986/pexels-photo-669986.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Papelería" class="circle-image circle-8">
+</div>
 </section>
 
 <!-- Oferta -->
@@ -52,6 +67,23 @@
 </section>
 
 
+
+<!-- Crea e inspira -->
+<section class="inspire-create">
+  <div class="inspire-content">
+    <div class="inspire-text">
+      <h2>Transforma tus ideas en realidad con Artemania</h2>
+      <p>Descubre un mundo de posibilidades, aprende nuevas técnicas y comparte tus obras maestras con nuestra creciente comunidad de artistas y entusiastas. ¡Tu próxima gran creación te espera!</p>
+      <div class="inspire-buttons">
+        <button class="btn-primary" [routerLink]="'/cursos'">Explora Cursos</button>
+        <button class="btn-secondary" [routerLink]="'/comunidad'">Únete a la Comunidad</button>
+      </div>
+    </div>
+    <div class="inspire-image">
+      <img src="https://images.pexels.com/photos/4006152/pexels-photo-4006152.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" alt="Manos creando manualidades">
+      </div>
+  </div>
+</section>
   
   
 
@@ -73,6 +105,24 @@
       <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Luisa G.">
       <p class="comentario">“Volveré a inscribirme en otro taller, ¡la experiencia fue maravillosa!”</p>
       <p class="cliente">– Luisa G.</p>
+    </div>
+    <!-- Testimonio 4 (Nuevo) -->
+    <div class="testimonio">
+      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Javier R.">
+      <p class="comentario">“El curso de resina es 10/10. Aprendí muchísimo y los materiales son de primera.”</p>
+      <p class="cliente">– Javier R.</p>
+    </div>
+    <!-- Testimonio 5 (Nuevo) -->
+    <div class="testimonio">
+      <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sofía E.">
+      <p class="comentario">“¡Me encanta la variedad! Siempre encuentro lo que necesito para mis proyectos de bisutería.”</p>
+      <p class="cliente">– Sofía E.</p>
+    </div>
+    <!-- Testimonio 6 (Nuevo) -->
+    <div class="testimonio">
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Mateo C.">
+      <p class="comentario">“Excelente atención al cliente. Me ayudaron a elegir la lana perfecta para mi tejido.”</p>
+      <p class="cliente">– Mateo C.</p>
     </div>
   </div>
 </section>
