@@ -23,23 +23,25 @@ import { TelegramModule } from './telegram/telegram.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const nodeEnv = configService.get<string>('NODE_ENV', 'development');
-        const dbUrl = configService.get<string>('DATABASE_URL');
+  const nodeEnv = configService.get<string>('NODE_ENV', 'development');
+  const dbUrl = configService.get<string>('DATABASE_URL');
+  const forceSync = configService.get<string>('FORCE_DB_SYNC', 'false') === 'true';
 
-        console.log(`🗄️  Conectando a BD en modo: ${nodeEnv}`);
+  console.log(`🗄️  Conectando a BD en modo: ${nodeEnv}${forceSync ? ' (FORCE_DB_SYNC=true)' : ''}`);
 
-        if (dbUrl) {
+  if (dbUrl) {
           // ========== PRODUCCIÓN (DATABASE_URL configurada) ==========
           console.log('📡 Usando DATABASE_URL (Producción)');
           return {
             type: 'postgres',
             url: dbUrl,
             autoLoadEntities: true,
-            synchronize: nodeEnv !== 'production', // NO sincronizar en producción real
+            // Allow forcing sync via FORCE_DB_SYNC=true (temporary). Otherwise keep existing behavior.
+            synchronize: forceSync ? true : (nodeEnv !== 'production'),
             ssl: {
               rejectUnauthorized: false, // Necesario para Render y otros servicios
             },
-            logging: nodeEnv === 'development',
+            logging: nodeEnv === 'development' || forceSync,
           };
         } else {
           // ========== DESARROLLO (Variables individuales) ==========
