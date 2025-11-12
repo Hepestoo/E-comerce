@@ -29,7 +29,6 @@ export class ProductosComponent implements OnInit {
   imagenSeleccionada: File | null = null;
 
   nuevoProducto: ProductoDTO = {
-// ... (resto del código sin cambios)
     nombre: '',
     descripcion: '',
     precio: 0,
@@ -52,14 +51,12 @@ export class ProductosComponent implements OnInit {
   }
 
   cargarsubCategorias() {
-    // --- CORREGIDO (Problema 1) ---
     this.http.get<any[]>(`${this.apiUrl}/subcategorias`).subscribe((res) => {
       this.subcategorias = res;
     });
   }
 
   onFileChange(event: any) {
-// ... (resto del código sin cambios)
     const file = event.target.files[0];
     if (file) {
       this.imagenSeleccionada = file;
@@ -77,8 +74,6 @@ export class ProductosComponent implements OnInit {
     if (this.imagenSeleccionada) {
       const formData = new FormData();
       formData.append('imagen', this.imagenSeleccionada);
-  
-      // --- CORREGIDO (Problema 2) ---
       this.http.post<{ imagen_url: string }>(`${this.apiUrl}/productos/upload`, formData).subscribe(res => {
         this.nuevoProducto.imagen_url = res.imagen_url;
         this.procesarGuardar();
@@ -89,7 +84,6 @@ export class ProductosComponent implements OnInit {
   }
   
   procesarGuardar() {
-// ... (resto del código sin cambios)
     const esNuevo = !this.nuevoProducto.id;
   
     // Esta llamada está bien (usa el servicio ya corregido)
@@ -103,7 +97,6 @@ export class ProductosComponent implements OnInit {
       this.cargarProductos();
   
       Swal.fire({
-// ... (resto del código sin cambios)
         icon: 'success',
         title: esNuevo ? 'Producto creado' : 'Producto actualizado',
         text: esNuevo
@@ -116,7 +109,6 @@ export class ProductosComponent implements OnInit {
   }
 
   resetFormulario() {
-// ... (resto del código sin cambios)
     this.nuevoProducto = {
       nombre: '',
       descripcion: '',
@@ -130,7 +122,6 @@ export class ProductosComponent implements OnInit {
 
   eliminar(id: number) {
     Swal.fire({
-// ... (resto del código sin cambios)
       title: '¿Estás seguro?',
       text: 'Esta acción eliminará el producto permanentemente.',
       icon: 'warning',
@@ -150,7 +141,6 @@ export class ProductosComponent implements OnInit {
 
   editar(producto: Producto) {
     this.nuevoProducto = {
-// ... (resto del código sin cambios)
       id: producto.id,
       nombre: producto.nombre,
       descripcion: producto.descripcion,
@@ -161,7 +151,6 @@ export class ProductosComponent implements OnInit {
     };
 
     if (producto.imagen_url) {
-      // --- CORREGIDO (Problema 3) ---
       this.imagenPreview = `${this.apiUrl}/uploads/productos/${producto.imagen_url}`;
     } else {
       this.imagenPreview = null;
@@ -170,7 +159,6 @@ export class ProductosComponent implements OnInit {
   }
 
   obtenerPorSubcategoria(id: number) {
-    // --- CORREGIDO (Problema 4) ---
     return this.http.get<Producto[]>(`${this.apiUrl}/productos/subcategoria/${id}`);
   }
 

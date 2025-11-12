@@ -22,7 +22,6 @@ export class SubcategoriasComponent implements OnInit {
   categorias: any[] = [];
 
   nueva: {
-// ... (resto del código sin cambios)
     id: number | null;
     nombre: string;
     categoria_id: number;
@@ -57,7 +56,6 @@ export class SubcategoriasComponent implements OnInit {
   }
 
   guardar() {
-// ... (resto del código sin cambios)
     const dto = {
       nombre: this.nueva.nombre,
       categoria_id: +this.nueva.categoria_id
@@ -69,7 +67,6 @@ export class SubcategoriasComponent implements OnInit {
         this.reset();
         this.listar();
         Swal.fire({
-// ... (resto del código sin cambios)
           icon: 'success',
           title: 'Subcategoría creada',
           text: 'La subcategoría fue registrada correctamente.',
@@ -83,7 +80,6 @@ export class SubcategoriasComponent implements OnInit {
         this.reset();
         this.listar();
         Swal.fire({
-// ... (resto del código sin cambios)
           icon: 'success',
           title: 'Subcategoría actualizada',
           text: 'Los cambios se guardaron correctamente.',
@@ -96,7 +92,6 @@ export class SubcategoriasComponent implements OnInit {
 
   editar(sub: any) {
     this.nueva = {
-// ... (resto del código sin cambios)
       id: sub.id,
       nombre: sub.nombre,
       categoria_id: sub.categoria?.id ?? 0
@@ -105,7 +100,6 @@ export class SubcategoriasComponent implements OnInit {
 
   eliminar(id: number) {
     Swal.fire({
-// ... (resto del código sin cambios)
       title: '¿Estás seguro?',
       text: 'Esta acción eliminará la subcategoría permanentemente.',
       icon: 'warning',
@@ -124,7 +118,6 @@ export class SubcategoriasComponent implements OnInit {
 
   reset() {
     this.nueva = {
-// ... (resto del código sin cambios)
       id: null,
       nombre: '',
       categoria_id: 0
