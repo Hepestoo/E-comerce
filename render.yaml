@@ -19,7 +19,7 @@ services:
       - key: TELEGRAM_CHAT_ID
         sync: false
       - key: CORS_ORIGINS
-        value: "https://artemania-front.vercel.app"
+        value: "https://artemania-front.onrender.com"
       - key: NODE_ENV
         value: production
 
