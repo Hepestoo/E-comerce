@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { environment } from '../../../../environments/environments';
@@ -14,38 +14,38 @@ import { environment } from '../../../../environments/environments';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  // --- NUEVO: Bandera para cambiar de formulario ---
-  isRegistering = false;
-
-  // --- Modelo de datos unificado para ambos formularios ---
-  nombre = '';
-  apellido = '';
   email = '';
   password = '';
   error = '';
+  mostrarPassword = false;
 
-  private apiUrl = environment.apiUrl;
+  apiUrl = environment.apiUrl;
 
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+      if (params['email']) {
+        this.email = params['email'];
+      }
+    }); 
+  }
 
-  mostrarPassword: boolean = false;
   togglePasswordVisibility() {
     this.mostrarPassword = !this.mostrarPassword;
   }
 
-  constructor(private http: HttpClient, private router: Router) {}
-
-  // --- Función LOGIN ---
   login() {
     this.error = '';
+
     this.http.post<{ access_token: string }>(`${this.apiUrl}/users/login`, {
       email: this.email,
       password: this.password
     }).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.access_token);
+
         const payload = JSON.parse(atob(res.access_token.split('.')[1]));
         localStorage.setItem('rol', payload.role);
-        localStorage.setItem('usuario_id', payload.sub); 
+        localStorage.setItem('usuario_id', payload.sub);
 
         Swal.fire({
           toast: true,
@@ -53,8 +53,7 @@ export class LoginComponent {
           icon: 'success',
           title: 'Inicio de sesión exitoso',
           showConfirmButton: false,
-          timer: 2500,
-          timerProgressBar: true
+          timer: 2500
         });
 
         if (payload.role === 'admin') {
@@ -68,51 +67,5 @@ export class LoginComponent {
         Swal.fire('Error', 'Credenciales incorrectas', 'error');
       }
     });
-  }
-
-  // --- NUEVA: Función de Registro ---
-  register() {
-    this.error = '';
-    
-    // Construimos el DTO que espera el backend
-    const userDto = {
-      nombre: this.nombre,
-      apellido: this.apellido,
-      email: this.email,
-      password: this.password
-      // El 'rol' no lo enviamos, el backend asigna 'cliente' por defecto
-    };
-
-    // --- LÍNEA MODIFICADA: Se usa la variable apiUrl ---
-    this.http.post(`${this.apiUrl}/users/register`, userDto)
-      .subscribe({
-        next: (res) => {
-          // Si el registro es exitoso...
-          Swal.fire({
-            icon: 'success',
-            title: '¡Registro Exitoso!',
-            text: 'Tu cuenta ha sido creada. Ahora, por favor inicia sesión.',
-          });
-          
-          // Cambiamos al formulario de login
-          this.isRegistering = false;
-          // Dejamos el email y password para que el usuario solo dé clic en "Ingresar"
-        },
-        error: (err) => {
-          // Capturamos el error del backend (ej. email duplicado)
-          this.error = Array.isArray(err.error.message) ? err.error.message.join(', ') : err.error.message;
-          Swal.fire('Error', this.error || 'No se pudo completar el registro', 'error');
-        }
-      });
-  }
-
-  // --- NUEVO: Función para limpiar el formulario al cambiar ---
-  toggleForm(view: 'login' | 'register') {
-    this.isRegistering = (view === 'register');
-    this.error = '';
-    this.nombre = '';
-    this.apellido = '';
-    this.email = '';
-    this.password = '';
   }
 }

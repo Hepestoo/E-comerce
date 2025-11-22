@@ -1,0 +1,171 @@
+<section class="login-page">
+  <div class="login-brand">
+    <h1><span>Artemania</span></h1>
+    <p>Crea una cuenta</p>
+  </div>
+
+  <div class="login-card">
+    <button routerLink="/login" class="btn-volver">
+      <i class="pi pi-arrow-left"></i> Atrás
+    </button>
+
+    <h2>Registro</h2>
+
+    <form (ngSubmit)="register()" #registerForm="ngForm" novalidate>
+
+        <!-- NOMBRE -->
+        <div class="input-wrap">
+            <label for="nombre">Nombre</label>
+
+            <input
+            id="nombre"
+            name="nombre"
+            type="text"
+            [(ngModel)]="nombre"
+            #nombreModel="ngModel"
+            required
+            minlength="2"
+            placeholder="Tu nombre"
+            [class.has-error]="nombreModel.invalid && (nombreModel.touched || nombreModel.dirty)"
+            aria-describedby="err-nombre"
+            />
+
+            <div
+            *ngIf="nombreModel.invalid && (nombreModel.touched || nombreModel.dirty)"
+            id="err-nombre"
+            class="error-badge"
+            role="alert"
+            aria-live="assertive"
+            >
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>
+                <ng-container *ngIf="nombreModel.errors?.['required']">Requerido</ng-container>
+                <ng-container *ngIf="nombreModel.errors?.['minlength']">Mínimo 2</ng-container>
+            </span>
+            </div>
+        </div>
+
+        <!-- APELLIDO -->
+        <div class="input-wrap">
+            <label for="apellido">Apellido</label>
+
+            <input
+            id="apellido"
+            name="apellido"
+            type="text"
+            [(ngModel)]="apellido"
+            #apellidoModel="ngModel"
+            required
+            minlength="2"
+            placeholder="Tu apellido"
+            [class.has-error]="apellidoModel.invalid && (apellidoModel.touched || apellidoModel.dirty)"
+            aria-describedby="err-apellido"
+            />
+
+            <div
+            *ngIf="apellidoModel.invalid && (apellidoModel.touched || apellidoModel.dirty)"
+            id="err-apellido"
+            class="error-badge"
+            role="alert"
+            aria-live="assertive"
+            >
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>
+                <ng-container *ngIf="apellidoModel.errors?.['required']">Requerido</ng-container>
+                <ng-container *ngIf="apellidoModel.errors?.['minlength']">Mínimo 2</ng-container>
+            </span>
+            </div>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="input-wrap">
+            <label for="email_reg">Correo electrónico</label>
+
+            <input
+            id="email_reg"
+            name="email"
+            type="email"
+            [(ngModel)]="email"
+            #emailModel="ngModel"
+            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            placeholder="Correo"
+            [class.has-error]="emailModel.invalid && (emailModel.touched || emailModel.dirty)"
+            aria-describedby="err-email"
+            />
+
+            <div
+            *ngIf="emailModel.invalid && (emailModel.touched || emailModel.dirty)"
+            id="err-email"
+            class="error-badge"
+            role="alert"
+            aria-live="assertive"
+            >
+            <i class="pi pi-exclamation-circle"></i>
+            <span>
+                <ng-container *ngIf="emailModel.errors?.['required']">Obligatorio</ng-container>
+                <ng-container *ngIf="emailModel.errors?.['pattern']">Correo inválido</ng-container>
+            </span>
+            </div>
+        </div>
+
+        <!-- CONTRASEÑA -->
+        <div class="input-wrap">
+            <label for="password_reg">Contraseña</label>
+
+            <div class="input-password">
+            <input
+                id="password_reg"
+                name="password"
+                [type]="mostrarPassword ? 'text' : 'password'"
+                [(ngModel)]="password"
+                #passwordModel="ngModel"
+                required
+                minlength="6"
+                placeholder="Crea una contraseña"
+                [class.has-error]="passwordModel.invalid && (passwordModel.touched || passwordModel.dirty)"
+                aria-describedby="err-password"
+            />
+
+            <i
+                class="pi"
+                [ngClass]="mostrarPassword ? 'pi-eye-slash' : 'pi-eye'"
+                (click)="togglePasswordVisibility()"
+                role="button"
+                aria-label="Mostrar contraseña"
+                tabindex="0"
+            ></i>
+            </div>
+
+            <div
+            *ngIf="passwordModel.invalid && (passwordModel.touched || passwordModel.dirty)"
+            id="err-password"
+            class="error-badge"
+            role="alert"
+            aria-live="assertive"
+            >
+            <i class="pi pi-lock"></i>
+            <span>
+                <ng-container *ngIf="passwordModel.errors?.['required']">Obligatoria</ng-container>
+                <ng-container *ngIf="passwordModel.errors?.['minlength']">Mínimo 6</ng-container>
+            </span>
+            </div>
+        </div>
+
+        <button
+            type="submit"
+            [disabled]="registerForm.invalid"
+            [attr.aria-disabled]="registerForm.invalid"
+            class="btn-submit"
+            >
+            Crear cuenta
+        </button>
+
+
+    </form>
+
+    <div class="form-footer-prompt">
+      <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+    </div>
+  </div>
+</section>

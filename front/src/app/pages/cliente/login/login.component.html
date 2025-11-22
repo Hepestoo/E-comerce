@@ -9,59 +9,31 @@
       <i class="pi pi-arrow-left"></i> Atrás
     </button>
 
-    <div *ngIf="!isRegistering">
-      <h2>Inicio de sesión</h2>
+    <h2>Inicio de sesión</h2>
 
-      <form (ngSubmit)="login()" #loginForm="ngForm">
-        <label for="email">Correo electrónico</label>
-        <input type="email" [(ngModel)]="email" name="email" placeholder="Correo" required>
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <label for="email">Correo electrónico</label>
+      <input type="email" [(ngModel)]="email" name="email" placeholder="Correo" required>
 
-        <label for="password">Contraseña</label>
-        <div class="input-password">
-          <input [type]="mostrarPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" id="password_login" placeholder="Contraseña" required>
-          <i class="pi" 
-             [ngClass]="mostrarPassword ? 'pi-eye-slash' : 'pi-eye'" 
-             (click)="togglePasswordVisibility()">
-          </i>
-        </div>
-        
-        <button type="submit" [disabled]="loginForm.invalid">Ingresar</button>
-      </form>
+      <label for="password">Contraseña</label>
+      <div class="input-password">
+        <input [type]="mostrarPassword ? 'text' : 'password'"
+               [(ngModel)]="password"
+               name="password"
+               placeholder="Contraseña"
+               required>
 
-      <div class="form-footer-prompt">
-        <p>¿No tienes cuenta? <span (click)="toggleForm('register')">Crear cuenta</span></p>
+        <i class="pi" 
+           [ngClass]="mostrarPassword ? 'pi-eye-slash' : 'pi-eye'" 
+           (click)="togglePasswordVisibility()">
+        </i>
       </div>
+
+      <button type="submit" [disabled]="loginForm.invalid">Ingresar</button>
+    </form>
+
+    <div class="form-footer-prompt">
+      <p>¿No tienes cuenta? <a routerLink="/register">Crear cuenta</a></p>
     </div>
-
-    <div *ngIf="isRegistering">
-      <h2>Crear una cuenta</h2>
-
-      <form (ngSubmit)="register()" #registerForm="ngForm">
-        <label for="nombre">Nombre</label>
-        <input type="text" [(ngModel)]="nombre" name="nombre" placeholder="Tu nombre" required>
-        
-        <label for="apellido">Apellido</label>
-        <input type="text" [(ngModel)]="apellido" name="apellido" placeholder="Tu apellido" required>
-
-        <label for="email_reg">Correo electrónico</label>
-        <input type="email" [(ngModel)]="email" name="email_reg" placeholder="Correo" required>
-
-        <label for="password_reg">Contraseña</label>
-        <div class="input-password">
-          <input [type]="mostrarPassword ? 'text' : 'password'" [(ngModel)]="password" name="password_reg" id="password_reg" placeholder="Crea una contraseña" required>
-          <i class="pi" 
-             [ngClass]="mostrarPassword ? 'pi-eye-slash' : 'pi-eye'" 
-             (click)="togglePasswordVisibility()">
-          </i>
-        </div>
-        
-        <button type="submit" [disabled]="registerForm.invalid">Crear cuenta</button>
-      </form>
-
-      <div class="form-footer-prompt">
-        <p>¿Ya tienes cuenta? <span (click)="toggleForm('login')">Inicia sesión</span></p>
-      </div>
-    </div>
-
   </div>
 </section>

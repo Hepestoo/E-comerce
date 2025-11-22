@@ -17,6 +17,14 @@ export const routes: Routes = [
       import('./pages/cliente/login/login.component').then(m => m.LoginComponent),
   },
 
+
+   // Register (nueva ruta, también fuera del layout)
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./pages/cliente/register/register.component').then(m => m.RegisterComponent),
+  },
+
   // Rutas cliente con layout fijo
   {
     path: '',
