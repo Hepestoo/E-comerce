@@ -1,35 +1,31 @@
-import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { SubcategoriaService } from "../../../services/subcategorias.service";
-import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { SubcategoriaService } from '../../../services/subcategorias.service';
+import { environment } from '../../../../environments/environments';
 import Swal from 'sweetalert2';
-import { environment } from "../../../../environments/environments"; 
-
 
 @Component({
   selector: 'app-subcategorias',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './subcategorias.component.html',
-  // CAMBIO: Asegúrate que la ruta a tu CSS sea correcta (usando .css)
-  styleUrl: './subcategorias.component.scss'
+  styleUrls: ['./subcategorias.component.scss']
 })
 export class SubcategoriasComponent implements OnInit {
   subcategorias: any[] = [];
+  subcategoriasOriginales: any[] = []; // Para filtrar
   categorias: any[] = [];
+  
+  mostrarFormulario = false;
+  private apiUrl = environment.apiUrl;
 
-  nueva: {
-    id: number | null;
-    nombre: string;
-    categoria_id: number;
-  } = {
+  nueva: { id: number | null; nombre: string; categoria_id: number } = {
     id: null,
     nombre: '',
     categoria_id: 0
   };
-
-  private apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
@@ -38,16 +34,28 @@ export class SubcategoriasComponent implements OnInit {
 
   ngOnInit(): void {
     this.listar();
-    
-    this.http.get(`${this.apiUrl}/categorias`).subscribe((res: any) => {
-      this.categorias = res;
-    });
+    this.cargarCategorias();
   }
 
   listar() {
     this.subcategoriaService.listar().subscribe((res) => {
+      this.subcategoriasOriginales = res;
       this.subcategorias = res;
     });
+  }
+
+  cargarCategorias() {
+    this.http.get<any[]>(`${this.apiUrl}/categorias`).subscribe((res) => {
+      this.categorias = res;
+    });
+  }
+
+  filtrar(event: any) {
+    const texto = event.target.value.toLowerCase();
+    this.subcategorias = this.subcategoriasOriginales.filter(sub => 
+      sub.nombre.toLowerCase().includes(texto) || 
+      sub.categoria?.nombre.toLowerCase().includes(texto)
+    );
   }
 
   guardar() {
@@ -56,47 +64,24 @@ export class SubcategoriasComponent implements OnInit {
       categoria_id: +this.nueva.categoria_id
     };
   
-    if (this.nueva.id === null) {
-      // Crear
-      this.subcategoriaService.crear(dto).subscribe(() => {
-        this.reset();
-        this.listar();
-        
-        // --- CAMBIO: Alerta de éxito "bonita" ---
-        Swal.fire({
-          icon: 'success',
-          title: 'Subcategoría Creada',
-          text: 'La subcategoría fue registrada correctamente.',
-          timer: 2000,
-          showConfirmButton: false,
-          timerProgressBar: true,
-          background: '#fff',
-          iconColor: 'fuchsia',
-          color: '#5a3a7d'
-        });
-        // --- FIN DEL CAMBIO ---
-      });
-    } else {
-      // Actualizar
-      this.subcategoriaService.actualizar(this.nueva.id, dto).subscribe(() => {
-        this.reset();
-        this.listar();
+    const observable = this.nueva.id === null 
+      ? this.subcategoriaService.crear(dto)
+      : this.subcategoriaService.actualizar(this.nueva.id, dto);
 
-        // --- CAMBIO: Alerta de éxito "bonita" ---
-        Swal.fire({
-          icon: 'success',
-          title: 'Subcategoría Actualizada',
-          text: 'Los cambios se guardaron correctamente.',
-          timer: 2000,
-          showConfirmButton: false,
-          timerProgressBar: true,
-          background: '#fff',
-          iconColor: 'fuchsia',
-          color: '#5a3a7d'
-        });
-        // --- FIN DEL CAMBIO ---
+    observable.subscribe(() => {
+      this.mostrarFormulario = false;
+      this.reset();
+      this.listar();
+      
+      Swal.fire({
+        icon: 'success',
+        title: this.nueva.id ? 'Actualizado' : 'Creado',
+        text: 'Operación exitosa',
+        timer: 1500,
+        showConfirmButton: false,
+        customClass: { popup: 'rounded-alert' }
       });
-    }
+    });
   }
 
   editar(sub: any) {
@@ -105,56 +90,37 @@ export class SubcategoriasComponent implements OnInit {
       nombre: sub.nombre,
       categoria_id: sub.categoria?.id ?? 0
     };
+    this.mostrarFormulario = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   eliminar(id: number) {
-    // --- CAMBIO: Alerta de confirmación "bonita" ---
     Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'Esta acción eliminará la subcategoría permanentemente.',
+      title: '¿Eliminar?',
+      text: 'Esta acción es irreversible',
       icon: 'warning',
       showCancelButton: true,
-      
-      // Colores de botones de marca
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#7951a8',
       confirmButtonText: 'Sí, eliminar',
-      confirmButtonColor: '#B71C1C', // Rojo de eliminar
-      
-      cancelButtonText: 'Cancelar',
-      cancelButtonColor: '#aaa',
-
-      // Estilos de fondo y texto
-      background: '#fff',
-      color: '#5a3a7d'
-      
+      customClass: { popup: 'rounded-alert', confirmButton: 'rounded-btn-alert-error' }
     }).then((result) => {
       if (result.isConfirmed) {
         this.subcategoriaService.eliminar(id).subscribe(() => {
           this.listar();
-          
-          // --- CAMBIO: Alerta de "Eliminado" "bonita" ---
           Swal.fire({
             title: 'Eliminado',
-            text: 'La subcategoría ha sido eliminada.',
             icon: 'success',
-            timer: 2000,
+            timer: 1500,
             showConfirmButton: false,
-            timerProgressBar: true,
-            background: '#fff',
-            iconColor: 'fuchsia',
-            color: '#5a3a7d'
+            customClass: { popup: 'rounded-alert' }
           });
-          // --- FIN DEL CAMBIO ---
         });
       }
     });
-    // --- FIN DEL CAMBIO ---
   }
 
   reset() {
-    this.nueva = {
-      id: null,
-      nombre: '',
-      categoria_id: 0
-    };
+    this.nueva = { id: null, nombre: '', categoria_id: 0 };
   }
 }

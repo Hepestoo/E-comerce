@@ -1,106 +1,148 @@
-<h2>Gestión de Productos</h2>
-
-<section class="formulario-producto">
-  <h3>{{ nuevoProducto.id ? 'Editar Producto' : 'Nuevo Producto' }}</h3>
-
-  <form (ngSubmit)="guardar()" #form="ngForm" enctype="multipart/form-data" class="form-grid">
+<div class="admin-page">
+  
+  <div class="page-header">
     <div>
-      <label for="nombre">Nombre</label>
-      <input type="text" id="nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" required />
+      <h2>Gestión de Productos</h2>
+      <p>Administra tu inventario, precios y stock</p>
     </div>
+    <button class="btn-create" (click)="mostrarFormulario = !mostrarFormulario">
+      <i class="pi" [ngClass]="mostrarFormulario ? 'pi-minus' : 'pi-plus'"></i>
+      {{ mostrarFormulario ? 'Cerrar Formulario' : 'Nuevo Producto' }}
+    </button>
+  </div>
 
-    <div>
-      <label for="descripcion">Descripción</label>
-      <input type="text" id="descripcion" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" required />
-    </div>
-
-    <div>
-      <label for="precio">Precio</label>
-      <input type="number" id="precio" [(ngModel)]="nuevoProducto.precio" name="precio" required />
-    </div>
-
-    <div>
-      <label for="stock">Stock</label>
-      <input type="number" id="stock" [(ngModel)]="nuevoProducto.stock" name="stock" required />
-    </div>
-
-    <div>
-      <label for="subcategoria">Subcategoría</label>
-      <select id="subcategoria" [(ngModel)]="nuevoProducto.subcategoria_id" name="subcategoria_id" required>
-        <option [ngValue]="undefined" disabled>Seleccione subcategoría</option>
-        <option *ngFor="let cat of subcategorias" [value]="cat.id">
-          {{ cat.nombre }}
-        </option>
-      </select>
-    </div>
-
-    <div>
-      <label for="imagen">Imagen</label>
-      <input type="file" id="imagen" (change)="onFileChange($event)" class="input-file" />
-    </div>
-
-    <div *ngIf="imagenPreview" class="preview-container">
-      <label>Vista previa</label>
-      <img [src]="imagenPreview" alt="Preview" />
-    </div>
-
-    <div class="form-actions">
-      <button type="submit" class="btn-guardar" [disabled]="form.invalid">
-        <i class="pi pi-save"></i>
-        {{ nuevoProducto.id ? 'Actualizar' : 'Guardar' }}
-      </button>
-      
+  <!-- FORMULARIO (Colapsable) -->
+  <div class="form-container" [class.open]="mostrarFormulario">
+    <div class="form-card">
+      <div class="form-header">
+        <h3>{{ nuevoProducto.id ? 'Editar Producto' : 'Crear Nuevo Producto' }}</h3>
+        <button class="btn-close-form" (click)="resetFormulario(); mostrarFormulario = false">
+          <i class="pi pi-times"></i>
+        </button>
       </div>
-  </form>
-</section>
 
-<hr class="separador">
+      <form (ngSubmit)="guardar()" #form="ngForm" class="product-form">
+        
+        <div class="form-row">
+          <!-- Columna Izquierda: Datos -->
+          <div class="col-data">
+            <div class="form-group">
+              <label>Nombre del Producto</label>
+              <input type="text" [(ngModel)]="nuevoProducto.nombre" name="nombre" placeholder="Ej: Resina Epóxica 1L" required>
+            </div>
 
-<section class="lista-productos">
-  <div class="header-lista">
-    <h3>Listado de Productos</h3>
-    <div class="search-wrapper">
-      <i class="pi pi-search"></i>
-      <input type="text" [(ngModel)]="busqueda" placeholder="Buscar producto por nombre..." class="search-input">
+            <div class="form-group">
+              <label>Descripción</label>
+              <textarea [(ngModel)]="nuevoProducto.descripcion" name="descripcion" rows="3" placeholder="Detalles del producto..." required></textarea>
+            </div>
+
+            <div class="form-row-inner">
+              <div class="form-group half">
+                <label>Precio ($)</label>
+                <input type="number" [(ngModel)]="nuevoProducto.precio" name="precio" min="0" step="0.01" required>
+              </div>
+              <div class="form-group half">
+                <label>Stock (Unidades)</label>
+                <input type="number" [(ngModel)]="nuevoProducto.stock" name="stock" min="0" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Categoría</label>
+              <div class="select-wrapper">
+                <select [(ngModel)]="nuevoProducto.subcategoria_id" name="subcategoria_id" required>
+                  <option [ngValue]="0" disabled>Selecciona una categoría</option>
+                  <option *ngFor="let cat of subcategorias" [value]="cat.id">{{ cat.nombre }}</option>
+                </select>
+                <i class="pi pi-chevron-down"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Imagen -->
+          <div class="col-image">
+            <label>Imagen del Producto</label>
+            <div class="image-upload-area" (click)="fileInput.click()" [class.has-image]="imagenPreview">
+              <input #fileInput type="file" (change)="onFileChange($event)" accept="image/*" hidden>
+              
+              <div class="upload-placeholder" *ngIf="!imagenPreview">
+                <i class="pi pi-image"></i>
+                <span>Haz clic para subir imagen</span>
+                <small>JPG, PNG (Max 2MB)</small>
+              </div>
+
+              <img *ngIf="imagenPreview" [src]="imagenPreview" alt="Preview" class="preview-img">
+              
+              <button type="button" *ngIf="imagenPreview" class="btn-remove-img" (click)="limpiarImagen($event)">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="resetFormulario(); mostrarFormulario = false">Cancelar</button>
+          <button type="submit" class="btn-save" [disabled]="form.invalid">
+            <i class="pi pi-check"></i> {{ nuevoProducto.id ? 'Actualizar' : 'Guardar Producto' }}
+          </button>
+        </div>
+
+      </form>
     </div>
   </div>
 
-  <div class="grid-productos-admin">
+  <!-- LISTA DE PRODUCTOS -->
+  <div class="list-container">
     
-    <div class="producto-admin-card" *ngFor="let prod of productosFiltrados">
-      
-      <div class="card-imagen">
-        <img [src]="apiUrl + '/uploads/productos/' + prod.imagen_url" alt="Producto" />
+    <!-- Barra de Herramientas -->
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="pi pi-search"></i>
+        <input type="text" [(ngModel)]="busqueda" placeholder="Buscar por nombre...">
       </div>
+      <div class="filter-box">
+        <!-- Aquí podrías poner un select para filtrar por categoría en el futuro -->
+        <span class="count">{{ productosFiltrados.length }} productos</span>
+      </div>
+    </div>
+
+    <!-- Grid de Tarjetas -->
+    <div class="products-grid" *ngIf="productosFiltrados.length > 0; else emptyState">
       
-      <div class="card-info">
-        <h4 class="card-nombre">{{ prod.nombre }}</h4>
-        <p class="card-subcategoria">{{ prod.subcategoria.nombre }}</p>
-        <p class="card-descripcion">{{ prod.descripcion }}</p>
+      <div class="admin-product-card" *ngFor="let prod of productosFiltrados">
+        <div class="card-img-top">
+          <img [src]="apiUrl + '/uploads/productos/' + prod.imagen_url" [alt]="prod.nombre">
+          <div class="overlay-actions">
+            <button class="btn-icon edit" (click)="editar(prod)" title="Editar">
+              <i class="pi pi-pencil"></i>
+            </button>
+            <button class="btn-icon delete" (click)="eliminar(prod.id)" title="Eliminar">
+              <i class="pi pi-trash"></i>
+            </button>
+          </div>
+          <span class="stock-tag" [class.out]="prod.stock === 0" [class.low]="prod.stock > 0 && prod.stock < 5">
+            {{ prod.stock === 0 ? 'Agotado' : prod.stock + ' en stock' }}
+          </span>
+        </div>
         
-        <div class="card-stats">
-          <div class="stat">
-            <strong>Precio:</strong>
-            <span>{{ prod.precio | currency }}</span>
-          </div>
-          <div class="stat">
-            <strong>Stock:</strong>
-            <span class="stock-badge" [class.agotado]="prod.stock === 0">
-              {{ prod.stock }}
-            </span>
-          </div>
+        <div class="card-body">
+          <small class="category">{{ prod.subcategoria.nombre || 'Sin categoría' }}</small>
+          <h4>{{ prod.nombre }}</h4>
+          <p class="price">{{ prod.precio | currency }}</p>
         </div>
       </div>
 
-      <div class="card-acciones">
-        <button class="btn-editar" (click)="editar(prod)">
-          <i class="pi pi-pencil"></i> Editar
-        </button>
-        <button class="btn-eliminar" (click)="eliminar(prod.id)">
-          <i class="pi pi-trash"></i> Eliminar
-        </button>
-      </div>
-
     </div>
+
+    <!-- Estado Vacío -->
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="icon-circle"><i class="pi pi-box"></i></div>
+        <h3>No se encontraron productos</h3>
+        <p>Intenta con otra búsqueda o agrega un nuevo producto.</p>
+      </div>
+    </ng-template>
+
   </div>
-  </section>
+
+</div>

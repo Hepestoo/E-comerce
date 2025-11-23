@@ -1,62 +1,111 @@
-<h2>Gestión de Subcategorías</h2>
-
-<section class="formulario-subcategoria">
-  <h3>{{ nueva.id !== null ? 'Editar Subcategoría' : 'Nueva Subcategoría' }}</h3>
-
-  <form (ngSubmit)="guardar()" #form="ngForm" class="form-grid-sub">
+<div class="admin-page">
+  
+  <!-- HEADER -->
+  <div class="page-header">
     <div>
-      <label for="nombre">Nombre</label>
-      <input type="text" [(ngModel)]="nueva.nombre" name="nombre" id="nombre" required />
+      <h2>Gestión de Subcategorías</h2>
+      <p>Organiza tus productos por tipos específicos</p>
     </div>
+    <button class="btn-create" (click)="mostrarFormulario = !mostrarFormulario">
+      <i class="pi" [ngClass]="mostrarFormulario ? 'pi-minus' : 'pi-plus'"></i>
+      {{ mostrarFormulario ? 'Cerrar' : 'Nueva Subcategoría' }}
+    </button>
+  </div>
 
-    <div>
-      <label for="categoria_id">Categoría</label>
-      <select [(ngModel)]="nueva.categoria_id" name="categoria_id" id="categoria_id" required>
-        <option [ngValue]="undefined" disabled selected>Seleccione categoría</option>
-        <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
-      </select>
+  <!-- FORMULARIO (Colapsable) -->
+  <div class="form-container" [class.open]="mostrarFormulario">
+    <div class="form-card">
+      <div class="form-header">
+        <h3>{{ nueva.id ? 'Editar Subcategoría' : 'Crear Nueva Subcategoría' }}</h3>
+        <button class="btn-close-form" (click)="reset(); mostrarFormulario = false">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+
+      <form (ngSubmit)="guardar()" #form="ngForm" class="subcategory-form">
+        <div class="form-row">
+          
+          <div class="form-group">
+            <label>Nombre</label>
+            <div class="input-wrapper">
+              <i class="pi pi-tag"></i>
+              <input type="text" [(ngModel)]="nueva.nombre" name="nombre" placeholder="Ej: Resina UV" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Categoría Principal</label>
+            <div class="select-wrapper">
+              <i class="pi pi-folder"></i>
+              <select [(ngModel)]="nueva.categoria_id" name="categoria_id" required>
+                <option [ngValue]="0" disabled selected>Selecciona una categoría</option>
+                <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+              </select>
+              <i class="pi pi-chevron-down arrow"></i>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="reset(); mostrarFormulario = false">Cancelar</button>
+            <button type="submit" class="btn-save" [disabled]="form.invalid">
+              <i class="pi pi-check"></i> {{ nueva.id ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </div>
+
+        </div>
+      </form>
     </div>
+  </div>
 
-    <div class="form-actions">
-      <button type="submit" class="btn-guardar" [disabled]="form.invalid">
-        <i class="pi pi-save"></i>
-        {{ nueva.id !== null ? 'Actualizar' : 'Guardar' }}
-      </button>
-    </div>
-  </form>
-</section>
-
-<section class="lista-subcategorias">
-  <h3>Listado de Subcategorías</h3>
-
-  <div class="lista-items">
-    <div class="item-header">
-      <div class="header-nombre">Nombre</div>
-      <div class="header-categoria">Categoría</div>
-      <div class="header-acciones">Acciones</div>
-    </div>
+  <!-- LISTA DE SUBCATEGORÍAS -->
+  <div class="list-container">
     
-    <div class="item-row" *ngFor="let sub of subcategorias">
-      <div class="item-info">
-        <h4>{{ sub.nombre }}</h4>
-        <p>{{ sub.categoria?.nombre }}</p>
+    <!-- Toolbar / Buscador -->
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="pi pi-search"></i>
+        <input type="text" placeholder="Buscar subcategoría..." (input)="filtrar($event)">
       </div>
-      <div class="item-categoria">
-        <span class="categoria-badge">{{ sub.categoria?.nombre }}</span>
-      </div>
-      <div class="item-acciones">
-        <button class="btn-editar" (click)="editar(sub)">
-          <i class="pi pi-pencil"></i> Editar
-        </button>
-        <button class="btn-eliminar" (click)="eliminar(sub.id)">
-          <i class="pi pi-trash"></i> Eliminar
-        </button>
-      </div>
+      <span class="count">{{ subcategorias.length }} elementos</span>
     </div>
 
-    <div *ngIf="subcategorias.length === 0" class="item-vacio">
-      <p>No hay subcategorías para mostrar.</p>
+    <!-- Lista Items -->
+    <div class="items-grid" *ngIf="subcategorias.length > 0; else emptyState">
+      
+      <!-- Item Card -->
+      <div class="subcategory-item" *ngFor="let sub of subcategorias">
+        <div class="item-icon">
+          <i class="pi pi-bookmark"></i>
+        </div>
+        
+        <div class="item-info">
+          <h4>{{ sub.nombre }}</h4>
+          <div class="category-tag">
+            <i class="pi pi-folder-open"></i> {{ sub.categoria?.nombre || 'Sin categoría' }}
+          </div>
+        </div>
+
+        <div class="item-actions">
+          <button class="btn-icon edit" (click)="editar(sub)" title="Editar">
+            <i class="pi pi-pencil"></i>
+          </button>
+          <button class="btn-icon delete" (click)="eliminar(sub.id)" title="Eliminar">
+            <i class="pi pi-trash"></i>
+          </button>
+        </div>
+      </div>
+
     </div>
+
+    <!-- Estado Vacío -->
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="icon-circle"><i class="pi pi-tags"></i></div>
+        <h3>No hay subcategorías</h3>
+        <p>Comienza creando una nueva para organizar tu catálogo.</p>
+      </div>
+    </ng-template>
 
   </div>
-</section>
+
+</div>

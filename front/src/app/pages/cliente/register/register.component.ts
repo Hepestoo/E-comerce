@@ -1,83 +1,73 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../../services/auth.service';
 import Swal from 'sweetalert2';
-import { environment } from '../../../../environments/environments';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-
-  nombre = '';
-  apellido = '';
-  email = '';
-  password = '';
+  registerForm: FormGroup;
+  loading = false;
   error = '';
-  mostrarPassword = false;
 
-  apiUrl = environment.apiUrl;
-
-  constructor(private http: HttpClient, private router: Router) {}
-
-  togglePasswordVisibility() {
-    this.mostrarPassword = !this.mostrarPassword;
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
+    this.registerForm = this.fb.group({
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
   }
 
-  // <-- aclaramos el tipo de retorno
-  register(): void {
-    // VALIDACIONES (cliente)
-    if (!this.nombre || this.nombre.length < 2) {
-      Swal.fire('Error', 'Nombre inválido', 'error');
-      return;
-    }
+  onSubmit() {
+    if (this.registerForm.invalid) return;
+    this.loading = true;
+    this.error = '';
 
-    if (!this.apellido || this.apellido.length < 2) {
-      Swal.fire('Error', 'Apellido inválido', 'error');
-      return;
-    }
-
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
-    if (!emailRegex.test(this.email)) {
-      Swal.fire('Error', 'Correo inválido', 'error');
-      return;
-    }
-
-    if (!this.password || this.password.length < 6) {
-      Swal.fire('Error', 'La contraseña debe tener mínimo 6 caracteres', 'error');
-      return;
-    }
-
-    // DTO UNA SOLA VEZ
-    const userDto = {
-      nombre: this.nombre,
-      apellido: this.apellido,
-      email: this.email,
-      password: this.password
-    };
-
-    // PETICIÓN UNA SOLA VEZ
-    this.http.post(`${this.apiUrl}/users/register`, userDto).subscribe({
+    this.auth.register(this.registerForm.value).subscribe({
       next: () => {
-        Swal.fire('¡Registro Exitoso!', 'Ahora inicia sesión.', 'success');
-
-        this.router.navigate(['/login'], {
-          queryParams: { email: this.email }
+        // Alerta bonita de éxito
+        Swal.fire({
+          title: '¡Bienvenido!',
+          text: 'Tu cuenta en Artemania ha sido creada con éxito ✨',
+          icon: 'success',
+          confirmButtonText: 'Iniciar Sesión',
+          confirmButtonColor: '#7951a8',
+          background: '#fff',
+          customClass: {
+            popup: 'rounded-alert',
+            confirmButton: 'rounded-btn-alert'
+          },
+          buttonsStyling: false
+        }).then(() => {
+          this.router.navigate(['/login']);
         });
       },
       error: (err) => {
-        this.error =
-          Array.isArray(err?.error?.message)
-            ? err.error.message.join(', ')
-            : err?.error?.message || 'No se pudo completar el registro';
-
-        Swal.fire('Error', this.error, 'error');
+        this.loading = false;
+        this.error = err.error.message || 'Error al registrarse. Intenta de nuevo.';
+        
+        // Alerta bonita de error
+        Swal.fire({
+          title: '¡Ups!',
+          text: this.error,
+          icon: 'error',
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#d33',
+          background: '#fff',
+          customClass: {
+            popup: 'rounded-alert',
+            confirmButton: 'rounded-btn-alert-error'
+          },
+          buttonsStyling: false
+        });
       }
     });
   }

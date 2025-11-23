@@ -1,39 +1,77 @@
 <footer class="footer">
+  
+  <!-- Fondo decorativo suave -->
+  <div class="footer-bg"></div>
+
   <div class="footer-content">
-    <div class="footer-col">
-      <h2><span>Arte</span>mania</h2>
-      <p>Talleres, venta de moldes y decoraciones</p>
+    
+    <!-- Columna 1: Marca -->
+    <div class="footer-col brand-col">
+      <div class="logo">
+        <span>Arte</span><strong>mania</strong>
+      </div>
+      <p class="tagline">
+        Donde la creatividad cobra vida.<br>
+        Talleres, moldes y decoración para tus ideas.
+      </p>
     </div>
 
-   <div class="footer-col">
+    <!-- Columna 2: Tienda -->
+    <div class="footer-col links-col">
       <h3>Tienda</h3>
       <ul>
         <li *ngFor="let sub of subcategorias">
-          <a [routerLink]="['/catalogo']" [queryParams]="{ sub: sub.id }">{{ sub.nombre }}</a>
+          <a [routerLink]="['/catalogo']" [queryParams]="{ sub: sub.id }">
+            <i class="pi pi-angle-right"></i> {{ sub.nombre }}
+          </a>
         </li>
       </ul>
     </div>
 
-    <div class="footer-col">
+    <!-- Columna 3: Contacto -->
+    <div class="footer-col contact-col">
       <h3>Contacto</h3>
-      <p><i class="pi pi-map-marker"></i> Buenavista E51-58 y calle 2, San Bartolo, Quito</p>
-      <p><i class="pi pi-envelope"></i> artemania-qtohotmail.com</p>
-      <p><i class="pi pi-phone"></i> 0992731355</p>
+      <ul class="contact-list">
+        <li>
+          <i class="pi pi-map-marker"></i>
+          <span>Buenavista E51-58 y calle 2,<br>San Bartolo, Quito</span>
+        </li>
+        <li>
+          <i class="pi pi-envelope"></i>
+          <a href="mailto:artemania-qto@hotmail.com">artemania-qtohotmail.com</a>
+        </li>
+        <li>
+          <i class="pi pi-whatsapp"></i>
+          <a href="https://wa.me/593992731355" target="_blank">099 273 1355</a>
+        </li>
+      </ul>
     </div>
 
-    <div class="footer-col">
-      <h3>Horarios de atención</h3>
-      <p>Lunes a viernes<br>10:00 a 18:00</p>
-      <p>Sábados<br>12:00 a 16:00</p>
+    <!-- Columna 4: Horarios -->
+    <div class="footer-col hours-col">
+      <h3>Horarios</h3>
+      <div class="schedule">
+        <p><strong>Lunes - Viernes</strong><br>10:00 am - 6:00 pm</p>
+        <p><strong>Sábados</strong><br>12:00 pm - 4:00 pm</p>
+      </div>
     </div>
+
   </div>
 
+  <!-- Footer Bottom -->
   <div class="footer-bottom">
-    <p> Derechos reservados Artemania 2025</p>
+    <p>&copy; 2025 Artemania. Todos los derechos reservados.</p>
+    
     <div class="social-icons">
-      <a href="#" aria-label="Facebook"><i class="pi pi-facebook"></i></a>
-      <a href="#" aria-label="Tiktok"><i class="pi pi-tiktok"></i></a>
-      <a href="#" aria-label="Instagram"><i class="pi pi-instagram"></i></a>
+      <a href="#" aria-label="Facebook" class="social-link facebook">
+        <i class="pi pi-facebook"></i>
+      </a>
+      <a href="#" aria-label="Instagram" class="social-link instagram">
+        <i class="pi pi-instagram"></i>
+      </a>
+      <a href="#" aria-label="TikTok" class="social-link tiktok">
+        <i class="pi pi-tiktok"></i>
+      </a>
     </div>
   </div>
 </footer>

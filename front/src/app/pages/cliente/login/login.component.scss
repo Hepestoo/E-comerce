@@ -1,232 +1,172 @@
-/* ============ PÁGINA DE LOGIN ============ */
-.login-page {
-  height: 100vh;
-  background-image: url("https://images.pexels.com/photos/10876231/pexels-photo-10876231.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-  background-size: cover;
-  background-position: center;
-  /* CAMBIO: Usamos flex para un layout limpio */
+/* Variables para consistencia y fácil cambio */
+$primary: #7951a8;
+$primary-dark: #5a3a7d;
+$text-main: #333;
+$text-light: #666;
+$bg-gradient: linear-gradient(135deg, #fbfbfb 0%, #f0f0f0 100%);
+
+.auth-page {
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: space-evenly; /* Espaciar la marca y la tarjeta */
-  flex-wrap: wrap; /* Para pantallas más pequeñas */
-  padding: 2rem;
-  position: relative;
-  font-family: 'Poppins', sans-serif;
-  box-sizing: border-box;
-}
-
-/* CAMBIO: Overlay de marca, no negro */
-.login-page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(31, 9, 63, 0.9) 100%);
-}
-
-/* ============ MARCA (IZQUIERDA) ============ */
-.login-brand {
-  position: relative; /* CAMBIO: Quitado absolute */
-  z-index: 2;
-  text-align: left;
-  color: white;
-}
-
-.login-brand h1 {
-  font-family: 'Raleway', sans-serif;
-  font-size: 3.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 800;
-}
-
-.login-brand h1 span {
-  color: fuchsia; /* Esto está perfecto */
-}
-
-.login-brand p {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 300;
-  opacity: 0.9;
-}
-
-/* ============ TARJETA DE LOGIN (DERECHA) ============ */
-.login-card {
-  position: relative; /* CAMBIO: Quitado absolute */
-  /* CAMBIO: Fondo blanco unificado */
-  background-color: #ffffff;
-  padding: 2.5rem 3rem; /* CAMBIO: Padding ajustado */
-  border-radius: 16px; /* CAMBIO: Más redondeado */
-  width: 100%;
-  max-width: 420px;
-  /* CAMBIO: Sombra más sutil */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.6s ease-out;
-  z-index: 10;
-  font-family: 'Poppins', sans-serif;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.login-card h2 {
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 700;
-  /* CAMBIO: Color de marca */
-  color: #5a3a7d;
-  text-align: center;
-}
-
-.login-card form {
-  display: flex;
-  flex-direction: column;
-}
-
-.login-card label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-  /* CAMBIO: Color de marca */
-  color: #5a3a7d;
-}
-
-/* CAMBIO: Inputs modernizados */
-.login-card input[type="text"],
-.login-card input[type="email"],
-.login-card input[type="password"] {
-  padding: 0.9rem 1rem;
-  margin-bottom: 1.2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
-  transition: all 0.3s ease;
-  width: 100%;
-  box-sizing: border-box; /* Asegura padding correcto */
-}
-
-/* CAMBIO: Foco de marca (fuchsia) */
-.login-card input[type="text"]:focus,
-.login-card input[type="email"]:focus,
-.login-card input[type="password"]:focus {
-  outline: none;
-  border-color: fuchsia;
-  box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.15);
-}
-
-.input-password {
-  position: relative;
-  width: 100%;
-  margin-bottom: 1.2rem; /* CAMBIO: Movido el margin al contenedor */
-}
-
-.input-password input {
-  padding-right: 3rem; /* espacio para el icono */
-  margin-bottom: 0; /* Quitado de aquí */
-}
-
-.input-password i {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  /* CAMBIO: Color de marca */
-  color: #7951a8;
-  font-size: 1.2rem;
-  transition: color 0.2s ease;
-}
-.input-password i:hover {
-  color: fuchsia;
-}
-
-/* ============ BOTONES ============ */
-.login-card button[type="submit"] {
-  /* CAMBIO: Gradiente de marca */
-  background: linear-gradient(135deg, #7951a8 0%, #a47bc4 100%);
-  color: white;
+  justify-content: center;
+  background: $bg-gradient;
   padding: 1rem;
-  border: none;
-  border-radius: 25px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  /* CAMBIO: Sombra de marca */
-  box-shadow: 0 8px 20px rgba(121, 81, 155, 0.2);
+  font-family: 'Poppins', sans-serif;
 }
 
-.login-card button[type="submit"]:hover:not(:disabled) {
-  /* CAMBIO: Efecto hover de marca */
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(121, 81, 155, 0.3);
+.auth-card {
+  background: #fff;
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  border-radius: 16px; /* Bordes modernos pero simples */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Sombra ligera y performante */
+  border: 1px solid #eee;
 }
 
-.login-card button[type="submit"]:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
-}
-
-.btn-volver {
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  color: #777;
-  display: flex;
+.btn-back {
+  display: inline-flex;
   align-items: center;
   gap: 5px;
+  color: $text-light;
+  text-decoration: none;
+  font-size: 0.9rem;
   margin-bottom: 1.5rem;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  font-weight: 500;
+  
+  &:hover { color: $primary; }
 }
 
-.btn-volver:hover {
-  /* CAMBIO: Color de marca */
-  color: fuchsia;
-}
-
-/* ============ PIE DE FORMULARIO (TOGGLE) ============ */
-.form-footer-prompt {
+.card-header {
   text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.95rem;
-  color: #333;
-}
+  margin-bottom: 2rem;
 
-.form-footer-prompt span {
-  font-weight: 600;
-  /* CAMBIO: Color de marca (fuchsia) */
-  color: fuchsia;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.form-footer-prompt span:hover {
-  opacity: 0.8;
-  text-decoration: underline;
-}
-
-/* ============ RESPONSIVIDAD ============ */
-@media (max-width: 992px) {
-  .login-page {
-    justify-content: center; /* Centrar en móvil */
-    padding: 2rem 1rem;
+  h1 {
+    font-size: 2rem;
+    color: $primary;
+    margin: 0;
+    font-weight: 800;
   }
   
-  .login-brand {
-    display: none; /* Ocultar la marca de la izquierda en móvil */
+  h2 {
+    font-size: 1.3rem;
+    margin: 0.5rem 0;
+    color: $text-main;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    color: $text-light;
+    margin: 0;
+  }
+}
+
+.input-group {
+  margin-bottom: 1.2rem;
+  
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: $text-main;
+  }
+}
+
+.input-wrapper {
+  position: relative;
+  
+  i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
   }
 
-  .login-card {
-    padding: 2rem 1.5rem;
-    right: 0;
-    transform: none;
-    top: 0;
+  input {
+    width: 100%;
+    padding: 10px 10px 10px 35px; /* Espacio para icono */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: $primary;
+      background: #fafafa;
+    }
+  }
+
+  .toggle-pass {
+    left: auto;
+    right: 12px;
+    cursor: pointer;
+    &:hover { color: $primary; }
+  }
+}
+
+.forgot-pass {
+  text-align: right;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  
+  a {
+    color: $primary;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.error-msg {
+  background: #fff5f5;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ffcdd2;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: $primary;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover:not(:disabled) {
+    background: $primary-dark;
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.card-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: $text-light;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+
+  a {
+    color: $primary;
+    font-weight: 600;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
   }
 }

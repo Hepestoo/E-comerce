@@ -1,74 +1,145 @@
-<section class="carrito-container">
+<div class="cart-page">
+  
+  <div class="page-header">
+    <h1>Finalizar Compra</h1>
+    <p>Revisa tus productos y completa tus datos en un solo paso</p>
+  </div>
 
-  <!-- Encabezado y botón siempre visibles -->
-  <div class="carrito-lista">
-    <div class="encabezado-carrito">
-      <p>MI CARRITO</p>
-      <button class="btn-vaciar" (click)="vaciarCarrito()">Vaciar carrito</button>
-    </div>
+  <!-- VISTA PRINCIPAL (Si hay productos) -->
+  <div class="cart-layout" *ngIf="carrito.items && carrito.items.length > 0; else emptyCart">
+    
+    <!-- COLUMNA IZQUIERDA: PRODUCTOS + DATOS -->
+    <div class="main-column">
+      
+      <!-- SECCIÓN 1: TUS PRODUCTOS -->
+      <section class="cart-section products-list">
+        <div class="section-header">
+          <h3><i class="pi pi-shopping-bag"></i> Tus Productos ({{ carrito.items.length }})</h3>
+          <button class="btn-clear" (click)="vaciarCarrito()">
+            <i class="pi pi-trash"></i> Vaciar
+          </button>
+        </div>
 
-    <!-- Lista de productos -->
-    <ng-container *ngIf="carrito.items.length > 0; else sinProductos">
-      <div class="producto" *ngFor="let item of carrito.items">
-        <p class="alerta">Este producto puede estar sujeto a cambios</p>
-        <div class="producto-info">
-          <img [src]="apiUrl + '/uploads/productos/' + item.producto.imagen_url" alt="Producto">
-          
-          <div class="detalles">
-            <p class="nombre">{{ item.producto.nombre }}</p>
-            <div class="acciones">
-              <span>{{ item.cantidad }}x</span>
-              <button class="btn-eliminar" (click)="eliminarItem(item.id)">
-                <i class="pi pi-trash"></i>
-              </button>
+        <div class="items-container">
+          <div class="cart-item" *ngFor="let item of carrito.items">
+            <div class="item-image">
+              <img [src]="apiUrl + '/uploads/productos/' + item.producto.imagen_url" [alt]="item.producto.nombre">
+            </div>
+            <div class="item-details">
+              <div class="info">
+                <h4>{{ item.producto.nombre }}</h4>
+                <p class="price">{{ item.producto.precio | currency }} c/u</p>
+              </div>
+              <div class="actions">
+                <span class="qty-badge">Cant: {{ item.cantidad }}</span>
+                <button class="btn-remove" (click)="eliminarItem(item.id)">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="item-total">
+              {{ item.producto.precio * item.cantidad | currency }}
             </div>
           </div>
-          <div class="precio">
-            <p class="valor">{{ item.producto.precio | currency }}</p>
-            <small>Subtotal: {{ item.producto.precio * item.cantidad | currency }}</small>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 2: TUS DATOS Y PAGO (Formulario) -->
+      <section class="cart-section checkout-form">
+        <div class="section-header">
+          <h3><i class="pi pi-user"></i> Datos de Envío y Pago</h3>
+        </div>
+
+        <form #checkoutForm="ngForm">
+          
+          <!-- Datos Personales -->
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Nombre Completo</label>
+              <div class="input-wrapper">
+                <i class="pi pi-id-card"></i>
+                <input type="text" name="nombre" [(ngModel)]="datosCliente.nombre" placeholder="Juan Pérez" required>
+              </div>
+            </div>
+            <div class="form-group half">
+              <label>Teléfono / WhatsApp</label>
+              <div class="input-wrapper">
+                <i class="pi pi-whatsapp"></i>
+                <input type="text" name="telefono" [(ngModel)]="datosCliente.telefono" placeholder="099 123 4567" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Dirección de Entrega</label>
+            <div class="input-wrapper">
+              <i class="pi pi-map-marker"></i>
+              <input type="text" name="direccion" [(ngModel)]="datosCliente.direccion" placeholder="Calle principal, número y referencia" required>
+            </div>
+          </div>
+
+          <!-- Métodos de Pago -->
+          <div class="payment-section">
+            <label>Selecciona Método de Pago</label>
+            <div class="payment-grid">
+              <label class="payment-card" [class.selected]="metodoPagoSeleccionado === metodo.id" *ngFor="let metodo of metodosPago">
+                <input type="radio" name="pago" [(ngModel)]="metodoPagoSeleccionado" [value]="metodo.id" required>
+                <span class="radio-mark"></span>
+                <span class="name">{{ metodo.nombre }}</span>
+                <i class="pi pi-check-circle check-icon"></i>
+              </label>
+            </div>
+          </div>
+
+        </form>
+      </section>
+
+    </div>
+
+    <!-- COLUMNA DERECHA: RESUMEN STICKY -->
+    <div class="summary-column">
+      <div class="summary-card">
+        <h3>Resumen Total</h3>
+        
+        <div class="summary-rows">
+          <div class="row">
+            <span>Subtotal</span>
+            <span>{{ calcularTotal() | currency }}</span>
+          </div>
+          <div class="row">
+            <span>Envío</span>
+            <span class="text-muted">Por coordinar</span>
+          </div>
+          <div class="divider"></div>
+          <div class="row total">
+            <span>Total</span>
+            <span class="amount">{{ calcularTotal() | currency }}</span>
           </div>
         </div>
-      </div>
-    </ng-container>
 
-    <!-- Vista cuando no hay productos -->
-    <ng-template #sinProductos>
-      <div class="mensaje-vacio">Tu carrito no contiene productos.</div>
-    </ng-template>
-  </div>
+        <!-- BOTÓN FINAL QUE DISPARA TODO EL PROCESO -->
+        <button class="btn-confirm" (click)="procesarPedidoCompleto()" [disabled]="loading">
+          {{ loading ? 'Procesando...' : 'Confirmar Pedido' }} <i class="pi pi-arrow-right" *ngIf="!loading"></i>
+        </button>
 
-  <!-- Resumen y acciones siempre visibles -->
-  <div class="carrito-resumen">
-    <h3>Detalle de la compra</h3>
-
-    <div class="resumen-productos" *ngIf="carrito.items.length > 0; else sinResumen">
-      <p class="total-item">Artículos totales: {{ carrito.items.length }}</p>
-      <div class="item" *ngFor="let item of carrito.items">
-        <p>{{ item.producto.nombre }}</p>
-        <span>{{ item.cantidad }}x</span>
-        <span>{{ item.producto.precio * item.cantidad | currency }}</span>
+        <div class="secure-info">
+          <i class="pi pi-lock"></i> Tus datos están protegidos
+        </div>
       </div>
     </div>
 
-    <!-- Si no hay productos -->
-    <ng-template #sinResumen>
-      <p class="total-item">Aún no has agregado productos.</p>
-    </ng-template>
-
-    <div class="opciones-envio">
-      <p><strong>Envío</strong></p>
-      <label><input type="radio" name="envio"> Recogida en el local</label>
-      <label><input type="radio" name="envio"> Coordinar envío</label>
-      <label><input type="radio" name="envio"> Envío por servientrega</label>
-      <label><input type="radio" name="envio"> Envío por cooperativa</label>
-    </div>
-
-    <div class="total">
-      <p>Precio total</p>
-      <h3>{{ calcularTotal() | currency }}</h3>
-    </div>
-
-    <button class="btn-pago" (click)="generarOrden()" [disabled]="carrito.items.length === 0">Generar orden</button>
   </div>
 
-</section>
+  <!-- ESTADO VACÍO -->
+  <ng-template #emptyCart>
+    <div class="empty-state">
+      <div class="icon-circle">
+        <i class="pi pi-shopping-cart"></i>
+      </div>
+      <h2>Tu carrito está vacío</h2>
+      <p>Explora nuestro catálogo y encuentra los mejores materiales.</p>
+      <button routerLink="/catalogo" class="btn-primary">Ir a la Tienda</button>
+    </div>
+  </ng-template>
+
+</div>

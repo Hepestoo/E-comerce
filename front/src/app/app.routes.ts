@@ -2,102 +2,79 @@ import { Routes } from '@angular/router';
 import { adminAuthGuard } from './pages/admin/guards/admin-auth.guard';
 import { ClienteLayoutComponent } from './pages/cliente/cliente-layout.component';
 
-export const routes: Routes = [
-  // Redirección principal
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
-  },
+// IMPORTAR TU NUEVO LAYOUT DE ADMIN
+// (Asegúrate de que la ruta coincida con donde guardaste el archivo)
+import { AdminLayoutComponent } from './pages/admin/admin-layout.component';
 
-  // Ruta login (fuera del layout del cliente)
+export const routes: Routes = [
+  // --- RUTAS PÚBLICAS / REDIRECCIONES ---
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+
+  // Auth Cliente
   {
     path: 'login',
-    loadComponent: () =>
-      import('./pages/cliente/login/login.component').then(m => m.LoginComponent),
+    loadComponent: () => import('./pages/cliente/login/login.component').then(m => m.LoginComponent),
   },
-
-
-   // Register (nueva ruta, también fuera del layout)
   {
     path: 'register',
-    loadComponent: () =>
-      import('./pages/cliente/register/register.component').then(m => m.RegisterComponent),
+    loadComponent: () => import('./pages/cliente/register/register.component').then(m => m.RegisterComponent),
+  },
+  {
+    path: 'recuperar-password',
+    loadComponent: () => import('./pages/cliente/request-reset/request-reset.component').then(m => m.RequestResetComponent),
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./pages/cliente/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
   },
 
-  // Rutas cliente con layout fijo
+  // --- RUTAS CLIENTE (Con Navbar y Footer) ---
   {
     path: '',
     component: ClienteLayoutComponent,
     children: [
+      { path: 'home', loadComponent: () => import('./pages/cliente/home/home.component').then(m => m.HomeComponent) },
+      { path: 'catalogo', loadComponent: () => import('./pages/cliente/catalogo/catalogo.component').then(m => m.CatalogoComponent) },
+      { path: 'contacto', loadComponent: () => import('./pages/cliente/contacto/contacto.component').then(m => m.ContactoComponent) },
+      { path: 'nosotros', loadComponent: () => import('./pages/cliente/nosotros/nosotros.component').then(m => m.NosotrosComponent) },
+      { path: 'carrito', loadComponent: () => import('./pages/cliente/carrito/carrito.component').then(m => m.CarritoComponent) },
+    ]
+  },
+
+  // --- RUTAS ADMIN (CON EL NUEVO LAYOUT) ---
+  {
+    path: 'admin',
+    component: AdminLayoutComponent, // <--- AQUI ESTÁ LA CLAVE: Usamos el Layout como padre
+    canActivate: [adminAuthGuard],   // Protegemos todo el bloque con el guardián
+    children: [
+      // Dashboard (Ruta raíz de admin)
       {
-        path: 'home',
-        loadComponent: () =>
-          import('./pages/cliente/home/home.component').then(m => m.HomeComponent),
+        path: '', 
+        loadComponent: () => import('./pages/admin/dashboard/dashboard.component').then(m => m.DashboardComponent),
       },
+      // Gestión de Productos
       {
-        path: 'catalogo',
-        loadComponent: () =>
-          import('./pages/cliente/catalogo/catalogo.component').then(m => m.CatalogoComponent),
+        path: 'productos', 
+        loadComponent: () => import('./pages/admin/productos/productos.component').then(m => m.ProductosComponent),
       },
+      // Gestión de Categorías
       {
-        path: 'contacto',
-        loadComponent: () =>
-          import('./pages/cliente/contacto/contacto.component').then(m => m.ContactoComponent),
+        path: 'subcategorias',
+        loadComponent: () => import('./pages/admin/subcategorias/subcategorias.component').then(m => m.SubcategoriasComponent),
       },
+      // Gestión de Órdenes
       {
-        path: 'nosotros',
-        loadComponent: () =>
-          import('./pages/cliente/nosotros/nosotros.component').then(m => m.NosotrosComponent),
+        path: 'ordenes',
+        loadComponent: () => import('./pages/admin/ordenes/ordenes.component').then(m => m.OrdenesComponent),
       },
+      // Gestión de Pagos
       {
-        path: 'carrito',
-        loadComponent: () =>
-          import('./pages/cliente/carrito/carrito.component').then(m => m.CarritoComponent),
-      },
-      {
-        path: 'checkout',
-        loadComponent: () =>
-          import('./pages/cliente/checkout/checkout.component').then(m => m.CheckoutComponent),
+        path: 'pagos',
+        loadComponent: () => import('./pages/admin/pagos/pagos.component').then(m => m.PagosComponent),
       }
     ]
   },
 
-  // Rutas admin
-  {
-    path: 'admin',
-    children: [
-      {
-        path: '',
-        canActivate: [adminAuthGuard],
-        loadComponent: () =>
-          import('./pages/admin/dashboard/dashboard.component').then(m => m.DashboardComponent),
-      },
-      {
-        path: 'productos',
-        canActivate: [adminAuthGuard],
-        loadComponent: () =>
-          import('./pages/admin/productos/productos.component').then(m => m.ProductosComponent),
-      },
-      {
-        path: 'subcategorias',
-        canActivate: [adminAuthGuard],
-        loadComponent: () =>
-          import('./pages/admin/subcategorias/subcategorias.component').then(m => m.SubcategoriasComponent),
-      },
-      {
-        path: 'ordenes',
-        canActivate: [adminAuthGuard],
-        loadComponent: () =>
-          import('./pages/admin/ordenes/ordenes.component').then(m => m.OrdenesComponent),
-      },
-      {
-        path: 'pagos',
-        canActivate: [adminAuthGuard],
-        loadComponent: () =>
-          import('./pages/admin/pagos/pagos.component').then(m => m.PagosComponent),
-      }
-    ]
-  }
+  // Ruta 404 (Cualquier otra cosa redirige al home)
+  { path: '**', redirectTo: 'home' }
 ];
-

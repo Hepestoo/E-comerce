@@ -1,41 +1,111 @@
 <div class="dashboard-container">
-  <div class="dashboard-header">
-    <h1>Panel de administración</h1>
-    <button class="logout-btn" (click)="logout()">Cerrar sesión</button>
+  
+  <div class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Resumen general de tu tienda</p>
+    </div>
+    <button class="btn-report">
+      <i class="pi pi-download"></i> Descargar Reporte
+    </button>
   </div>
 
-  <div class="dashboard-body">
-    <aside class="dashboard-sidebar">
-      <button (click)="mostrarVista('productos')" [class.active]="vistaActual === 'productos'">
-        <i class="pi pi-box"></i> Productos
-      </button>
-      <button (click)="mostrarVista('subcategorias')" [class.active]="vistaActual === 'subcategorias'">
-        <i class="pi pi-tags"></i> Subcategorías
-      </button>
-      <button (click)="mostrarVista('ordenes')" [class.active]="vistaActual === 'ordenes'">
-        <i class="pi pi-shopping-cart"></i> Órdenes
-      </button>
-      <button (click)="mostrarVista('pagos')" [class.active]="vistaActual === 'pagos'">
-        <i class="pi pi-credit-card"></i> Pagos
-      </button>
-    </aside>
-
-    <main class="dashboard-content">
-      <div *ngIf="vistaActual === 'productos'">
-        <app-productos></app-productos>
+  <div class="stats-grid">
+    <div class="stat-card purple">
+      <div class="icon-box"><i class="pi pi-dollar"></i></div>
+      <div class="info">
+        <p>Ventas Totales</p>
+        <h3>{{ stats.ventas | currency:'USD' }}</h3>
+        <span class="trend up"><i class="pi pi-arrow-up"></i> Ingresos globales</span>
       </div>
+    </div>
 
-      <div *ngIf="vistaActual === 'subcategorias'">
-        <app-subcategorias></app-subcategorias>
+    <div class="stat-card blue">
+      <div class="icon-box"><i class="pi pi-shopping-cart"></i></div>
+      <div class="info">
+        <p>Órdenes</p>
+        <h3>{{ stats.ordenes }}</h3>
+        <span class="trend neutral">Pedidos totales</span>
       </div>
+    </div>
 
-      <div *ngIf="vistaActual === 'ordenes'">
-        <app-ordenes></app-ordenes>
+    <div class="stat-card orange">
+      <div class="icon-box"><i class="pi pi-box"></i></div>
+      <div class="info">
+        <p>Productos</p>
+        <h3>{{ stats.productos }}</h3>
+        <span class="trend neutral">En catálogo</span>
       </div>
+    </div>
 
-      <div *ngIf="vistaActual === 'pagos'">
-        <app-pagos></app-pagos>
+    <div class="stat-card green">
+      <div class="icon-box"><i class="pi pi-users"></i></div>
+      <div class="info">
+        <p>Clientes</p>
+        <h3>{{ stats.clientes }}</h3>
+        <span class="trend up"><i class="pi pi-user-plus"></i> Registrados</span>
       </div>
-    </main>
+    </div>
   </div>
+
+  <div class="content-grid">
+
+    <div class="card-panel table-section">
+      <div class="panel-header">
+        <h3>Últimas Órdenes</h3>
+        <a routerLink="/admin/ordenes" class="link">Ver todas</a>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders">
+              <td>{{ order.id }}</td>
+              <td>{{ order.cliente }}</td>
+              <td>{{ order.fechaTexto }}</td>
+              <td>{{ order.total | currency:'USD' }}</td>
+              <td><span class="status" [ngClass]="estadoClassFrom(order.estado)">{{ order.estado }}</span></td>
+            </tr>
+            <tr *ngIf="!orders || orders.length === 0">
+                <td colspan="5" style="text-align: center; color: #aaa;">No hay órdenes recientes para mostrar.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-panel activity-section">
+      <div class="panel-header"><h3>Actividad Reciente</h3></div>
+      <ul class="activity-list">
+        <li *ngFor="let act of activity">
+          <div class="dot" [ngClass]="act.dotClass"></div>
+          <div>
+            <p><strong>{{ act.titulo }}</strong></p>
+            <small>{{ act.hace }}</small>
+          </div>
+        </li>
+      </ul>
+      <p *ngIf="!activity || activity.length === 0" style="text-align: center; color: #aaa; font-size: 0.9rem;">No hay actividad reciente.</p>
+    </div>
+
+  </div>
+
+  <div class="content-grid" style="margin-top:1.5rem;">
+    <div class="card-panel">
+      <div class="panel-header"><h3>Accesos Rápidos</h3></div>
+      <div class="quick-actions">
+        <button routerLink="/admin/productos" class="action-btn"><i class="pi pi-plus"></i> Nuevo Producto</button>
+        <button routerLink="/admin/ordenes" class="action-btn"><i class="pi pi-list"></i> Ver Pedidos</button>
+      </div>
+    </div>
+  </div>
+
 </div>

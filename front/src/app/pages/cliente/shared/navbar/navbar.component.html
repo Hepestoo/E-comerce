@@ -1,25 +1,64 @@
-<nav class="navbar"> 
+<nav class="navbar">
+  <!-- Logo -->
   <div class="logo">
     <span>Arte</span><strong>mania</strong>
   </div>
 
+  <!-- Enlaces de Navegación -->
   <ul class="nav-links">
-    <li><a routerLink="/home" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="activo">Inicio</a></li>
+    <li><a routerLink="/home" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">Inicio</a></li>
     <li><a routerLink="/catalogo" routerLinkActive="activo">Catálogo</a></li>
     <li><a routerLink="/contacto" routerLinkActive="activo">Contáctanos</a></li>
     <li><a routerLink="/nosotros" routerLinkActive="activo">Sobre Nosotros</a></li>
   </ul>
 
+  <!-- Acciones (Carrito y Usuario) -->
   <div class="nav-actions">
-    <button class="btn-icon" routerLink="/carrito">
+    
+    <!-- Carrito -->
+    <button class="btn-icon cart-btn" routerLink="/carrito" title="Ver carrito">
       <i class="pi pi-shopping-cart"></i>
       <span *ngIf="totalCarrito > 0" class="carrito-contador">{{ totalCarrito }}</span>
     </button>
-    <button class="btn-icon" routerLink="/login" *ngIf="!auth.isAuthenticated()" title="Iniciar sesión">
-      <i class="pi pi-user"></i>
-    </button>
-    <button class="btn-icon" *ngIf="auth.isAuthenticated()" (click)="logout()" title="Cerrar sesión">
-      <i class="pi pi-sign-out"></i>
-    </button>
+
+    <!-- ESTADO: NO LOGUEADO (Botón bonito) -->
+    <ng-container *ngIf="!auth.isAuthenticated()">
+      <a routerLink="/login" class="btn-login">
+        Iniciar Sesión
+      </a>
+    </ng-container>
+
+    <!-- ESTADO: LOGUEADO (Icono con Dropdown) -->
+    <ng-container *ngIf="auth.isAuthenticated()">
+      <div class="user-dropdown" (click)="toggleMenu()" (clickOutside)="closeMenu()">
+        
+        <!-- Avatar / Icono Usuario -->
+        <div class="user-avatar">
+          <i class="pi pi-user"></i>
+        </div>
+        
+        <!-- Flechita pequeña -->
+        <i class="pi pi-chevron-down arrow-icon" [class.rotated]="menuAbierto"></i>
+
+        <!-- Menú Desplegable -->
+        <div class="dropdown-menu" *ngIf="menuAbierto">
+          <!-- Opcional: Nombre del usuario o Admin -->
+          <div class="dropdown-header" *ngIf="auth.isAdmin()">
+            <span>Administrador</span>
+          </div>
+          
+          <a routerLink="/admin" *ngIf="auth.isAdmin()" class="dropdown-item">
+            <i class="pi pi-cog"></i> Panel Admin
+          </a>
+          
+          <!-- Botón Cerrar Sesión -->
+          <button (click)="logout()" class="dropdown-item logout">
+            <i class="pi pi-sign-out"></i> Cerrar Sesión
+          </button>
+        </div>
+
+      </div>
+    </ng-container>
+
   </div>
 </nav>

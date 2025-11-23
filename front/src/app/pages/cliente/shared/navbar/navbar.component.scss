@@ -1,111 +1,241 @@
+$primary: #7951a8; // Tu color morado
+$primary-hover: #5a3a7d;
+$text-color: #4a4a4a;
+$bg-white: #ffffff;
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  /* CAMBIO: Fondo blanco es más nítido y moderno que #F2F2F2 */
-  background: #FFFFFF;
-  /* CAMBIO: Sombra más suave para un efecto "flotante" */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: 'Quicksand', sans-serif;
+  padding: 0.8rem 2rem;
+  background: $bg-white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); // Sombra más suave
+  font-family: 'Poppins', sans-serif;
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 70px; /* Alto fijo para consistencia */
+  height: 70px;
 }
 
 .logo {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: bold;
-}
-
-/* NUEVO: Estilo del logo movido de HTML a CSS */
-.logo span {
-  color: fuchsia;
+  cursor: pointer;
+  
+  span { color: $primary; }
+  strong { color: $text-color; }
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 2.5rem; /* Un poco más de espacio */
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+
+  li a {
+    text-decoration: none;
+    color: $text-color;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    transition: color 0.3s ease;
+
+    // Efecto subrayado animado
+    &::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: $primary;
+      transition: width 0.3s ease;
+    }
+
+    &:hover, &.activo {
+      color: $primary;
+      &::after { width: 100%; }
+    }
+  }
 }
 
-.nav-links li a {
-  text-decoration: none;
-  /* CAMBIO: Un gris oscuro es más legible y moderno que el marrón (#604730) */
-  color: #4a4a4a; 
-  font-weight: 600;
-  position: relative; /* Necesario para el efecto ::after */
-  padding-bottom: 0.5rem; /* Espacio para la línea */
-  transition: color 0.3s ease;
-}
-
-/* CAMBIO: Efecto de hover moderno */
-.nav-links li a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 3px;
-  background: fuchsia;
-  transition: width 0.3s ease;
-}
-
-.nav-links li a:hover {
-  color: #000;
-}
-
-.nav-links li a:hover::after {
-  width: 100%;
-}
-
-/* CAMBIO: El "activo" ahora es más limpio */
-.nav-links li a.activo {
-  color: fuchsia;
-  font-weight: 700;
-}
-
-/* Ya no necesitamos la clase .activo con borde */
-
+/* --- ACCIONES DEL NAVBAR --- */
 .nav-actions {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-/* (Tu CSS para .btn-light y .btn-primary fue eliminado 
-   ya que no se usa en tu HTML, limpiando el código) */
-
-
+/* Botón Carrito */
 .btn-icon {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.5rem; /* Un poco más grande */
-  color: #4a4a4a;
-  margin-left: 1rem;
+  font-size: 1.4rem;
+  color: $text-color;
   position: relative;
-  transition: all 0.2s ease;
-  padding: 0.5rem;
-  border-radius: 50%;
-}
+  transition: color 0.2s;
+  padding: 5px;
 
-.btn-icon:hover {
-  color: fuchsia;
-  /* CAMBIO: Un fondo sutil al pasar el mouse */
-  background: #f5f0f8; 
+  &:hover { color: $primary; }
 }
 
 .carrito-contador {
   position: absolute;
-  top: -2px;  /* Ajustado */
-  right: -2px; /* Ajustado */
-  /* CAMBIO: De 'red' a 'fuchsia' para que coincida con la marca */
-  background: fuchsia; 
+  top: -2px;
+  right: -4px;
+  background: $primary;
   color: white;
-  font-size: 0.75rem;
-  font-weight: bold;
-  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 5px;
   border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  min-width: 16px;
+  text-align: center;
+  border: 2px solid white; // Borde blanco para separar del icono
+}
+
+/* BOTÓN INICIAR SESIÓN (Cuando no está logueado) */
+.btn-login {
+  background-color: $primary;
+  color: white;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px; // Forma de píldora
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(121, 81, 155, 0.2);
+
+  &:hover {
+    background-color: $primary-hover;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(121, 81, 155, 0.3);
+  }
+}
+
+/* --- DROPDOWN DE USUARIO (Cuando está logueado) --- */
+.user-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  position: relative; // Para posicionar el menú absoluto
+  padding: 5px;
+  border-radius: 50px;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #f5f0f8; // Fondo sutil al pasar mouse
+  }
+}
+
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  background-color: #eee; // Gris clarito o color suave
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $primary;
+  border: 1px solid #e0e0e0;
+  
+  i { font-size: 1.1rem; }
+}
+
+.arrow-icon {
+  font-size: 0.8rem;
+  color: #888;
+  transition: transform 0.3s ease;
+
+  &.rotated {
+    transform: rotate(180deg); // Girar flecha si menú abierto
+  }
+}
+
+/* MENÚ FLOTANTE */
+.dropdown-menu {
+  position: absolute;
+  top: 120%; // Justo debajo del avatar
+  right: 0;
+  background: white;
+  min-width: 180px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 0.5rem;
+  animation: fadeIn 0.2s ease-out;
+  border: 1px solid #f0f0f0;
+  z-index: 1001;
+
+  /* Triangulito decorativo arriba */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 15px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    transform: rotate(45deg);
+    border-left: 1px solid #f0f0f0;
+    border-top: 1px solid #f0f0f0;
+  }
+}
+
+.dropdown-header {
+  padding: 0.8rem 1rem;
+  font-size: 0.85rem;
+  color: #999;
+  font-weight: 600;
+  border-bottom: 1px solid #f5f5f5;
+  margin-bottom: 0.5rem;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  color: $text-color;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background 0.2s;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+
+  i { font-size: 1rem; color: #888; }
+
+  &:hover {
+    background-color: #f5f0f8;
+    color: $primary;
+    
+    i { color: $primary; }
+  }
+
+  &.logout {
+    color: #d32f2f; // Rojo suave para salir
+    &:hover {
+      background-color: #ffebee;
+      color: #b71c1c;
+      i { color: #b71c1c; }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsivo básico: Ocultar links en móvil */
+@media (max-width: 768px) {
+  .nav-links { display: none; } 
+  /* Aquí podrías agregar un botón de menú hamburguesa si quisieras */
 }

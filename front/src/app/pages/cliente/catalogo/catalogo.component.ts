@@ -1,189 +1,170 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import Swal from 'sweetalert2';
-import { Producto, ProductoService } from '../../../services/producto.service';
-import { SubcategoriaService } from '../../../services/subcategorias.service';
+import { RouterModule, ActivatedRoute } from '@angular/router';
+import { ProductoService, Producto } from '../../../services/producto.service';
+import { SubcategoriaService, Subcategoria } from '../../../services/subcategorias.service';
 import { CarritoService } from '../../../services/carrito.service';
 import { environment } from '../../../../environments/environments';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './catalogo.component.html',
-  styleUrls: ['./catalogo.component.scss'],
+  styleUrls: ['./catalogo.component.scss']
 })
 export class CatalogoComponent implements OnInit {
-  subcategorias: any[] = [];
   productos: Producto[] = [];
-  productosOriginal: Producto[] = [];
-  cantidades: { [id: number]: number } = {};
+  productosOriginales: Producto[] = [];
+  productosPaginados: Producto[] = [];
+  
+  subcategorias: Subcategoria[] = [];
   subcategoriaSeleccionada: number | null = null;
-  public apiUrl = environment.apiUrl;
-
-  // Paginación
+  
+  terminoBusqueda: string = '';
+  cantidades: { [key: number]: number } = {};
+  
   paginaActual: number = 1;
-  productosPorPagina: number = 16;
+  elementosPorPagina: number = 12;
   paginas: number[] = [];
+
+  apiUrl = environment.apiUrl;
 
   constructor(
     private productoService: ProductoService,
     private subcategoriaService: SubcategoriaService,
     private carritoService: CarritoService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    // 1. Cargar subcategorías (usa el servicio ya corregido)
-    this.subcategoriaService.listar().subscribe((res) => {
-      this.subcategorias = res;
+    this.cargarDatos();
+  }
 
-      // 2. Verificar si hay query param "sub" y cargar productos
+  cargarDatos() {
+    this.subcategoriaService.listar().subscribe(subs => {
+      this.subcategorias = subs;
+    });
+
+    this.productoService.listar().subscribe(prods => {
+      this.productosOriginales = prods;
+      this.productos = prods;
+      
+      this.productos.forEach(p => this.cantidades[p.id] = 1);
+
       this.route.queryParams.subscribe(params => {
-        const subId = parseInt(params['sub'], 10);
-
-        if (subId && this.subcategorias.some(sc => sc.id === subId)) {
-          this.seleccionarSubcategoria(subId);
-        } else if (this.subcategorias.length > 0) {
-          this.seleccionarSubcategoria(this.subcategorias[0].id);
+        if (params['sub']) {
+          this.seleccionarSubcategoria(+params['sub']);
+        } else {
+          this.actualizarPaginacion();
         }
       });
     });
-
-    this.generarSessionIdSiNoExiste();
   }
 
-  generarSessionIdSiNoExiste() {
-    const id = localStorage.getItem('session_id');
-    if (!id) {
-      const nuevoId = crypto.randomUUID();
-      localStorage.setItem('session_id', nuevoId);
-    }
-  }
-
-  seleccionarSubcategoria(id: number) {
-    this.subcategoriaSeleccionada = id;
+  buscarProducto() {
+    const termino = this.terminoBusqueda.toLowerCase();
+    this.productos = this.productosOriginales.filter(p => 
+      p.nombre.toLowerCase().includes(termino) || 
+      p.descripcion.toLowerCase().includes(termino)
+    );
     this.paginaActual = 1;
-
-    // (usa el servicio ya corregido)
-    this.productoService.obtenerPorSubcategoria(id).subscribe((res) => {
-      this.productosOriginal = res;
-      this.productos = [...res];
-      this.generarPaginas();
-
-      // Actualizar URL con query param
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { sub: id },
-        queryParamsHandling: 'merge'
-      });
-    });
+    this.actualizarPaginacion();
   }
 
-  agregarAlCarrito(producto: Producto) {
-    const cantidad = this.cantidades[producto.id] || 1;
-  
-    if (cantidad > producto.stock) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Cantidad no válida',
-        text: 'La cantidad supera el stock disponible.',
-      });
-      return;
+  seleccionarSubcategoria(id: number | null) {
+    this.subcategoriaSeleccionada = id;
+    this.terminoBusqueda = '';
+
+    if (id === null) {
+      this.productos = [...this.productosOriginales];
+    } else {
+      this.productos = this.productosOriginales.filter(p => p.subcategoria?.id === id);
     }
-  
-    Swal.fire({
-      title: `¿Agregar ${producto.nombre} al carrito?`,
-      text: `Cantidad: ${cantidad}`,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, agregar',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const session_id = localStorage.getItem('session_id')!;
-  
-        // (usa el servicio ya corregido)
-        this.carritoService.agregarProducto(producto.id, cantidad, session_id).subscribe({
-          next: () => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Producto agregado',
-              text: `${producto.nombre} fue añadido correctamente al carrito.`,
-              showConfirmButton: false,
-              timer: 1600
-            });
-            this.cantidades[producto.id] = 1;
-            this.carritoService.refrescarCantidad();
-          },
-          error: () => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Ocurrió un error al agregar el producto al carrito.',
-            });
-          }
-        });
-      }
-    });
+    
+    this.paginaActual = 1;
+    this.actualizarPaginacion();
   }
-  
-  
 
-  // Paginación
-  generarPaginas() {
-    const totalPaginas = Math.ceil(this.productos.length / this.productosPorPagina);
+  filtrarPorPrecio(min: number, max: number) {
+    let base = this.productosOriginales;
+    
+    if (this.subcategoriaSeleccionada !== null) {
+      base = base.filter(p => p.subcategoria?.id === this.subcategoriaSeleccionada);
+    }
+
+    this.productos = base.filter(p => {
+      const precio = parseFloat(p.precio.toString());
+      return precio >= min && precio <= max;
+    });
+
+    this.paginaActual = 1;
+    this.actualizarPaginacion();
+  }
+
+  actualizarPaginacion() {
+    const totalPaginas = Math.ceil(this.productos.length / this.elementosPorPagina);
     this.paginas = Array.from({ length: totalPaginas }, (_, i) => i + 1);
-  }
-
-  get productosPaginados(): Producto[] {
-    const inicio = (this.paginaActual - 1) * this.productosPorPagina;
-    const fin = inicio + this.productosPorPagina;
-    return this.productos.slice(inicio, fin);
-  }
-
-  paginaSiguiente() {
-    if (this.paginaActual < this.paginas.length) {
-      this.paginaActual++;
-    }
-  }
-
-  paginaAnterior() {
-    if (this.paginaActual > 1) {
-      this.paginaActual--;
-    }
+    
+    const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
+    const fin = inicio + this.elementosPorPagina;
+    this.productosPaginados = this.productos.slice(inicio, fin);
   }
 
   irAPagina(pagina: number) {
     this.paginaActual = pagina;
+    this.actualizarPaginacion();
+    window.scrollTo(0, 0);
   }
 
-  // Filtro por precio
-  filtrarPorPrecio(min: number, max: number) {
-    this.productos = this.productosOriginal.filter(
-      (p) => p.precio >= min && p.precio <= max
-    );
-    this.paginaActual = 1;
-    this.generarPaginas();
+  paginaAnterior() {
+    if (this.paginaActual > 1) {
+      this.irAPagina(this.paginaActual - 1);
+    }
   }
 
-  terminoBusqueda: string = '';
-
-buscarProducto() {
-  const termino = this.terminoBusqueda.trim().toLowerCase();
-
-  if (termino === '') {
-    this.productos = [...this.productosOriginal];
-  } else {
-    this.productos = this.productosOriginal.filter(producto =>
-      producto.nombre.toLowerCase().includes(termino)
-    );
+  paginaSiguiente() {
+    if (this.paginaActual < this.paginas.length) {
+      this.irAPagina(this.paginaActual + 1);
+    }
   }
 
-  this.paginaActual = 1;
-  this.generarPaginas();
-}
+  agregarAlCarrito(producto: Producto) {
+    const cantidad = this.cantidades[producto.id] || 1;
+    
+    if (cantidad > producto.stock) {
+      Swal.fire('Error', `Solo hay ${producto.stock} unidades disponibles`, 'error');
+      return;
+    }
+
+    let sessionId = localStorage.getItem('session_id');
+    if (!sessionId) {
+      sessionId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+      localStorage.setItem('session_id', sessionId);
+    }
+
+    // CORRECCIÓN: Enviamos producto.id en lugar del objeto producto completo
+    // TypeScript se quejaba porque esperaba un number y recibía un objeto Producto
+    this.carritoService.agregarProducto(producto.id, cantidad, sessionId).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Agregado',
+          text: `${producto.nombre} se añadió al carrito`,
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          background: '#fff',
+          iconColor: '#7951a8'
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'No se pudo agregar al carrito', 'error');
+      }
+    });
+  }
 }

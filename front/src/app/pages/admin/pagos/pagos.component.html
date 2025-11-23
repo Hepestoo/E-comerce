@@ -1,49 +1,109 @@
-<section class="gestion-pagos">
-  <h2>Pagos</h2>
-
-  <div class="lista-header">
-    <div class="col-id">ID Pago</div>
-    <div class="col-orden">ID Orden</div>
-    <div class="col-metodo">Método</div>
-    <div class="col-monto">Monto</div>
-    <div class="col-fecha">Fecha</div>
+<div class="admin-page">
+  
+  <div class="page-header">
+    <div>
+      <h2>Gestión de Pagos</h2>
+      <p>Monitorea las transacciones y el flujo de caja</p>
+    </div>
+    
+    <!-- Botón para descargar reporte general (opcional para el futuro) -->
+    <!-- <button class="btn-report">
+      <i class="pi pi-download"></i> Reporte General
+    </button> -->
   </div>
 
-  <div class="lista-items">
-    <div class="pago-item" *ngFor="let pago of pagos">
-      
-      <div class="info-id">
-        <span class="label-movil">ID Pago:</span>
-        <strong>#{{ pago.id }}</strong>
-      </div>
-      
-      <div class="info-orden">
-        <span class="label-movil">ID Orden:</span>
-        <span>#{{ pago.orden_id }}</span>
-      </div>
-
-      <div class="info-metodo">
-        <span class="label-movil">Método:</span>
-        <span class="metodo-badge">
-          <i class="pi pi-credit-card"></i>
-          {{ pago.metodo?.nombre || pago.metodo_pago_id }}
-        </span>
-      </div>
-      
-      <div class="info-monto">
-        <span class="label-movil">Monto:</span>
-        <span class="monto-badge">{{ pago.monto | currency }}</span>
-      </div>
-      
-      <div class="info-fecha">
-        <span class="label-movil">Fecha:</span>
-        <span>{{ pago.fecha_pago | date: 'short' }}</span>
+  <!-- TARJETAS DE RESUMEN (Simuladas o calculadas) -->
+  <div class="stats-cards">
+    <div class="stat-card income">
+      <div class="icon"><i class="pi pi-dollar"></i></div>
+      <div class="info">
+        <span>Total Recaudado</span>
+        <h3>{{ calcularTotalRecaudado() | currency }}</h3>
       </div>
     </div>
-
-    <div *ngIf="pagos.length === 0" class="item-vacio">
-      <p>No hay pagos registrados para mostrar.</p>
+    
+    <div class="stat-card count">
+      <div class="icon"><i class="pi pi-receipt"></i></div>
+      <div class="info">
+        <span>Transacciones</span>
+        <h3>{{ pagos.length }}</h3>
+      </div>
     </div>
   </div>
 
-</section>
+  <!-- LISTA DE PAGOS -->
+  <div class="list-container">
+    <div class="list-header">
+      <h3>Historial de Transacciones</h3>
+      <div class="search-box">
+        <i class="pi pi-search"></i>
+        <input type="text" placeholder="Buscar por ID o Monto..." (input)="filtrar($event)">
+      </div>
+    </div>
+
+    <div class="payments-list" *ngIf="pagosFiltrados.length > 0; else emptyState">
+      
+      <!-- Encabezado visual de columnas (solo desktop) -->
+      <div class="list-titles">
+        <span class="col-id">ID Pago</span>
+        <span class="col-order">Orden</span>
+        <span class="col-method">Método</span>
+        <span class="col-amount">Monto</span>
+        <span class="col-date">Fecha</span>
+        <span class="col-status">Estado</span>
+      </div>
+
+      <!-- Items -->
+      <div class="payment-row" *ngFor="let pago of pagosFiltrados">
+        
+        <div class="col-id">
+          <span class="mobile-label">ID:</span>
+          <strong>#{{ pago.id }}</strong>
+        </div>
+
+        <div class="col-order">
+          <span class="mobile-label">Orden:</span>
+          <span class="order-badge">#{{ pago.orden_id }}</span>
+        </div>
+
+        <div class="col-method">
+          <span class="mobile-label">Método:</span>
+          <div class="method-pill">
+            <i class="pi" [ngClass]="getIconoMetodo(pago.metodo?.nombre)"></i>
+            {{ pago.metodo?.nombre || 'Desconocido' }}
+          </div>
+        </div>
+
+        <div class="col-amount">
+          <span class="mobile-label">Monto:</span>
+          <strong class="amount">{{ pago.monto | currency }}</strong>
+        </div>
+
+        <div class="col-date">
+          <span class="mobile-label">Fecha:</span>
+          {{ pago.fecha_pago | date:'mediumDate' }}
+          <small>{{ pago.fecha_pago | date:'shortTime' }}</small>
+        </div>
+
+        <div class="col-status">
+          <span class="status-badge completed">
+            <i class="pi pi-check-circle"></i> Completado
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Estado Vacío -->
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="icon-circle"><i class="pi pi-wallet"></i></div>
+        <h3>No hay pagos registrados</h3>
+        <p>Las transacciones aparecerán aquí cuando tus clientes compren.</p>
+      </div>
+    </ng-template>
+
+  </div>
+
+</div>

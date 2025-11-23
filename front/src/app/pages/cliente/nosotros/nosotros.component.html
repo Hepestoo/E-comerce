@@ -1,100 +1,112 @@
-<section class="banner-nosotros">
-  <h1>Conozcámonos más</h1>
-  <a class="flecha-abajo" (click)="irASeccion()">
-    <i class="pi pi-angle-down"></i>
-  </a>
-</section>
-
-<section id="quienes-somos" class="quienes-somos">
-  <div class="texto">
-    <h2>¿Quiénes somos?</h2>
-    <div class="linea"></div>
-    <p>
-      Somos una tienda especializada en manualidades, que ofrece talleres y productos para fomentar la creatividad y el emprendimiento local.
-    </p>
-  </div>
-  <div class="imagen-quienes"></div>
-</section>
- 
-<section class="mision-vision">
-  <h2>Nuestros Pilares</h2>
-  <div class="contenido-mv">
-    <div class="bloque">
-      <h3><i class="pi pi-compass"></i> Misión</h3>
-      <p>Fomentar el arte y la creatividad ofreciendo productos de calidad y espacios para el aprendizaje.</p>
+<div class="nosotros-page">
+  
+  <!-- BANNER HERO -->
+  <section class="nosotros-header">
+    <div class="overlay"></div>
+    <div class="header-content">
+      <h1>Conócenos</h1>
+      <p>Pasión por el arte, compromiso con la calidad.</p>
+      <button class="btn-scroll" (click)="scrollToContent()">
+        <i class="pi pi-arrow-down"></i>
+      </button>
     </div>
-    <div class="bloque">
-      <h3><i class="pi pi-eye"></i> Visión</h3>
-      <p>Ser la tienda líder en manualidades en Ecuador, apoyando a artesanos y creativos en su camino.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="compromiso">
-  <img src="https://images.pexels.com/photos/4480218/pexels-photo-4480218.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Compromiso Artemania">
-  <div class="texto-compromiso">
-    <h3>Nuestro compromiso</h3>
-    <div class="linea"></div>
-    <p>Nos comprometemos a ofrecer atención personalizada, productos innovadores y una comunidad donde el arte florezca.</p>
-  </div>
-</section>
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="content-wrapper" #contentStart>
+    
+    <!-- QUIÉNES SOMOS (Imagen Izquierda - Texto Derecha) -->
+    <section class="content-block">
+      <div class="image-side">
+        <img src="https://images.pexels.com/photos/7054382/pexels-photo-7054382.jpeg?auto=compress&cs=tinysrgb&w=1260" alt="Equipo Artemania">
+        <div class="decoration-box"></div>
+      </div>
+      <div class="text-side">
+        <span class="subtitle">Nuestra Historia</span>
+        <h2>¿Quiénes somos?</h2>
+        <p>
+          Somos una tienda especializada en manualidades, nacida del amor por crear. Ofrecemos talleres y productos seleccionados para fomentar la creatividad y el emprendimiento local en Ecuador.
+        </p>
+        <p>
+          Más que una tienda, somos un espacio donde tus ideas encuentran las herramientas para hacerse realidad.
+        </p>
+      </div>
+    </section>
 
-<section class="diferencias">
-  <div class="encabezado">
-    <h2>Lo que diferencia a Artemania</h2>
+    <!-- MISIÓN Y VISIÓN (Tarjetas Flotantes) -->
+    <section class="pillars-section">
+      <div class="pillar-card">
+        <div class="icon-circle"><i class="pi pi-compass"></i></div>
+        <h3>Misión</h3>
+        <p>Fomentar el arte y la creatividad ofreciendo productos de calidad y espacios para el aprendizaje continuo.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="icon-circle"><i class="pi pi-eye"></i></div>
+        <h3>Visión</h3>
+        <p>Ser la tienda líder en manualidades en Ecuador, apoyando a artesanos y creativos en su camino al éxito.</p>
+      </div>
+    </section>
+
+    <!-- COMPROMISO (Texto Izquierda - Imagen Derecha) -->
+    <section class="content-block reverse">
+      <div class="image-side">
+        <img src="https://images.pexels.com/photos/4480218/pexels-photo-4480218.jpeg?auto=compress&cs=tinysrgb&w=1260" alt="Compromiso">
+        <div class="decoration-box alt"></div>
+      </div>
+      <div class="text-side">
+        <span class="subtitle">Nuestros Valores</span>
+        <h2>Nuestro Compromiso</h2>
+        <p>
+          Nos comprometemos a ofrecer atención personalizada, productos innovadores y una comunidad donde el arte florezca.
+        </p>
+        <ul class="check-list">
+          <li><i class="pi pi-check"></i> Calidad garantizada</li>
+          <li><i class="pi pi-check"></i> Asesoría experta</li>
+          <li><i class="pi pi-check"></i> Pasión por el detalle</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- DIFERENCIADORES (Grid Limpio) -->
+    <section class="features-section">
+      <div class="section-title">
+        <h2>¿Por qué Artemania?</h2>
+        <p>Lo que nos hace únicos en el mercado</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <i class="pi pi-star"></i>
+          <h4>Calidad Premium</h4>
+          <p>Productos seleccionados por artistas para artistas.</p>
+        </div>
+        <div class="feature-item">
+          <i class="pi pi-heart"></i>
+          <h4>Atención Personal</h4>
+          <p>Te escuchamos y asesoramos en cada proyecto.</p>
+        </div>
+        <div class="feature-item">
+          <i class="pi pi-users"></i>
+          <h4>Comunidad</h4>
+          <p>Apoyamos el talento y emprendimiento local.</p>
+        </div>
+        <div class="feature-item">
+          <i class="pi pi-bolt"></i>
+          <h4>Innovación</h4>
+          <p>Siempre trayendo las últimas tendencias.</p>
+        </div>
+      </div>
+    </section>
+
   </div>
 
-  <div class="diferencia fila sube">
-    <img src="https://images.pexels.com/photos/5285730/pexels-photo-5285730.jpeg" alt="Producto calidad">
-    <div class="texto">
-      <h3>Calidad y Variedad</h3>
-      <p>Ofrecemos variedad y calidad en cada producto, acompañados de asesoría experta.</p>
+  <!-- CTA FINAL -->
+  <section class="cta-footer">
+    <div class="cta-content">
+      <h2>Únete a nuestra comunidad creativa</h2>
+      <p>Encuentra todo lo que necesitas para empezar hoy mismo.</p>
+      <button routerLink="/catalogo" class="btn-cta">Ver Catálogo</button>
     </div>
-  </div>
+  </section>
 
-  <div class="diferencia fila reverso">
-    <img src="https://images.pexels.com/photos/7701383/pexels-photo-7701383.jpeg" alt="Atención cliente">
-    <div class="texto">
-      <h3>Atención Personalizada</h3>
-      <p>Conectamos con nuestros clientes para entender sus necesidades y brindar soluciones creativas.</p>
-    </div>
-  </div>
-
-  <div class="diferencia fila">
-    <img src="https://images.pexels.com/photos/19156568/pexels-photo-19156568/free-photo-of-arte-creativo-colorido-de-colores.jpeg" alt="Apoyo local">
-    <div class="texto">
-      <h3>Apoyo al Emprendedor</h3>
-      <p>Apoyamos al talento ecuatoriano y a los pequeños emprendedores con espacios de aprendizaje.</p>
-    </div>
-  </div>
-
-  <div class="diferencia fila reverso">
-    <img src="https://images.pexels.com/photos/1670045/pexels-photo-1670045.jpeg" alt="Innovación">
-    <div class="texto">
-      <h3>Innovación Constante</h3>
-      <p>Buscamos activamente las últimas tendencias y materiales para que tu creatividad no tenga límites.</p>
-    </div>
-  </div>
-</section>
-
-<section class="banner-final">
-  <h2>Únete a nuestra comunidad creativa</h2>
-
-  <div class="beneficios">
-    <div class="beneficio">
-      <i class="pi pi-send"></i>
-      <h3>Envíos rápidos y seguros</h3>
-      <p>Ofrecemos una amplia gama de productos que llegan a tiempo para tus proyectos creativos.</p>
-    </div>
-    <div class="beneficio">
-      <i class="pi pi-star-fill"></i>
-      <h3>Productos de buena calidad</h3>
-      <p>Todos nuestros artículos están seleccionados y probados para garantizar su durabilidad.</p>
-    </div>
-    <div class="beneficio">
-      <i class="pi pi-globe"></i>
-      <h3>Hecho en Ecuador</h3>
-      <p>Apoyamos lo local y fomentamos la creatividad nacional con materiales únicos.</p>
-    </div>
-  </div>
-</section>
+</div>

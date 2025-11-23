@@ -1,171 +1,171 @@
-<!-- Hero -->
-<section class="hero">
-  <div class="texto">
-    <h1>Bienvenidos a <br><span>ARTEMANIA!</span></h1>
-    <h2>Manualidades, cursos, talleres y más...</h2>
-    <button [routerLink]="'/catalogo'">
-      <i class="pi pi-arrow-right" style="margin-right: 0.5rem;"></i>
-      Ver productos
-    </button>
-  </div>
-  
-  <div class="hero-images">
-  <div class="center-circle"></div>
-  
-  <img src="https://images.pexels.com/photos/1616403/pexels-photo-1616403.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Pintura" class="circle-image circle-1">
-  <img src="https://images.pexels.com/photos/301703/pexels-photo-301703.jpeg" alt="Resina" class="circle-image circle-2">
-  <img src="https://images.pexels.com/photos/1084606/pexels-photo-1084606.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Cerámica" class="circle-image circle-3">
-  <img src="https://images.pexels.com/photos/8148644/pexels-photo-8148644.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Velas" class="circle-image circle-4">
-  <img src="https://images.pexels.com/photos/1020054/pexels-photo-1020054.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Bisutería" class="circle-image circle-5">
-  <img src="https://images.pexels.com/photos/3654772/pexels-photo-3654772.jpeg" alt="Tejido" class="circle-image circle-6">
-  <img src="https://images.pexels.com/photos/4241300/pexels-photo-4241300.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Costura" class="circle-image circle-7">
-  <img src="https://images.pexels.com/photos/669986/pexels-photo-669986.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1" alt="Papelería" class="circle-image circle-8">
-</div>
-</section>
-
-<!-- Oferta -->
-<section class="oferta">
-  <p><strong>¡Invierte en tu creatividad!</strong> Aprende, crea y paga cómodamente al finalizar tu curso.</p>
-</section>
-
-<!-- Carrusel cursos -->
-<section class="cursos">
-  <div class="header">
-    <h3>Cursos y talleres disponibles</h3>
-    <a routerLink="/catalogo">Ver más →</a>
-  </div>
-
-  <div class="carousel-wrapper" #carousel>
-    <div class="carousel-cursos">
-      <div class="curso" *ngFor="let curso of cursos">
-        <img [src]="apiUrl + '/uploads/productos/' + curso.imagen_url" alt="{{ curso.nombre }}">
-        <h4>{{ curso.nombre }}</h4>
-        <p>{{ curso.descripcion }}</p>
+<!-- HERO SECTION -->
+<section class="hero-section">
+  <div class="hero-content">
+    <div class="text-block">
+      <span class="badge">Creatividad sin límites</span>
+      <h1>Bienvenido a <br><span class="highlight">ARTEMANIA</span></h1>
+      <p>Descubre un mundo de manualidades, cursos y talleres diseñados para despertar tu artista interior.</p>
+      <div class="cta-buttons">
+        <button [routerLink]="'/catalogo'" class="btn-primary">
+          Ver Productos <i class="pi pi-arrow-right"></i>
+        </button>
+        <button [routerLink]="'/nosotros'" class="btn-outline">
+          Saber más
+        </button>
+      </div>
+    </div>
+    
+    <!-- Imagen Hero Principal (Más limpio que los círculos flotantes complejos) -->
+    <div class="hero-visual">
+      <div class="circle-bg"></div>
+      <img src="https://images.pexels.com/photos/1616403/pexels-photo-1616403.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Arte Hero" class="main-img">
+      <!-- Elementos flotantes decorativos simplificados -->
+      <div class="floating-card card-1">
+        <i class="pi pi-palette"></i> <span>Pintura</span>
+      </div>
+      <div class="floating-card card-2">
+        <i class="pi pi-star"></i> <span>Calidad</span>
       </div>
     </div>
   </div>
 </section>
 
-  
-  
-
-<!-- Categorías -->
-<section class="categorias-home" *ngIf="subcategorias && subcategorias.length">
-  <div class="categorias-titulo">
-    <h3>Explora nuestras categorías</h3>
-    <p>Selecciona una categoría para descubrir productos únicos</p>
+<!-- BANNER DE VALOR (Antes "Oferta") -->
+<section class="value-banner">
+  <div class="banner-content">
+    <i class="pi pi-bolt"></i>
+    <p><strong>¡Invierte en ti!</strong> Aprende, crea y emprende con nuestros cursos especializados.</p>
   </div>
-  
-  <div class="categorias-botones">
-    <button 
-      *ngFor="let sub of subcategorias" 
-      [routerLink]="['/catalogo']" 
-      [queryParams]="{ sub: sub.id }">
-      {{ sub.nombre }}
-    </button>
-  </div>
-</section> 
-  
+</section>
 
-<!-- Sección de Testimonios -->
-<section class="testimonios">
-  <h2>Clientes felices</h2>
-  <div class="testimonios-container">
-    <div class="testimonio">
-      <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="María A.">
-      <p class="comentario">“Tomé el taller de velas y fue increíble. ¡Gracias Artemania!”</p>
-      <p class="cliente">– María A.</p>
-    </div>
-    <div class="testimonio">
-      <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Carlos M.">
-      <p class="comentario">“Compré moldes y pigmentos. Todo llegó perfecto y muy rápido.”</p>
-      <p class="cliente">– Carlos M.</p>
-    </div>
-    <div class="testimonio">
-      <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Luisa G.">
-      <p class="comentario">“Volveré a inscribirme en otro taller, ¡la experiencia fue maravillosa!”</p>
-      <p class="cliente">– Luisa G.</p>
-    </div>
-    <!-- Testimonio 4 (Nuevo) -->
-    <div class="testimonio">
-      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Javier R.">
-      <p class="comentario">“El curso de resina es 10/10. Aprendí muchísimo y los materiales son de primera.”</p>
-      <p class="cliente">– Javier R.</p>
-    </div>
-    <!-- Testimonio 5 (Nuevo) -->
-    <div class="testimonio">
-      <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sofía E.">
-      <p class="comentario">“¡Me encanta la variedad! Siempre encuentro lo que necesito para mis proyectos de bisutería.”</p>
-      <p class="cliente">– Sofía E.</p>
-    </div>
-    <!-- Testimonio 6 (Nuevo) -->
-    <div class="testimonio">
-      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Mateo C.">
-      <p class="comentario">“Excelente atención al cliente. Me ayudaron a elegir la lana perfecta para mi tejido.”</p>
-      <p class="cliente">– Mateo C.</p>
+<!-- CURSOS DESTACADOS -->
+<section class="section-container courses-section">
+  <div class="section-header">
+    <h3>Cursos y Talleres</h3>
+    <a routerLink="/catalogo" class="link-view-all">Ver todos <i class="pi pi-arrow-right"></i></a>
+  </div>
+
+  <div class="carousel-container" #carousel>
+    <div class="carousel-track">
+      <!-- Tarjeta de Curso -->
+      <div class="course-card" *ngFor="let curso of cursos">
+        <div class="card-image">
+          <img [src]="apiUrl + '/uploads/productos/' + curso.imagen_url" [alt]="curso.nombre">
+          <span class="badge-category">Curso</span>
+        </div>
+        <div class="card-body">
+          <h4>{{ curso.nombre }}</h4>
+          <p>{{ curso.descripcion }}</p>
+          <button class="btn-card" [routerLink]="['/producto', curso.id]">Ver Detalle</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- CATEGORÍAS (Exploración Visual) -->
+<section class="section-container categories-section" *ngIf="subcategorias.length">
+  <div class="section-header centered">
+    <h3>Explora Categorías</h3>
+    <p>Encuentra exactamente lo que necesitas para tu próximo proyecto</p>
+  </div>
+  
+  <div class="categories-grid">
+    <a *ngFor="let sub of subcategorias" 
+       [routerLink]="['/catalogo']" 
+       [queryParams]="{ sub: sub.id }"
+       class="category-pill">
+       {{ sub.nombre }}
+    </a>
+  </div>
+</section>
 
-<!-- Sugerencias -->
-<!-- Sugerencias con mailto -->
-<section class="sugerencias">
-  <div class="sugerencias-content">
-    <!-- Texto izquierdo -->
-    <div class="sugerencias-texto">
-      <h3>Ayúdanos a mejorar!</h3>
-      <p>Cuéntanos tu experiencia y en qué podríamos mejorar</p>
+<!-- INSPIRACIÓN (Sección Visual Grande) -->
+<section class="inspiration-section">
+  <div class="inspire-overlay">
+    <h2>Transforma tus ideas en realidad</h2>
+    <p>Únete a nuestra comunidad de creadores apasionados.</p>
+    <button class="btn-white" routerLink="/register">Unirme Ahora</button>
+  </div>
+</section>
+
+<!-- TESTIMONIOS (Carrusel Automático) -->
+<section class="section-container testimonials-section">
+  <div class="section-header centered">
+    <h3>Clientes Felices</h3>
+  </div>
+
+  <div class="carousel-container" #carouselTestimonios>
+    <div class="carousel-track testimonials-track">
+      <!-- Testimonios Cards -->
+      <div class="testimonial-card">
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User">
+          <div>
+            <h5>María A.</h5>
+            <small>Taller de Velas</small>
+          </div>
+        </div>
+        <p>“Increíble experiencia, aprendí muchísimo y los materiales son top.”</p>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User">
+          <div>
+            <h5>Carlos M.</h5>
+            <small>Cliente Frecuente</small>
+          </div>
+        </div>
+        <p>“El envío fue rapidísimo y todo llegó en perfecto estado.”</p>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="User">
+          <div>
+            <h5>Luisa G.</h5>
+            <small>Curso de Resina</small>
+          </div>
+        </div>
+        <p>“Me encantó la atención personalizada. ¡Volveré pronto!”</p>
+      </div>
+
+      <!-- Más testimonios estáticos para llenar el carrusel visualmente -->
+      <div class="testimonial-card">
+        <div class="user-info">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+          <div>
+            <h5>Mateo C.</h5>
+            <small>Materiales</small>
+          </div>
+        </div>
+        <p>“Encontré todo lo que buscaba para mis proyectos de arte.”</p>
+      </div>
     </div>
-
-    <!-- Línea divisoria -->
-    <div class="linea-divisoria"></div>
-
-    <!-- Formulario derecho -->
-    <form 
-      class="sugerencias-form" 
-      action="mailto:adl.rivera@yavirac.edu.ec" 
-      method="POST" 
-      enctype="text/plain"
-    >
-      <textarea name="sugerencia" placeholder="Déjanos tu sugerencia..."></textarea>
-      <button type="submit">Enviar</button>
-    </form>
   </div>
 </section>
 
-
-
-<!-- Beneficios -->
-<section class="beneficios">
-  <div class="beneficio">
-    <i class="pi pi-check-circle"></i>
-    <h4>Envíos rápidos y seguros</h4>
-    <p>
-      Ofrecemos una amplia gama de productos que incluyen moldes para resina, bisutería, herramientas y materiales de manualidades, asegurando que encuentres todo lo que necesitas para tus proyectos creativos.
-    </p>
+<!-- BENEFICIOS (Iconos Limpios) -->
+<section class="features-grid">
+  <div class="feature">
+    <div class="icon-circle"><i class="pi pi-truck"></i></div>
+    <h4>Envíos Rápidos</h4>
+    <p>A todo el país, seguros y confiables.</p>
   </div>
-  <div class="beneficio">
-    <i class="pi pi-star"></i>
-    <h4>Productos de buena calidad</h4>
-    <p>
-      Nos comprometemos a ofrecer productos de la más alta calidad para garantizar la satisfacción del cliente. Cada artículo ha sido cuidadosamente seleccionado y probado para asegurar su durabilidad y rendimiento.
-    </p>
+  <div class="feature">
+    <div class="icon-circle"><i class="pi pi-star"></i></div>
+    <h4>Calidad Premium</h4>
+    <p>Materiales seleccionados por expertos.</p>
   </div>
-  <div class="beneficio">
-    <i class="pi pi-home"></i>
-    <h4>Envíos nacionales</h4>
-    <p>
-      Con nuestro servicio de envío a nivel nacional, puedes recibir tus productos de forma rápida y segura en la comodidad de tu hogar. Nos aseguramos de que tus compras lleguen a ti de manera eficiente para que puedas comenzar a crear sin demoras.
-    </p>
+  <div class="feature">
+    <div class="icon-circle"><i class="pi pi-wallet"></i></div>
+    <h4>Pagos Seguros</h4>
+    <p>Transacciones protegidas al 100%.</p>
   </div>
 </section>
 
-<a
-  href="https://wa.me/593987526383" 
-  target="_blank"
-  class="whatsapp-float"
-  aria-label="Chatea con nosotros en WhatsApp"
->
-  <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp">
+<!-- Whatsapp Float -->
+<a href="https://wa.me/593987526383" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+  <i class="pi pi-whatsapp"></i>
 </a>

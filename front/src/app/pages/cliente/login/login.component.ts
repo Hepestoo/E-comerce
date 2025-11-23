@@ -1,32 +1,31 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import Swal from 'sweetalert2';
-import { environment } from '../../../../environments/environments';
+import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  email = '';
-  password = '';
+  loginForm: FormGroup;
+  loading = false;
   error = '';
   mostrarPassword = false;
 
-  apiUrl = environment.apiUrl;
+  // Variables para ngModel
+  email = '';
+  password = '';
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
-    this.route.queryParams.subscribe(params => {
-      if (params['email']) {
-        this.email = params['email'];
-      }
-    }); 
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
 
   togglePasswordVisibility() {
@@ -34,37 +33,51 @@ export class LoginComponent {
   }
 
   login() {
+    // Sincronizamos los valores del HTML (ngModel) con el formulario reactivo
+    this.loginForm.patchValue({ 
+      email: this.email, 
+      password: this.password 
+    });
+
+    if (this.loginForm.invalid) {
+      this.error = 'Por favor ingresa un correo y contraseña válidos.';
+      return;
+    }
+
+    this.loading = true; 
     this.error = '';
 
-    this.http.post<{ access_token: string }>(`${this.apiUrl}/users/login`, {
-      email: this.email,
-      password: this.password
-    }).subscribe({
+    this.auth.login(this.loginForm.value).subscribe({
       next: (res) => {
+        // 1. Guardar Token
         localStorage.setItem('token', res.access_token);
+        
+        // 2. Decodificar el token para saber el ROL
+        try {
+          // El token JWT viene como "header.PAYLOAD.signature"
+          // Tomamos la parte del medio (1) y la decodificamos
+          const payload = JSON.parse(atob(res.access_token.split('.')[1]));
+          
+          // 3. Guardar datos importantes
+          localStorage.setItem('rol', payload.role);
+          localStorage.setItem('usuario_id', payload.sub);
 
-        const payload = JSON.parse(atob(res.access_token.split('.')[1]));
-        localStorage.setItem('rol', payload.role);
-        localStorage.setItem('usuario_id', payload.sub);
+          // 4. Redirección Inteligente
+          if (payload.role === 'admin') {
+            this.router.navigate(['/admin']); // Si es admin, al panel
+          } else {
+            this.router.navigate(['/home']);  // Si es cliente, al home
+          }
 
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          icon: 'success',
-          title: 'Inicio de sesión exitoso',
-          showConfirmButton: false,
-          timer: 2500
-        });
-
-        if (payload.role === 'admin') {
-          this.router.navigate(['/admin']);
-        } else {
+        } catch (e) {
+          console.error('Error al leer el token', e);
+          // Si algo falla al leer el rol, enviamos al home por seguridad
           this.router.navigate(['/home']);
         }
       },
-      error: () => {
-        this.error = 'Credenciales incorrectas';
-        Swal.fire('Error', 'Credenciales incorrectas', 'error');
+      error: (err) => {
+        this.loading = false;
+        this.error = 'Credenciales incorrectas o error de conexión';
       }
     });
   }

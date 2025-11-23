@@ -78,4 +78,8 @@ export class UsersService {
   async getProfile(userId: number): Promise<User> {
     return this.usersRepository.findOne({ where: { id: userId } });
   }
+
+  async updatePassword(userId: number, hashedPassword: string) {
+  await this.usersRepository.update({ id: userId }, { password: hashedPassword });
+  }
 }

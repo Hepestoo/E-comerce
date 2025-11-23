@@ -1,232 +1,209 @@
-/* ============ PÁGINA DE LOGIN ============ */
-.login-page {
-  height: 100vh;
-  background-image: url("https://images.pexels.com/photos/10876231/pexels-photo-10876231.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-  background-size: cover;
-  background-position: center;
-  /* CAMBIO: Usamos flex para un layout limpio */
+// VARIABLES (Mismas que en Login para consistencia)
+$primary: #7951a8;
+$primary-dark: #5a3a7d;
+$text-color: #333;
+$text-light: #666;
+$bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+$error-bg: #ffebee;
+$error-text: #c62828;
+
+.auth-container {
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: space-evenly; /* Espaciar la marca y la tarjeta */
-  flex-wrap: wrap; /* Para pantallas más pequeñas */
-  padding: 2rem;
-  position: relative;
+  justify-content: center;
+  padding: 1rem;
   font-family: 'Poppins', sans-serif;
-  box-sizing: border-box;
+  background: $bg-gradient;
 }
 
-/* CAMBIO: Overlay de marca, no negro */
-.login-page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(31, 9, 63, 0.9) 100%);
-}
-
-/* ============ MARCA (IZQUIERDA) ============ */
-.login-brand {
-  position: relative; /* CAMBIO: Quitado absolute */
-  z-index: 2;
-  text-align: left;
-  color: white;
-}
-
-.login-brand h1 {
-  font-family: 'Raleway', sans-serif;
-  font-size: 3.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 800;
-}
-
-.login-brand h1 span {
-  color: fuchsia; /* Esto está perfecto */
-}
-
-.login-brand p {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 300;
-  opacity: 0.9;
-}
-
-/* ============ TARJETA DE LOGIN (DERECHA) ============ */
-.login-card {
-  position: relative; /* CAMBIO: Quitado absolute */
-  /* CAMBIO: Fondo blanco unificado */
-  background-color: #ffffff;
-  padding: 2.5rem 3rem; /* CAMBIO: Padding ajustado */
-  border-radius: 16px; /* CAMBIO: Más redondeado */
+.auth-card {
+  background: white;
   width: 100%;
-  max-width: 420px;
-  /* CAMBIO: Sombra más sutil */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.6s ease-out;
+  max-width: 450px; /* Un poco más ancho para acomodar nombre/apellido */
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  position: relative;
   z-index: 10;
-  font-family: 'Poppins', sans-serif;
+  animation: slideUp 0.5s ease-out;
 }
 
-@keyframes fadeIn {
+@keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.login-card h2 {
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 700;
-  /* CAMBIO: Color de marca */
-  color: #5a3a7d;
+.auth-header {
   text-align: center;
+  margin-bottom: 2rem;
+
+  .logo span {
+    font-size: 2rem;
+    font-weight: 800;
+    color: $primary;
+    letter-spacing: -1px;
+  }
+
+  h2 {
+    margin: 0.5rem 0 0.2rem;
+    font-size: 1.5rem;
+    color: $primary-dark;
+  }
+
+  p {
+    color: $text-light;
+    font-size: 0.9rem;
+    margin: 0;
+  }
 }
 
-.login-card form {
+/* --- GRID PARA NOMBRE Y APELLIDO --- */
+.form-row {
   display: flex;
-  flex-direction: column;
+  gap: 1rem;
+  
+  .half {
+    flex: 1; /* Ocupan espacio igual */
+  }
 }
 
-.login-card label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-  /* CAMBIO: Color de marca */
-  color: #5a3a7d;
-}
-
-/* CAMBIO: Inputs modernizados */
-.login-card input[type="text"],
-.login-card input[type="email"],
-.login-card input[type="password"] {
-  padding: 0.9rem 1rem;
+.form-group {
   margin-bottom: 1.2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
-  transition: all 0.3s ease;
-  width: 100%;
-  box-sizing: border-box; /* Asegura padding correcto */
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $text-color;
+  }
 }
 
-/* CAMBIO: Foco de marca (fuchsia) */
-.login-card input[type="text"]:focus,
-.login-card input[type="email"]:focus,
-.login-card input[type="password"]:focus {
-  outline: none;
-  border-color: fuchsia;
-  box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.15);
-}
-
-.input-password {
+.input-wrapper {
   position: relative;
-  width: 100%;
-  margin-bottom: 1.2rem; /* CAMBIO: Movido el margin al contenedor */
-}
-
-.input-password input {
-  padding-right: 3rem; /* espacio para el icono */
-  margin-bottom: 0; /* Quitado de aquí */
-}
-
-.input-password i {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  /* CAMBIO: Color de marca */
-  color: #7951a8;
-  font-size: 1.2rem;
-  transition: color 0.2s ease;
-}
-.input-password i:hover {
-  color: fuchsia;
-}
-
-/* ============ BOTONES ============ */
-.login-card button[type="submit"] {
-  /* CAMBIO: Gradiente de marca */
-  background: linear-gradient(135deg, #7951a8 0%, #a47bc4 100%);
-  color: white;
-  padding: 1rem;
-  border: none;
-  border-radius: 25px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  /* CAMBIO: Sombra de marca */
-  box-shadow: 0 8px 20px rgba(121, 81, 155, 0.2);
-}
-
-.login-card button[type="submit"]:hover:not(:disabled) {
-  /* CAMBIO: Efecto hover de marca */
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(121, 81, 155, 0.3);
-}
-
-.login-card button[type="submit"]:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
-}
-
-.btn-volver {
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  color: #777;
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin-bottom: 1.5rem;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  font-weight: 500;
+
+  i {
+    position: absolute;
+    left: 1rem;
+    color: #aaa;
+    font-size: 1.1rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.8rem; /* Espacio para icono */
+    border: 2px solid #f0f0f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    outline: none;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: $primary;
+      background-color: #fafaff;
+    }
+
+    &::placeholder {
+      color: #ccc;
+    }
+  }
+
+  /* Variante simple sin icono (para nombre/apellido) */
+  &.simple {
+    input {
+      padding-left: 1rem; /* Quitamos el espacio extra del icono */
+    }
+  }
 }
 
-.btn-volver:hover {
-  /* CAMBIO: Color de marca */
-  color: fuchsia;
+.hint {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+  color: #999;
 }
 
-/* ============ PIE DE FORMULARIO (TOGGLE) ============ */
-.form-footer-prompt {
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.95rem;
-  color: #333;
+.error-banner {
+  background-color: $error-bg;
+  color: $error-text;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.form-footer-prompt span {
+.btn-submit {
+  width: 100%;
+  padding: 0.9rem;
+  background: $primary;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
   font-weight: 600;
-  /* CAMBIO: Color de marca (fuchsia) */
-  color: fuchsia;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background 0.3s, transform 0.2s;
+
+  &:hover:not(:disabled) {
+    background: $primary-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(121, 81, 155, 0.3);
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
 }
 
-.form-footer-prompt span:hover {
-  opacity: 0.8;
-  text-decoration: underline;
+.auth-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: $text-light;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 1.5rem;
+
+  a {
+    color: $primary;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .back-link {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #999;
+    font-weight: 400;
+
+    i { font-size: 0.8rem; margin-right: 4px; }
+
+    &:hover {
+      color: $text-color;
+    }
+  }
 }
 
-/* ============ RESPONSIVIDAD ============ */
-@media (max-width: 992px) {
-  .login-page {
-    justify-content: center; /* Centrar en móvil */
-    padding: 2rem 1rem;
+// Responsivo para móviles
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 2rem 1.5rem;
   }
   
-  .login-brand {
-    display: none; /* Ocultar la marca de la izquierda en móvil */
-  }
-
-  .login-card {
-    padding: 2rem 1.5rem;
-    right: 0;
-    transform: none;
-    top: 0;
+  .form-row {
+    flex-direction: column;
+    gap: 0; /* En móvil uno debajo del otro */
   }
 }

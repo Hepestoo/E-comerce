@@ -1,103 +1,148 @@
-<section class="banner-catalogo">
+<!-- BANNER PRINCIPAL -->
+<section class="catalogo-banner">
   <div class="banner-content">
-    <div class="banner-text">
-      <h1>Nuestro Catálogo</h1>
-      <p>Descubre la colección exclusiva de arte y manualidades</p>
-    </div>
-    <div class="banner-decoration">
-      <div class="shape shape-1"></div>
-      <div class="shape shape-2"></div>
-      <div class="shape shape-3"></div>
-    </div>
+    <h1>Nuestro Catálogo</h1>
+    <p>Explora nuestra colección exclusiva de arte y manualidades</p>
   </div>
 </section>
 
-<section class="seccion-buscador">
-  <h3>Encuentra lo que buscas</h3>
-  <div class="buscador-wrapper">
-    <input
-      type="text"
-      placeholder="Buscar un producto (ej: resina, moldes, velas...)"
+<!-- BARRA DE BÚSQUEDA -->
+<section class="search-section">
+  <div class="search-container">
+    <i class="pi pi-search search-icon"></i>
+    <input 
+      type="text" 
+      placeholder="Buscar productos (ej: resina, moldes...)" 
       [(ngModel)]="terminoBusqueda"
-      (input)="buscarProducto()" />
-    <button (click)="buscarProducto()">
-      <i class="pi pi-search"></i>
-    </button>
+      (input)="buscarProducto()"
+    >
+    <button class="btn-search" (click)="buscarProducto()">Buscar</button>
   </div>
 </section>
 
-<section class="catalogo">
-  <aside class="filtros">
-    <h3>Subcategorías</h3>
-    <div class="subcategorias">
-      <button
-        *ngFor="let sub of subcategorias"
-        [class.active]="subcategoriaSeleccionada === sub.id"
-        (click)="seleccionarSubcategoria(sub.id)"
-      >
-        {{ sub.nombre }}
-      </button>
-    </div>
-
-    <h3>Precio</h3>
-    <ul>
-      <li (click)="filtrarPorPrecio(0, 10)">Menos de $10</li>
-      <li (click)="filtrarPorPrecio(10, 25)">De $10 a $25</li>
-      <li (click)="filtrarPorPrecio(25, 40)">De $25 a $40</li>
-      <li (click)="filtrarPorPrecio(40, 1000)">Más de $40</li>
-    </ul>
-  </aside>
-
-  <div class="productos">
-    <div class="header-productos">
-      <p>{{ productos.length }} productos encontrados</p>
-    </div>
-
-    <div class="grid-productos">
-      <div class="producto" *ngFor="let prod of productosPaginados">
-        <div class="img-container">
-          <img
-            [src]="apiUrl + '/uploads/productos/' + prod.imagen_url"
-            alt="Producto"
-          />
-          <span class="stock-badge" [class.no-disponible]="prod.stock === 0">
-            {{ prod.stock > 0 ? 'Disponible' : 'Agotado' }}
-          </span>
-        </div>
-        <h3>{{ prod.nombre }}</h3>
-        <p class="descripcion">{{ prod.descripcion }}</p>
-        <p class="precio">{{ prod.precio | currency }}</p>
-
-        <label *ngIf="prod.stock > 0">
-          Cantidad:
-          <input
-            type="number"
-            min="1"
-            [max]="prod.stock"
-            [(ngModel)]="cantidades[prod.id]"
-          />
-        </label>
-
-        <button
-          (click)="agregarAlCarrito(prod)"
-          [disabled]="prod.stock === 0"
-        >
-          <i class="pi pi-shopping-cart"></i>
-          Añadir al carrito
+<!-- CONTENIDO PRINCIPAL (GRID) -->
+<div class="catalogo-layout">
+  
+  <!-- ASIDE: FILTROS -->
+  <aside class="filters-sidebar">
+    <div class="filter-group">
+      <h3>Categorías</h3>
+      <div class="filter-options">
+        <!-- Botón "Todas" con null -->
+        <button 
+          class="filter-btn" 
+          [class.active]="!subcategoriaSeleccionada"
+          (click)="seleccionarSubcategoria(null)">
+          Todas
+        </button>
+        <button 
+          *ngFor="let sub of subcategorias"
+          class="filter-btn"
+          [class.active]="subcategoriaSeleccionada === sub.id"
+          (click)="seleccionarSubcategoria(sub.id)">
+          {{ sub.nombre }}
         </button>
       </div>
     </div>
 
-    <div class="paginacion" *ngIf="paginas.length > 1">
-      <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">‹</button>
-      <button
-        *ngFor="let pagina of paginas"
-        (click)="irAPagina(pagina)"
+    <div class="filter-group">
+      <h3>Rango de Precio</h3>
+      <div class="price-options">
+        <label class="radio-container">
+          <input type="radio" name="price" (click)="filtrarPorPrecio(0, 10000)" checked>
+          <span class="checkmark"></span> Todos
+        </label>
+        <label class="radio-container">
+          <input type="radio" name="price" (click)="filtrarPorPrecio(0, 10)">
+          <span class="checkmark"></span> Menos de $10
+        </label>
+        <label class="radio-container">
+          <input type="radio" name="price" (click)="filtrarPorPrecio(10, 25)">
+          <span class="checkmark"></span> $10 - $25
+        </label>
+        <label class="radio-container">
+          <input type="radio" name="price" (click)="filtrarPorPrecio(25, 50)">
+          <span class="checkmark"></span> $25 - $50
+        </label>
+        <label class="radio-container">
+          <input type="radio" name="price" (click)="filtrarPorPrecio(50, 1000)">
+          <span class="checkmark"></span> Más de $50
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- GRID DE PRODUCTOS -->
+  <main class="products-main">
+    
+    <div class="results-header">
+      <span class="count">{{ productos.length }} resultados encontrados</span>
+    </div>
+
+    <div class="products-grid" *ngIf="productosPaginados.length > 0; else noResults">
+      <div class="product-card" *ngFor="let prod of productosPaginados">
+        
+        <!-- Imagen -->
+        <div class="card-image">
+          <img [src]="apiUrl + '/uploads/productos/' + prod.imagen_url" [alt]="prod.nombre">
+          <span class="badge-stock" [class.out]="prod.stock === 0">
+            {{ prod.stock > 0 ? 'Disponible' : 'Agotado' }}
+          </span>
+        </div>
+
+        <!-- Info -->
+        <div class="card-details">
+          <h4>{{ prod.nombre }}</h4>
+          <p class="desc">{{ prod.descripcion }}</p>
+          <div class="price-row">
+            <span class="price">{{ prod.precio | currency }}</span>
+          </div>
+
+          <!-- Acciones -->
+          <div class="actions" *ngIf="prod.stock > 0">
+            <div class="qty-input">
+              <input type="number" min="1" [max]="prod.stock" [(ngModel)]="cantidades[prod.id]" value="1">
+            </div>
+            <button class="btn-add" (click)="agregarAlCarrito(prod)">
+              <i class="pi pi-shopping-cart"></i> Añadir
+            </button>
+          </div>
+          
+          <div class="actions" *ngIf="prod.stock === 0">
+            <button class="btn-disabled" disabled>Sin Stock</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Estado Vacío -->
+    <ng-template #noResults>
+      <div class="empty-state">
+        <i class="pi pi-search"></i>
+        <h3>No encontramos productos</h3>
+        <p>Intenta con otra categoría o término de búsqueda.</p>
+      </div>
+    </ng-template>
+
+    <!-- PAGINACIÓN -->
+    <div class="pagination" *ngIf="paginas.length > 1">
+      <button class="page-btn prev" (click)="paginaAnterior()" [disabled]="paginaActual === 1">
+        <i class="pi pi-chevron-left"></i>
+      </button>
+      
+      <button 
+        *ngFor="let pagina of paginas" 
+        class="page-btn number" 
         [class.active]="paginaActual === pagina"
-      >
+        (click)="irAPagina(pagina)">
         {{ pagina }}
       </button>
-      <button (click)="paginaSiguiente()" [disabled]="paginaActual === paginas.length">›</button>
+      
+      <button class="page-btn next" (click)="paginaSiguiente()" [disabled]="paginaActual === paginas.length">
+        <i class="pi pi-chevron-right"></i>
+      </button>
     </div>
-  </div>
-</section>
+
+  </main>
+</div>

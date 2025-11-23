@@ -1,0 +1,72 @@
+<div class="admin-layout" [class.collapsed]="isSidebarCollapsed">
+  
+  <!-- SIDEBAR (Izquierda) -->
+  <aside class="sidebar">
+    <div class="logo-container">
+      <div class="logo-icon">A</div>
+      <span class="logo-text">Artemania</span>
+    </div>
+
+    <nav class="admin-nav">
+      <p class="nav-label">Principal</p>
+      
+      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <i class="pi pi-th-large"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <p class="nav-label">Gestión</p>
+
+      <a routerLink="/admin/ordenes" routerLinkActive="active" class="nav-item">
+        <i class="pi pi-shopping-cart"></i>
+        <span>Ordenes</span>
+      </a>
+
+      <a routerLink="/admin/productos" routerLinkActive="active" class="nav-item">
+        <i class="pi pi-box"></i>
+        <span>Productos</span>
+      </a>
+
+      <a routerLink="/admin/subcategorias" routerLinkActive="active" class="nav-item">
+        <i class="pi pi-tags"></i>
+        <span>Categorías</span>
+      </a>
+
+      <a routerLink="/admin/pagos" routerLinkActive="active" class="nav-item">
+        <i class="pi pi-wallet"></i>
+        <span>Pagos</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button (click)="logout()" class="btn-logout">
+        <i class="pi pi-sign-out"></i>
+        <span>Salir</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO (Derecha) -->
+  <div class="main-wrapper">
+    
+    <!-- Topbar Superior -->
+    <header class="topbar">
+      <button class="menu-btn" (click)="toggleSidebar()">
+        <i class="pi pi-bars"></i>
+      </button>
+
+      <div class="user-info">
+        <span class="role-badge">Administrador</span>
+        <div class="avatar">
+          <i class="pi pi-user"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Aquí se cargan las páginas (Dashboard, Productos, etc) -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>

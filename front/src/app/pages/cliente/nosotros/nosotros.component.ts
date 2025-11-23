@@ -1,18 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-nosotros',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './nosotros.component.html',
-  styleUrl: './nosotros.component.scss'
+  styleUrls: ['./nosotros.component.scss']
 })
 export class NosotrosComponent {
-  irASeccion() {
-    const elemento = document.getElementById('quienes-somos');
-    if (elemento) {
-      elemento.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
   
+  @ViewChild('contentStart') contentStart!: ElementRef;
+
+  scrollToContent() {
+    this.contentStart.nativeElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+  }
 }

@@ -1,114 +1,111 @@
-<section class="banner-contactanos">
-  <div class="imagen-banner">
-    <img src="https://images.pexels.com/photos/1297938/pexels-photo-1297938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Banner Contacto">
+<div class="contact-page">
+  
+  <!-- ENCABEZADO SIMPLE Y LIMPIO -->
+  <header class="contact-header">
+    <h1>Contáctanos</h1>
+    <p>Estamos aquí para ayudarte con tus dudas, pedidos o sugerencias.</p>
+  </header>
+
+  <div class="contact-layout">
+    
+    <!-- COLUMNA IZQUIERDA: INFORMACIÓN -->
+    <div class="info-card">
+      <div class="info-header">
+        <h3>Información de Contacto</h3>
+        <p>Visítanos en nuestro local o escríbenos.</p>
+      </div>
+
+      <div class="info-list">
+        <div class="info-item">
+          <div class="icon-box"><i class="pi pi-map-marker"></i></div>
+          <div>
+            <h4>Ubicación</h4>
+            <p>Buenavista E51-58 y calle 2, San Bartolo, Quito</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-box"><i class="pi pi-phone"></i></div>
+          <div>
+            <h4>Teléfono / WhatsApp</h4>
+            <p><a href="https://wa.me/593992731355" target="_blank">099 273 1355</a></p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-box"><i class="pi pi-envelope"></i></div>
+          <div>
+            <h4>Email</h4>
+            <p><a href="mailto:artemania-qto@hotmail.com">artemania-qto-hotmail.com</a></p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-box"><i class="pi pi-clock"></i></div>
+          <div>
+            <h4>Horarios</h4>
+            <p>Lun - Vie: 10:00 - 18:00</p>
+            <p>Sábados: 12:00 - 16:00</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Redes Sociales integradas aquí -->
+      <div class="social-section">
+        <h4>Síguenos:</h4>
+        <div class="social-icons">
+          <a href="#"><i class="pi pi-facebook"></i></a>
+          <a href="#"><i class="pi pi-instagram"></i></a>
+          <a href="#"><i class="pi pi-tiktok"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: FORMULARIO -->
+    <div class="form-card">
+      <h3>Envíanos un mensaje</h3>
+      
+      <form (ngSubmit)="enviarMensaje()">
+        <div class="form-row">
+          <div class="form-group half">
+            <label>Nombre</label>
+            <input type="text" name="nombre" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group half">
+            <label>Apellido</label>
+            <input type="text" name="apellido" placeholder="Tu apellido">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" name="email" placeholder="ejemplo@correo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label>Mensaje</label>
+          <textarea name="mensaje" rows="4" placeholder="¿En qué podemos ayudarte?" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          Enviar Mensaje <i class="pi pi-send"></i>
+        </button>
+      </form>
+    </div>
+
   </div>
 
-  <div class="texto-banner">
-    <h2>CONTÁCTANOS</h2>
-    <div class="linea"></div>
-    <p>¡Queremos ayudarte! Rellena el formulario y deja tus dudas o comentarios.</p>
-  </div>
-</section>
+  <!-- MAPA FULL WIDTH -->
+  <section class="map-section">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.761276226105!2d-78.53037868524669!3d-0.2764959997184282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d598b0f0a51c7f%3A0x8055a18a9010079!2sBuenavista%20E51-58%20y%20Calle%202%2C%20Quito%20170601!5e0!3m2!1ses!2sec!4v1731380956214!5m2!1ses!2sec" 
+      width="100%" 
+      height="400" 
+      style="border:0;" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </section>
 
-
-<div class="aviso-contacto">
-  <p>Si tienes dudas comunícate con nosotros al <strong><i class="pi pi-whatsapp"></i> 0992731355</strong></p>
 </div>
-
-
-<section class="info-rapida">
-  <div class="servicio-cliente">
-    <div class="cliente-titulo">
-      <h3>Servicio al cliente</h3>
-      <div class="linea"></div>
-    </div>
-    <div class="cliente-lista">
-      <ul>
-        <li><i class="pi pi-check-circle"></i> Tengo quejas o sugerencias</li>
-        <li><i class="pi pi-check-circle"></i> Quiero información sobre los productos</li>
-        <li><i class="pi pi-check-circle"></i> Quiero compartir dudas o comentarios</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-
-
-
-<div class="aviso-contacto">
-  <p>O <strong>llena el formulario</strong> y envíanos tu mensaje para ayudarte.</p>
-</div>
-
-<section class="formulario-contacto">
-  <form>
-    <div class="form-group">
-      <label for="nombre">Nombre</label>
-      <input type="text" id="nombre" placeholder="Tu nombre">
-    </div>
-
-    <div class="form-group">
-      <label for="apellido">Apellido</label>
-      <input type="text" id="apellido" placeholder="Tu apellido">
-    </div>
-
-    <div class="form-group">
-      <label for="email">Correo electrónico</label>
-      <input type="email" id="email" placeholder="correo@ejemplo.com">
-    </div>
-
-    <div class="form-group">
-      <label for="mensaje">Mensaje</label>
-      <textarea id="mensaje" rows="5" placeholder="Escribe tu mensaje..."></textarea>
-    </div>
-
-    <button type="submit" class="btn-principal">Enviar Mensaje</button>
-  </form>
-
-  <div class="img-container-form">
-    <img class="img-form" src="https://images.pexels.com/photos/7709287/pexels-photo-7709287.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Atención al cliente">
-  </div>
-</section>
-
-
-
-<div class="aviso-contacto separador">
-  <h3>Te esperamos en</h3>
-</div>
-
-<section class="info-local">
-  <div class="boxes">
-    <div class="box">
-      <h4><i class="pi pi-map-marker"></i> Nuestro local</h4>
-      <p>Calle Buenavista E51-58 y Calle 2<br>Sector San Bartolo, Quito</p>
-    </div>
-    <div class="box">
-      <h4><i class="pi pi-clock"></i> Horario de atención</h4>
-      <p>Lunes a Viernes: 10h00 - 18h00<br>Sábados: 12h00 - 16h00</p>
-    </div>
-  </div>
-</section>
-
-<div class="aviso-contacto separador">
-  <h3>Nuestra ubicación</h3>
-</div>
-
-<section class="ubicacion">
-  <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.761276226105!2d-78.53037868524669!3d-0.2764959997184282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d598b0f0a51c7f%3A0x8055a18a9010079!2sBuenavista%20E51-58%20y%20Calle%202%2C%20Quito%20170601!5e0!3m2!1ses!2sec!4v1731380956214!5m2!1ses!2sec" 
-    width="100%" 
-    height="450" 
-    style="border:0;" 
-    allowfullscreen="" 
-    loading="lazy" 
-    referrerpolicy="no-referrer-when-downgrade">
-  </iframe>
-</section>
-
-<section class="redes">
-  <h3>Síguenos en nuestras redes</h3>
-  <div class="iconos">
-    <a href="#" aria-label="Facebook"><i class="pi pi-facebook"></i></a>
-    <a href="#" aria-label="Instagram"><i class="pi pi-instagram"></i></a>
-    <a href="#" aria-label="Tiktok"><i class="pi pi-tiktok"></i></a>
-  </div>
-</section>

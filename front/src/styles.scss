@@ -25,3 +25,59 @@ app-root {
     margin: 0;
     padding: 0;
 }  
+
+
+/* --- ESTILOS PARA SWEETALERT2 (Alertas Bonitas) --- */
+
+/* El contenedor principal de la alerta */
+.rounded-alert {
+  border-radius: 25px !important; /* Bordes muy redondeados */
+  padding: 2rem !important;
+  box-shadow: 0 15px 50px rgba(121, 81, 155, 0.15) !important; /* Sombra suave morada */
+  font-family: 'Poppins', sans-serif !important; /* Tu fuente */
+}
+
+/* El título de la alerta */
+.swal2-title {
+  color: #5a3a7d !important; /* Morado oscuro */
+  font-size: 1.8rem !important;
+  font-weight: 700 !important;
+}
+
+/* El texto de la alerta */
+.swal2-html-container {
+  color: #666 !important;
+  font-size: 1.1rem !important;
+}
+
+/* Botón de confirmación (Éxito) */
+.rounded-btn-alert {
+  background: linear-gradient(135deg, #7951a8 0%, #a47bc4 100%) !important;
+  color: white !important;
+  border-radius: 50px !important; /* Botón píldora */
+  padding: 12px 30px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  box-shadow: 0 5px 15px rgba(121, 81, 155, 0.3) !important;
+  transition: transform 0.2s ease !important;
+  outline: none !important;
+  cursor: pointer !important;
+}
+
+.rounded-btn-alert:hover {
+  transform: scale(1.05) !important;
+}
+
+/* Botón de confirmación (Error) */
+.rounded-btn-alert-error {
+  background: #ff6b6b !important; /* Rojo suave */
+  color: white !important;
+  border-radius: 50px !important;
+  padding: 12px 30px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  outline: none !important;
+  cursor: pointer !important;
+}

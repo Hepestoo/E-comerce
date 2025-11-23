@@ -4,24 +4,23 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ProductoService, Producto, ProductoDTO } from '../../../services/producto.service';
 import Swal from 'sweetalert2';
-
-// --- Importa el environment ---
 import { environment } from "../../../../environments/environments";
-
 
 @Component({
   selector: 'app-productos',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './productos.component.html',
-  styleUrl: './productos.component.scss' 
+  styleUrls: ['./productos.component.scss'] 
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   subcategorias: any[] = [];
   busqueda: string = '';
+  
+  // Control del formulario colapsable
+  mostrarFormulario = false;
 
-  // --- URL de la API (pública para el HTML) ---
   public apiUrl = environment.apiUrl;
 
   imagenPreview: string | null = null;
@@ -58,8 +57,6 @@ export class ProductosComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.imagenSeleccionada = file;
-
-      // Vista previa
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagenPreview = e.target.result;
@@ -68,7 +65,19 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  limpiarImagen(event: Event) {
+    event.stopPropagation(); // Evitar que se abra el selector de archivos
+    this.imagenSeleccionada = null;
+    this.imagenPreview = null;
+  }
+
   guardar() {
+    // Validar que haya imagen si es nuevo
+    if (!this.nuevoProducto.id && !this.imagenSeleccionada) {
+      Swal.fire('Falta Imagen', 'Debes subir una imagen para el producto', 'warning');
+      return;
+    }
+
     if (this.imagenSeleccionada) {
       const formData = new FormData();
       formData.append('imagen', this.imagenSeleccionada);
@@ -83,33 +92,24 @@ export class ProductosComponent implements OnInit {
   
   procesarGuardar() {
     const esNuevo = !this.nuevoProducto.id;
-  
     const observable = esNuevo
       ? this.productoService.crear(this.nuevoProducto)
       : this.productoService.actualizar(this.nuevoProducto.id!, this.nuevoProducto);
   
     observable.subscribe(() => {
       this.resetFormulario();
+      this.mostrarFormulario = false; // Cerrar formulario al guardar
       this.cargarProductos();
   
-      // --- CAMBIO: Alerta de éxito "bonita" ---
       Swal.fire({
         icon: 'success',
         title: esNuevo ? 'Producto Creado' : 'Producto Actualizado',
-        text: esNuevo
-          ? 'El producto ha sido agregado correctamente.'
-          : 'El producto ha sido actualizado correctamente.',
         timer: 2000,
         showConfirmButton: false,
-        timerProgressBar: true,
-        background: '#fff', // Fondo limpio
-        iconColor: 'fuchsia', // Icono con color de marca
-        color: '#5a3a7d' // Texto con color de marca
+        customClass: { popup: 'rounded-alert' }
       });
-      // --- FIN DEL CAMBIO ---
     });
   }
-
 
   resetFormulario() {
     this.nuevoProducto = {
@@ -124,46 +124,29 @@ export class ProductosComponent implements OnInit {
   }
 
   eliminar(id: number) {
-    // --- CAMBIO: Alerta de confirmación "bonita" ---
     Swal.fire({
-      title: '¿Estás seguro?',
-      text: "Esta acción eliminará el producto permanentemente.",
+      title: '¿Eliminar?',
+      text: "No podrás revertir esto",
       icon: 'warning',
       showCancelButton: true,
-      
-      // Colores de botones de marca
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#7951a8',
       confirmButtonText: 'Sí, eliminar',
-      confirmButtonColor: '#B71C1C', // Rojo de eliminar
-      
-      cancelButtonText: 'Cancelar',
-      cancelButtonColor: '#aaa',
-
-      // Estilos de fondo y texto
-      background: '#fff',
-      color: '#5a3a7d'
-      
+      customClass: { popup: 'rounded-alert', confirmButton: 'rounded-btn-alert-error' }
     }).then((result) => {
       if (result.isConfirmed) {
         this.productoService.eliminar(id).subscribe(() => {
           this.cargarProductos();
-          
-          // --- CAMBIO: Alerta de "Eliminado" "bonita" ---
           Swal.fire({
             title: 'Eliminado',
-            text: 'El producto ha sido eliminado.',
             icon: 'success',
-            timer: 2000,
+            timer: 1500,
             showConfirmButton: false,
-            timerProgressBar: true,
-            background: '#fff',
-            iconColor: 'fuchsia', // Icono de marca
-            color: '#5a3a7d' // Texto de marca
+            customClass: { popup: 'rounded-alert' }
           });
-          // --- FIN DEL CAMBIO ---
         });
       }
     });
-    // --- FIN DEL CAMBIO ---
   }
 
   editar(producto: Producto) {
@@ -183,16 +166,15 @@ export class ProductosComponent implements OnInit {
       this.imagenPreview = null;
     }
     this.imagenSeleccionada = null;
-  }
-
-  obtenerPorSubcategoria(id: number) {
-    return this.http.get<Producto[]>(`${this.apiUrl}/productos/subcategoria/${id}`);
+    
+    this.mostrarFormulario = true; // Abrir formulario automáticamente
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Subir al formulario
   }
 
   get productosFiltrados() {
+    if (!this.busqueda) return this.productos;
     return this.productos.filter(p =>
       p.nombre.toLowerCase().includes(this.busqueda.toLowerCase())
     );
   }
-  
 }

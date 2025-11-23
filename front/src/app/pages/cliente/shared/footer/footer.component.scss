@@ -1,120 +1,235 @@
+$primary: #7951a8;
+$primary-dark: #5a3a7d;
+$text-color: #333;
+$text-light: #666;
+$bg-gradient: linear-gradient(180deg, #fdfbfb 0%, #f4f4f9 100%);
+
 .footer {
-  /* CAMBIO: Usando un gradiente sutil de tu paleta */
-  background: linear-gradient(135deg, #f5f0f8 0%, #eac2f2 100%);
-  color: #333; /* Negro es muy duro, un gris oscuro es mejor */
-  padding: 5rem 0 0; /* Más padding superior */
+  background: $bg-gradient;
+  padding-top: 4rem;
   font-family: 'Poppins', sans-serif;
-  margin-top: 4rem; /* Más separación del contenido */
+  position: relative;
+  border-top: 1px solid #eaeaea;
+  margin-top: auto; 
 }
 
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
-  display: grid; /* CAMBIO: Grid es más moderno y robusto que flex para esto */
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 3rem;
-  padding: 0 2rem;
+  padding: 0 2rem 3rem;
+  
+  /* --- CAMBIO CLAVE: FORZAR 4 COLUMNAS IGUALES --- */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual ancho */
+  gap: 2rem;
+  align-items: start; /* Alinear todo al tope */
 }
 
+/* --- COLUMNAS --- */
 .footer-col {
-  min-width: 220px;
+  /* Asegurar que el contenido no desborde */
+  min-width: 0; 
+  
+  h3 {
+    color: $primary-dark;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 30px;
+      height: 3px;
+      background-color: $primary;
+      border-radius: 2px;
+    }
+  }
 }
 
-/* NUEVO: Estilo del logo movido de HTML a CSS */
-.footer-col h2 span {
-  color: fuchsia;
-  font-weight: bold;
+/* Columna Marca */
+.brand-col {
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    
+    span { color: $primary; }
+    strong { color: $text-color; }
+  }
+
+  .tagline {
+    color: $text-light;
+    line-height: 1.6;
+    font-size: 0.9rem;
+  }
 }
 
-.footer-col h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.footer-col h3 {
-  font-weight: bold;
-  margin-bottom: 1.5rem; /* Más espacio */
-  position: relative;
-}
-
-/* NUEVO: Línea decorativa moderna */
-.footer-col h3::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 30px;
-  height: 3px;
-  background: fuchsia;
-}
-
-.footer-col ul {
+/* Columna Links */
+.links-col ul {
   list-style: none;
   padding: 0;
   margin: 0;
+
+  li {
+    margin-bottom: 0.6rem;
+
+    a {
+      text-decoration: none;
+      color: $text-light;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      i {
+        font-size: 0.8rem;
+        color: $primary;
+        opacity: 0; 
+        transform: translateX(-5px);
+        transition: all 0.3s ease;
+      }
+
+      &:hover {
+        color: $primary;
+        padding-left: 5px;
+
+        i {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    }
+  }
 }
 
-.footer-col ul li {
-  margin-bottom: 0.8rem; /* Más espacio */
+/* Columna Contacto */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 1rem;
+    color: $text-light;
+    font-size: 0.9rem;
+    line-height: 1.5;
+
+    i {
+      color: $primary;
+      font-size: 1.1rem;
+      margin-top: 2px;
+      flex-shrink: 0; /* Evita que el icono se aplaste */
+    }
+
+    a {
+      text-decoration: none;
+      color: $text-light;
+      transition: color 0.3s;
+      word-break: break-word; /* Evita desbordes si el email es largo */
+
+      &:hover { color: $primary; }
+    }
+  }
 }
 
-.footer-col ul li a {
-  text-decoration: none;
-  color: #555;
-  transition: all 0.3s ease;
+/* Columna Horarios */
+.hours-col {
+  .schedule p {
+    margin-bottom: 1rem;
+    color: $text-light;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    
+    strong {
+      color: $primary-dark;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+  }
 }
 
-.footer-col ul li a:hover {
-  color: fuchsia;
-  /* CAMBIO: Efecto de hover sutil */
-  transform: translateX(5px); 
-}
-
-.footer-col p {
-  margin: 0.5rem 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-/* NUEVO: Alinear los iconos de contacto */
-.footer-col p i {
-  color: fuchsia;
-  margin-right: 10px;
-  width: 20px;
-  text-align: center;
-}
-
+/* --- FOOTER BOTTOM --- */
 .footer-bottom {
-  background-color: #1A0C51; /* Este contraste oscuro es muy bueno */
-  margin-top: 3rem; /* Más espacio */
+  background-color: $primary-dark;
   padding: 1.5rem 2rem;
-  color: #c0c0c0; /* Un gris más claro */
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-}
-
-.footer-bottom p {
-  margin: 0;
-  font-size: 0.9rem;
+  
+  p {
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+    font-size: 0.85rem;
+  }
 }
 
 .social-icons {
   display: flex;
   gap: 1rem;
+
+  .social-link {
+    width: 35px;
+    height: 35px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    i { font-size: 1.1rem; }
+
+    &:hover {
+      background: white;
+      transform: translateY(-3px);
+    }
+
+    &.facebook:hover { color: #1877f2; }
+    &.instagram:hover { color: #e4405f; }
+    &.tiktok:hover { color: #000000; }
+  }
 }
 
-/* CAMBIO: Envolver los iconos en <a> y darles mejor hover */
-.social-icons a {
-  color: #c0c0c0;
-  font-size: 1.5rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
+/* --- RESPONSIVE (Móviles y Tablets) --- */
+@media (max-width: 900px) {
+  .footer-content {
+    /* En tablets bajamos a 2 columnas */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 2rem;
+  }
 }
 
-.social-icons a:hover {
-  color: fuchsia;
-  transform: translateY(-3px);
+@media (max-width: 600px) {
+  .footer-content {
+    /* En móviles 1 sola columna */
+    grid-template-columns: 1fr; 
+    text-align: center;
+  }
+
+  .footer-col h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .contact-list li {
+    justify-content: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
 }
