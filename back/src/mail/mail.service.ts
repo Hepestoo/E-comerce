@@ -11,30 +11,30 @@ export class MailService {
     const usuario = this.configService.get('EMAIL_USER');
     const pass = this.configService.get('EMAIL_PASS');
     
-    // Logs para depuración (opcional, puedes borrarlos si quieres limpiar la consola)
-    console.log('📧 Configurando correo con usuario:', usuario ? 'OK' : 'FALTA');
+    console.log('📧 Configurando correo con usuario:', usuario ? 'OK (Cargado)' : 'FALTA');
+    console.log('🔑 Contraseña cargada:', pass ? 'OK (Cargado)' : 'FALTA');
 
     this.transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com', 
+      port: 465,              
+      secure: true,           
       auth: {
         user: usuario,
         pass: pass,
       },
-    });
+      tls: {
+        rejectUnauthorized: false
+      },
+      family: 4, 
+    } as any);
   }
 
   async sendPasswordResetEmail(to: string, token: string) {
-    // --- LÓGICA INTELIGENTE PARA LA URL ---
-    // 1. Obtenemos la variable CORS_ORIGINS (ej: "https://mi-web.com,http://localhost:4200")
     const origins = this.configService.get<string>('CORS_ORIGINS');
-    
-    // 2. Tomamos la primera URL de la lista. 
-    // Si no existe (por error), usamos localhost como respaldo.
     const frontendUrl = origins ? origins.split(',')[0] : 'http://localhost:4200';
-    
     const resetLink = `${frontendUrl}/reset-password?token=${token}`;
 
-    console.log(`🔗 Generando link para: ${frontendUrl}`); // Para que veas en logs cuál usó
+    console.log(`🔗 Generando link para: ${frontendUrl}`);
 
     const html = `
       <div style="font-family:Arial,sans-serif;color:#222; padding: 20px; background-color: #f9f9f9; border-radius: 10px; max-width: 600px; margin: 0 auto;">
@@ -65,6 +65,7 @@ export class MailService {
       this.logger.log(`Correo enviado a ${to}`);
     } catch (err) {
       this.logger.error('Error enviando email', err);
+      console.error(err); 
     }
   }
 }
