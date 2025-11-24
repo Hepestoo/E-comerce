@@ -44,7 +44,7 @@ export const routes: Routes = [
   // --- RUTAS ADMIN (CON EL NUEVO LAYOUT) ---
   {
     path: 'admin',
-    component: AdminLayoutComponent, // <--- AQUI ESTÁ LA CLAVE: Usamos el Layout como padre
+    component: AdminLayoutComponent, // Usamos el Layout como padre
     canActivate: [adminAuthGuard],   // Protegemos todo el bloque con el guardián
     children: [
       // Dashboard (Ruta raíz de admin)
@@ -57,10 +57,15 @@ export const routes: Routes = [
         path: 'productos', 
         loadComponent: () => import('./pages/admin/productos/productos.component').then(m => m.ProductosComponent),
       },
-      // Gestión de Categorías
+      // Gestión deSubcategorías
       {
         path: 'subcategorias',
         loadComponent: () => import('./pages/admin/subcategorias/subcategorias.component').then(m => m.SubcategoriasComponent),
+      },
+      // Gestión de Categorías
+      {
+        path: 'categorias',
+        loadComponent: () => import('./pages/admin/categorias/categorias.component').then(m => m.CategoriasComponent),
       },
       // Gestión de Órdenes
       {
@@ -71,6 +76,11 @@ export const routes: Routes = [
       {
         path: 'pagos',
         loadComponent: () => import('./pages/admin/pagos/pagos.component').then(m => m.PagosComponent),
+      },
+      // Gestion de metodos de pago
+      {
+        path: 'metodos-pago',
+        loadComponent: () => import('./pages/admin/metodos-pago/metodos-pago.component').then(m => m.MetodosPagoComponent),
       }
     ]
   },

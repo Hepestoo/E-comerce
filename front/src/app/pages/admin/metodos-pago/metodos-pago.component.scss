@@ -1,0 +1,90 @@
+
+@use 'sass:color';
+
+$primary: #7951a8;
+$primary-light: #f3e5f5;
+$text-dark: #2c3e50;
+$text-grey: #666;
+$bg-page: #f8f9fa;
+$danger: #d32f2f;
+$danger-light: #ffebee;
+
+.admin-page {
+  font-family: 'Poppins', sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+.page-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;
+  h2 { margin: 0; font-size: 1.8rem; color: $text-dark; font-weight: 700; }
+  p { margin: 0.5rem 0 0; color: $text-grey; }
+
+  .btn-create {
+    background: $primary; color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 4px 10px rgba(121, 81, 155, 0.3);
+    &:hover { transform: translateY(-2px); background: color.adjust($primary, $lightness: -5%); }
+  }
+}
+
+/* FORMULARIO */
+.form-container {
+  max-height: 0; overflow: hidden; transition: all 0.4s ease; opacity: 0; margin-bottom: 0;
+  &.open { max-height: 500px; opacity: 1; margin-bottom: 2rem; }
+}
+
+.form-card {
+  background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #eee;
+  h3 { margin-top: 0; color: $primary; font-size: 1.1rem; margin-bottom: 1.5rem; }
+  
+  .form-grid { display: grid; gap: 1.2rem; }
+
+  .form-group {
+    label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem; color: $text-dark; }
+    input, textarea { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; outline: none; font-family: inherit; &:focus { border-color: $primary; background: #fafaff; } }
+    textarea { resize: vertical; }
+  }
+
+  .form-actions { margin-top: 1.5rem; text-align: right; .btn-save { background: $primary; color: white; border: none; padding: 0.8rem 2rem; border-radius: 8px; cursor: pointer; font-weight: 600; &:disabled { background: #ccc; } } }
+}
+
+/* GRID DE TARJETAS */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+  gap: 1.5rem;
+}
+
+.payment-card {
+  background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #eee; display: flex; align-items: flex-start; gap: 1rem; transition: all 0.2s;
+  
+  &:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); border-color: $primary-light; }
+
+  .card-icon {
+    width: 50px; height: 50px; background: $primary-light; color: $primary; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;
+  }
+
+  .card-info {
+    flex-grow: 1; overflow: hidden;
+    h4 { margin: 0 0 0.5rem; font-size: 1.1rem; color: $text-dark; font-weight: 600; }
+    .desc { margin: 0; font-size: 0.9rem; color: $text-grey; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; white-space: pre-line; }
+  }
+
+  .card-actions {
+    display: flex; flex-direction: column; gap: 8px;
+    
+    .btn-icon {
+      width: 34px; height: 34px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+      &.edit { background: #e3f2fd; color: #1976d2; &:hover { background: #bbdefb; } }
+      &.delete { background: #ffebee; color: $danger; &:hover { background: #ffcdd2; } }
+    }
+  }
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center; padding: 4rem 1rem;
+  .icon-circle { width: 80px; height: 80px; background: #f3e5f5; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; i { font-size: 2.5rem; color: $primary; } }
+  h3 { color: $text-dark; margin-bottom: 0.5rem; }
+  p { color: $text-grey; }
+}

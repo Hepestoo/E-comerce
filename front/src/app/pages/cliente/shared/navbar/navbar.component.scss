@@ -1,241 +1,211 @@
-$primary: #7951a8; // Tu color morado
-$primary-hover: #5a3a7d;
-$text-color: #4a4a4a;
-$bg-white: #ffffff;
+@use 'sass:color';
+
+$primary: #7951a8;
+$text-dark: #333;
+$white: #ffffff;
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 2rem;
-  background: $bg-white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); // Sombra más suave
-  font-family: 'Poppins', sans-serif;
+  background-color: $white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 70px;
-}
+  padding: 1rem 0;
 
-.logo {
-  font-size: 1.6rem;
-  font-weight: bold;
-  cursor: pointer;
-  
-  span { color: $primary; }
-  strong { color: $text-color; }
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-
-  li a {
-    text-decoration: none;
-    color: $text-color;
-    font-weight: 500;
-    font-size: 0.95rem;
-    position: relative;
-    transition: color 0.3s ease;
-
-    // Efecto subrayado animado
-    &::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -4px;
-      left: 0;
-      background-color: $primary;
-      transition: width 0.3s ease;
-    }
-
-    &:hover, &.activo {
-      color: $primary;
-      &::after { width: 100%; }
-    }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
-/* --- ACCIONES DEL NAVBAR --- */
+/* LOGO */
+.logo {
+  text-decoration: none;
+  font-size: 1.7rem;
+  font-weight: 800;
+  
+  .arte { color: $text-dark; }
+  .mania { color: $primary; }
+}
+
+/* LINKS (Escritorio) */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+
+  a {
+    text-decoration: none;
+    color: #666;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.2s;
+    cursor: pointer;
+
+    &:hover, &.active {
+      color: $primary;
+    }
+  }
+
+  .mobile-auth { display: none; }
+}
+
+/* ACCIONES (Derecha) */
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-/* Botón Carrito */
-.btn-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.4rem;
-  color: $text-color;
+/* CARRITO */
+.cart-icon-container {
   position: relative;
-  transition: color 0.2s;
-  padding: 5px;
-
-  &:hover { color: $primary; }
-}
-
-.carrito-contador {
-  position: absolute;
-  top: -2px;
-  right: -4px;
-  background: $primary;
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 2px 5px;
-  border-radius: 50%;
-  min-width: 16px;
-  text-align: center;
-  border: 2px solid white; // Borde blanco para separar del icono
-}
-
-/* BOTÓN INICIAR SESIÓN (Cuando no está logueado) */
-.btn-login {
-  background-color: $primary;
-  color: white;
-  text-decoration: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 50px; // Forma de píldora
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(121, 81, 155, 0.2);
-
-  &:hover {
-    background-color: $primary-hover;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(121, 81, 155, 0.3);
-  }
-}
-
-/* --- DROPDOWN DE USUARIO (Cuando está logueado) --- */
-.user-dropdown {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  color: $text-dark;
+  font-size: 1.2rem;
+  transition: transform 0.2s;
   cursor: pointer;
-  position: relative; // Para posicionar el menú absoluto
-  padding: 5px;
-  border-radius: 50px;
-  transition: background 0.2s;
 
-  &:hover {
-    background-color: #f5f0f8; // Fondo sutil al pasar mouse
-  }
-}
+  &:hover { color: $primary; transform: scale(1.1); }
 
-.user-avatar {
-  width: 35px;
-  height: 35px;
-  background-color: #eee; // Gris clarito o color suave
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: $primary;
-  border: 1px solid #e0e0e0;
-  
-  i { font-size: 1.1rem; }
-}
-
-.arrow-icon {
-  font-size: 0.8rem;
-  color: #888;
-  transition: transform 0.3s ease;
-
-  &.rotated {
-    transform: rotate(180deg); // Girar flecha si menú abierto
-  }
-}
-
-/* MENÚ FLOTANTE */
-.dropdown-menu {
-  position: absolute;
-  top: 120%; // Justo debajo del avatar
-  right: 0;
-  background: white;
-  min-width: 180px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  padding: 0.5rem;
-  animation: fadeIn 0.2s ease-out;
-  border: 1px solid #f0f0f0;
-  z-index: 1001;
-
-  /* Triangulito decorativo arriba */
-  &::before {
-    content: '';
+  .badge {
     position: absolute;
-    top: -6px;
-    right: 15px;
-    width: 12px;
-    height: 12px;
-    background: white;
-    transform: rotate(45deg);
-    border-left: 1px solid #f0f0f0;
-    border-top: 1px solid #f0f0f0;
+    top: -8px;
+    right: -8px;
+    background: #d32f2f;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    height: 18px;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
   }
 }
 
-.dropdown-header {
-  padding: 0.8rem 1rem;
-  font-size: 0.85rem;
-  color: #999;
-  font-weight: 600;
-  border-bottom: 1px solid #f5f5f5;
-  margin-bottom: 0.5rem;
-}
+/* PERFIL USUARIO */
+.user-actions {
+  position: relative;
 
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  width: 100%;
-  padding: 0.8rem 1rem;
-  color: $text-color;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: background 0.2s;
-  border: none;
-  background: none;
-  text-align: left;
-  cursor: pointer;
+  .btn-login {
+    background: $primary;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
 
-  i { font-size: 1rem; color: #888; }
+    &:hover { background: color.adjust($primary, $lightness: -5%); }
+  }
 
-  &:hover {
-    background-color: #f5f0f8;
+  .user-profile {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    background: #f3e5f5;
     color: $primary;
-    
-    i { color: $primary; }
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    &:hover { background: #e1bee7; }
   }
 
-  &.logout {
-    color: #d32f2f; // Rojo suave para salir
-    &:hover {
-      background-color: #ffebee;
-      color: #b71c1c;
-      i { color: #b71c1c; }
+  /* MENÚ DESPLEGABLE (Usuario) */
+  .dropdown-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: white;
+    width: 200px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.2s ease;
+    z-index: 1001;
+
+    .user-name {
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $text-dark;
+      background: #f9f9f9;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .divider { height: 1px; background: #eee; margin: 0.3rem 0; }
+
+    .dropdown-item {
+      text-decoration: none;
+      padding: 0.7rem 1rem;
+      font-size: 0.9rem;
+      color: #555;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover { background: #f5f5f5; color: $primary; }
+      &.text-danger:hover { background: #ffebee; color: #d32f2f; }
     }
   }
+}
+
+/* HAMBURGUESA (Mobile) */
+.hamburger { display: none; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+    background: none; border: none; font-size: 1.5rem; color: $text-dark; cursor: pointer;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 60px; left: 0; right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 2rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    gap: 1.5rem;
+    z-index: 999;
+
+    &.active { transform: translateY(0); }
+
+    .mobile-auth {
+      display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;
+      
+      a { color: $primary; font-weight: 600; }
+      .logout-link { color: #d32f2f; }
+    }
+  }
+
+  .user-actions { 
+    // En móvil ocultamos el perfil flotante y usamos los links dentro del menú hamburguesa
+    .user-profile { display: none; }
+    .btn-login { display: none; } 
+  } 
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsivo básico: Ocultar links en móvil */
-@media (max-width: 768px) {
-  .nav-links { display: none; } 
-  /* Aquí podrías agregar un botón de menú hamburguesa si quisieras */
 }

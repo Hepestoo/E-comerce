@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CarritoService } from '../../../../services/carrito.service';
+import { CarritoService } from '../../../../services/carrito.service'; // Ajusta la ruta si es necesario
 import { AuthService } from '../../../../services/auth.service';
 
 @Component({
@@ -12,41 +12,39 @@ import { AuthService } from '../../../../services/auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  totalCarrito: number = 0;
-  menuAbierto = false; // Controla el dropdown del usuario
+  menuAbierto = false; // Controla el dropdown del usuario mobile
 
   constructor(
-    private carritoService: CarritoService,
+    // ✅ Hacemos el servicio 'public' para usarlo directo en el HTML (Pipe Async)
+    public carritoService: CarritoService, 
     public auth: AuthService,
-    private eRef: ElementRef // Para detectar clicks fuera
+    private eRef: ElementRef 
   ) {}
 
   ngOnInit(): void {
-    this.carritoService.totalItems$.subscribe((total) => {
-      this.totalCarrito = total;
-    });
+    // Al iniciar, pedimos refrescar el número por si acaso
     this.carritoService.refrescarCantidad();
   }
 
-  // Alternar menú
+  // Alternar menú hamburguesa / usuario
   toggleMenu() {
     this.menuAbierto = !this.menuAbierto;
   }
 
-  // Cerrar menú (se usa desde el HTML o HostListener)
   closeMenu() {
     this.menuAbierto = false;
   }
 
   logout() {
-    this.menuAbierto = false; // Cerrar menú antes de salir
+    this.menuAbierto = false; 
     this.auth.logout();
+    // Opcional: Resetear contador visualmente al salir
+    this.carritoService.actualizarCantidad(0);
   }
 
   // Detectar clic fuera para cerrar el menú
   @HostListener('document:click', ['$event'])
   clickOut(event: any) {
-    // Si el clic NO fue dentro del componente navbar, cerramos el menú
     if(!this.eRef.nativeElement.contains(event.target)) {
       this.menuAbierto = false;
     }

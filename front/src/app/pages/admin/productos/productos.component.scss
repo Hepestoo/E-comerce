@@ -1,4 +1,5 @@
 @use 'sass:color';
+
 // Variables
 $primary: #7951a8;
 $primary-light: #f3e5f5;
@@ -141,6 +142,7 @@ $success: #43a047;
     &.btn-cancel { background: #f5f5f5; color: $text-grey; &:hover { background: #eee; } }
     &.btn-save { 
       background: $primary; color: white; display: flex; align-items: center; gap: 8px;
+      // Corrección de warning
       &:hover:not(:disabled) { background: color.adjust($primary, $lightness: -5%); }
       &:disabled { background: #ccc; cursor: not-allowed; }
     }
@@ -169,36 +171,39 @@ $success: #43a047;
 /* --- GRID DE PRODUCTOS --- */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  // Un poco más ancho para que quepan bien los botones
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
   gap: 1.5rem;
 }
 
 .admin-product-card {
-  border: 1px solid $border; border-radius: 12px; overflow: hidden; transition: transform 0.2s;
+  background: white;
+  border: 1px solid $border; 
+  border-radius: 12px; 
+  overflow: hidden; 
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;       // Para empujar los botones al fondo
+  flex-direction: column;
   
   &:hover { 
-    transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    .overlay-actions { opacity: 1; }
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
   }
 
   .card-img-top {
-    height: 180px; position: relative;
+    height: 180px; 
+    position: relative;
+    width: 100%;
+    
     img { width: 100%; height: 100%; object-fit: cover; }
     
-    .overlay-actions {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.4);
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      opacity: 0; transition: opacity 0.2s;
-      
-      .btn-icon {
-        width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: transform 0.2s;
-        &.edit { background: white; color: $primary; &:hover { transform: scale(1.1); } }
-        &.delete { background: #ffebee; color: $danger; &:hover { transform: scale(1.1); } }
-      }
-    }
-
     .stock-tag {
-      position: absolute; top: 10px; right: 10px; padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; background: rgba(255,255,255,0.95); color: $success;
+      position: absolute; top: 10px; right: 10px; 
+      padding: 4px 8px; border-radius: 6px; 
+      font-size: 0.75rem; font-weight: 700; 
+      background: rgba(255,255,255,0.95); color: $success;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      
       &.low { color: #ff9800; }
       &.out { background: $danger; color: white; }
     }
@@ -206,9 +211,66 @@ $success: #43a047;
 
   .card-body {
     padding: 1rem;
-    .category { color: $primary; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 0.3rem; }
-    h4 { margin: 0 0 0.5rem; font-size: 1rem; color: $text-dark; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .price { font-weight: 700; color: $text-dark; font-size: 1.1rem; margin: 0; }
+    flex-grow: 1; // Ocupa el espacio disponible para empujar botones abajo
+    
+    .category { 
+      color: $primary; 
+      font-size: 0.75rem; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      display: block; 
+      margin-bottom: 0.3rem; 
+    }
+    
+    h4 { 
+      margin: 0 0 0.5rem; 
+      font-size: 1.05rem; 
+      color: $text-dark; 
+      line-height: 1.4;
+      // Opcional: limitar a 2 líneas
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    
+    .price { 
+      font-weight: 700; 
+      color: $text-dark; 
+      font-size: 1.2rem; 
+      margin: 0; 
+    }
+  }
+
+  /* NUEVOS ESTILOS PARA LOS BOTONES */
+  .card-actions {
+    padding: 1rem;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 10px;
+    background: #fafafa;
+
+    .btn-action {
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+
+      &.edit {
+        flex: 1; // Ocupa todo el espacio posible
+        background: $primary-light; // Fondo lila suave
+        color: $primary;
+        &:hover { background: color.adjust($primary-light, $lightness: -5%); }
+      }
+
+      &.delete {
+        width: 40px; // Botón cuadrado para borrar
+        background: #ffebee; // Fondo rojo suave
+        color: $danger;
+        &:hover { background: #ffcdd2; }
+      }
+    }
   }
 }
 

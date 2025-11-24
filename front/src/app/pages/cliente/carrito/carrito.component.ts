@@ -94,9 +94,6 @@ export class CarritoComponent implements OnInit {
       if (result.isConfirmed) {
         this.carritoService.eliminarItem(id).subscribe(() => {
           this.obtenerCarrito();
-          // Alerta pequeña (Toast)
-          const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 1500 });
-          Toast.fire({ icon: 'success', title: 'Producto eliminado' });
         });
       }
     });
@@ -189,7 +186,7 @@ export class CarritoComponent implements OnInit {
                 Swal.fire({
                   icon: 'success',
                   title: '¡Pedido Confirmado! 🎉',
-                  text: `Orden #${orden.id} registrada correctamente. Revisa tu correo/telegram.`,
+                  text: `Orden #${orden.id} registrada correctamente.`,
                   confirmButtonText: 'Volver al Inicio',
                   confirmButtonColor: '#7951a8',
                   background: '#fff',

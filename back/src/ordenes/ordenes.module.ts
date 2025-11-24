@@ -8,6 +8,7 @@ import { Carrito } from '../carrito/entities/carrito.entity';
 import { CarritoItem } from '../carrito/entities/carrito-item.entity';
 import { Producto } from '../productos/entities/producto.entity';
 import { UsersModule } from '../usuarios/users.module';
+import { PdfModule } from '../pdf/pdf.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { UsersModule } from '../usuarios/users.module';
       CarritoItem,
       Producto,
     ]),
-    UsersModule
+    UsersModule,
+    PdfModule
   ],
   controllers: [OrdenesController],
   providers: [OrdenesService],

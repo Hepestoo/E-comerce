@@ -11,7 +11,6 @@
     </button>
   </div>
 
-  <!-- FORMULARIO (Colapsable) -->
   <div class="form-container" [class.open]="mostrarFormulario">
     <div class="form-card">
       <div class="form-header">
@@ -24,7 +23,6 @@
       <form (ngSubmit)="guardar()" #form="ngForm" class="product-form">
         
         <div class="form-row">
-          <!-- Columna Izquierda: Datos -->
           <div class="col-data">
             <div class="form-group">
               <label>Nombre del Producto</label>
@@ -48,18 +46,31 @@
             </div>
 
             <div class="form-group">
-              <label>Categoría</label>
+              <label>Categoría Principal</label>
               <div class="select-wrapper">
-                <select [(ngModel)]="nuevoProducto.subcategoria_id" name="subcategoria_id" required>
-                  <option [ngValue]="0" disabled>Selecciona una categoría</option>
-                  <option *ngFor="let cat of subcategorias" [value]="cat.id">{{ cat.nombre }}</option>
+                <select [(ngModel)]="categoriaPadreSeleccionadaId" name="categoriaPadre" (change)="onCategoriaPadreChange()" required>
+                  <option [ngValue]="null" disabled>Selecciona una categoría</option>
+                  <option *ngFor="let cat of categoriasPadre" [value]="cat.id">{{ cat.nombre }}</option>
                 </select>
                 <i class="pi pi-chevron-down"></i>
               </div>
             </div>
+
+            <div class="form-group">
+              <label>Tipo de Producto (Subcategoría)</label>
+              <div class="select-wrapper">
+                <select [(ngModel)]="nuevoProducto.subcategoria_id" name="subcategoria_id" [disabled]="!categoriaPadreSeleccionadaId" required>
+                  <option [ngValue]="0" disabled>
+                    {{ categoriaPadreSeleccionadaId ? 'Selecciona una opción' : 'Primero elige Categoría Principal' }}
+                  </option>
+                  <option *ngFor="let sub of subcategoriasFiltradas" [value]="sub.id">{{ sub.nombre }}</option>
+                </select>
+                <i class="pi pi-chevron-down"></i>
+              </div>
+            </div>
+
           </div>
 
-          <!-- Columna Derecha: Imagen -->
           <div class="col-image">
             <label>Imagen del Producto</label>
             <div class="image-upload-area" (click)="fileInput.click()" [class.has-image]="imagenPreview">
@@ -91,35 +102,23 @@
     </div>
   </div>
 
-  <!-- LISTA DE PRODUCTOS -->
   <div class="list-container">
     
-    <!-- Barra de Herramientas -->
     <div class="toolbar">
       <div class="search-box">
         <i class="pi pi-search"></i>
         <input type="text" [(ngModel)]="busqueda" placeholder="Buscar por nombre...">
       </div>
       <div class="filter-box">
-        <!-- Aquí podrías poner un select para filtrar por categoría en el futuro -->
         <span class="count">{{ productosFiltrados.length }} productos</span>
       </div>
     </div>
 
-    <!-- Grid de Tarjetas -->
     <div class="products-grid" *ngIf="productosFiltrados.length > 0; else emptyState">
       
       <div class="admin-product-card" *ngFor="let prod of productosFiltrados">
         <div class="card-img-top">
           <img [src]="apiUrl + '/uploads/productos/' + prod.imagen_url" [alt]="prod.nombre">
-          <div class="overlay-actions">
-            <button class="btn-icon edit" (click)="editar(prod)" title="Editar">
-              <i class="pi pi-pencil"></i>
-            </button>
-            <button class="btn-icon delete" (click)="eliminar(prod.id)" title="Eliminar">
-              <i class="pi pi-trash"></i>
-            </button>
-          </div>
           <span class="stock-tag" [class.out]="prod.stock === 0" [class.low]="prod.stock > 0 && prod.stock < 5">
             {{ prod.stock === 0 ? 'Agotado' : prod.stock + ' en stock' }}
           </span>
@@ -130,11 +129,19 @@
           <h4>{{ prod.nombre }}</h4>
           <p class="price">{{ prod.precio | currency }}</p>
         </div>
+
+        <div class="card-actions">
+          <button class="btn-action edit" (click)="editar(prod)">
+            <i class="pi pi-pencil"></i> Editar
+          </button>
+          <button class="btn-action delete" (click)="eliminar(prod.id)" title="Eliminar">
+            <i class="pi pi-trash"></i>
+          </button>
+        </div>
       </div>
 
     </div>
 
-    <!-- Estado Vacío -->
     <ng-template #emptyState>
       <div class="empty-state">
         <div class="icon-circle"><i class="pi pi-box"></i></div>

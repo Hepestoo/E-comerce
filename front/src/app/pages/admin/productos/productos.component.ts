@@ -15,12 +15,14 @@ import { environment } from "../../../../environments/environments";
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
-  subcategorias: any[] = [];
-  busqueda: string = '';
+  categoriasPadre: any[] = [];      // Lista de Categorías (Padre)
+  todasSubcategorias: any[] = [];   // Lista cruda de todas las subcategorías
+  subcategoriasFiltradas: any[] = []; // Lista filtrada para el Select 2
   
-  // Control del formulario colapsable
-  mostrarFormulario = false;
+  categoriaPadreSeleccionadaId: number | null = null; // Variable temporal para el Select 1
 
+  busqueda: string = '';
+  mostrarFormulario = false;
   public apiUrl = environment.apiUrl;
 
   imagenPreview: string | null = null;
@@ -38,7 +40,7 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarProductos();
-    this.cargarsubCategorias();
+    this.cargarDatosSelects();
   }
 
   cargarProductos() {
@@ -47,10 +49,32 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  cargarsubCategorias() {
-    this.http.get<any[]>(`${this.apiUrl}/subcategorias`).subscribe((res) => {
-      this.subcategorias = res;
+  cargarDatosSelects() {
+    // 1. Cargar Categorías Padre (Select 1)
+    this.productoService.obtenerCategoriasPadre().subscribe(res => {
+      this.categoriasPadre = res;
     });
+
+    // 2. Cargar Todas las Subcategorías (Para filtrar el Select 2)
+    this.productoService.obtenerSubcategorias().subscribe(res => {
+      this.todasSubcategorias = res;
+      this.subcategoriasFiltradas = []; // Empieza vacío hasta que elijan categoría
+    });
+  }
+
+  // EVENTO: Se ejecuta cuando cambian la Categoría Principal
+  onCategoriaPadreChange() {
+    // Reseteamos el hijo
+    this.nuevoProducto.subcategoria_id = 0;
+    
+    if (this.categoriaPadreSeleccionadaId) {
+      // Filtramos: Mostramos solo las subcategorías que coincidan con el padre ID
+      this.subcategoriasFiltradas = this.todasSubcategorias.filter(sub => 
+        sub.categoria && sub.categoria.id == this.categoriaPadreSeleccionadaId
+      );
+    } else {
+      this.subcategoriasFiltradas = [];
+    }
   }
 
   onFileChange(event: any) {
@@ -66,15 +90,21 @@ export class ProductosComponent implements OnInit {
   }
 
   limpiarImagen(event: Event) {
-    event.stopPropagation(); // Evitar que se abra el selector de archivos
+    event.stopPropagation();
     this.imagenSeleccionada = null;
     this.imagenPreview = null;
   }
 
   guardar() {
-    // Validar que haya imagen si es nuevo
+    // Validación de imagen solo si es nuevo
     if (!this.nuevoProducto.id && !this.imagenSeleccionada) {
       Swal.fire('Falta Imagen', 'Debes subir una imagen para el producto', 'warning');
+      return;
+    }
+    
+    // Validación de categoría
+    if (!this.nuevoProducto.subcategoria_id || this.nuevoProducto.subcategoria_id === 0) {
+      Swal.fire('Falta Categoría', 'Debes seleccionar un tipo de producto (subcategoría)', 'warning');
       return;
     }
 
@@ -98,7 +128,7 @@ export class ProductosComponent implements OnInit {
   
     observable.subscribe(() => {
       this.resetFormulario();
-      this.mostrarFormulario = false; // Cerrar formulario al guardar
+      this.mostrarFormulario = false;
       this.cargarProductos();
   
       Swal.fire({
@@ -119,6 +149,10 @@ export class ProductosComponent implements OnInit {
       stock: 0,
       subcategoria_id: 0
     };
+    // Reseteamos selects en cascada
+    this.categoriaPadreSeleccionadaId = null;
+    this.subcategoriasFiltradas = [];
+    
     this.imagenSeleccionada = null;
     this.imagenPreview = null;
   }
@@ -160,6 +194,19 @@ export class ProductosComponent implements OnInit {
       imagen_url: producto.imagen_url
     };
 
+    // --- LÓGICA PARA AUTO-SELECCIONAR LOS SELECTS ---
+    // 1. Buscamos en la lista completa a qué categoría pertenece esta subcategoría
+    const subActual = this.todasSubcategorias.find(s => s.id === producto.subcategoria.id);
+    
+    if (subActual && subActual.categoria) {
+      // 2. Seteamos el Padre
+      this.categoriaPadreSeleccionadaId = subActual.categoria.id;
+      // 3. Forzamos la actualización del segundo select
+      this.onCategoriaPadreChange();
+      // 4. Volvemos a marcar el hijo (porque el change lo borra)
+      this.nuevoProducto.subcategoria_id = producto.subcategoria.id;
+    }
+
     if (producto.imagen_url) {
       this.imagenPreview = `${this.apiUrl}/uploads/productos/${producto.imagen_url}`;
     } else {
@@ -167,8 +214,8 @@ export class ProductosComponent implements OnInit {
     }
     this.imagenSeleccionada = null;
     
-    this.mostrarFormulario = true; // Abrir formulario automáticamente
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Subir al formulario
+    this.mostrarFormulario = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   get productosFiltrados() {

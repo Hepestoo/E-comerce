@@ -173,10 +173,23 @@ $bg-light: #f9f9f9;
   padding-bottom: 1rem;
 }
 
+/* GRID DE 4 COLUMNAS */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 1.5rem; 
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+
+  @media (max-width: 800px) {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr; 
+  }
 }
 
 .product-card {
@@ -184,18 +197,19 @@ $bg-light: #f9f9f9;
   border: 1px solid $border-color;
   border-radius: 16px;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  // Eliminé 'transform' de la transición
+  transition: box-shadow 0.3s, border-color 0.3s;
   display: flex;
   flex-direction: column;
 
   &:hover {
-    transform: translateY(-5px);
+    // Eliminé transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     border-color: $primary-light;
   }
 
   .card-image {
-    height: 200px;
+    height: 180px; 
     position: relative;
     background: #f0f0f0;
 
@@ -217,12 +231,12 @@ $bg-light: #f9f9f9;
   }
 
   .card-details {
-    padding: 1.2rem;
+    padding: 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;
 
-    h4 { margin: 0 0 0.5rem; font-size: 1.1rem; color: $text-dark; font-weight: 600; }
+    h4 { margin: 0 0 0.5rem; font-size: 1rem; color: $text-dark; font-weight: 600; }
     
     .desc { 
       font-size: 0.85rem; color: $text-grey; margin-bottom: 1rem; line-height: 1.5;
@@ -232,20 +246,21 @@ $bg-light: #f9f9f9;
     .price-row {
       margin-top: auto;
       margin-bottom: 1rem;
-      .price { font-size: 1.2rem; font-weight: 700; color: $primary; }
+      .price { font-size: 1.1rem; font-weight: 700; color: $primary; }
     }
 
     .actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
 
       .qty-input input {
-        width: 50px;
-        padding: 8px;
+        width: 40px;
+        padding: 8px 4px;
         border: 1px solid #ddd;
         border-radius: 8px;
         text-align: center;
         outline: none;
+        font-size: 0.9rem;
         &:focus { border-color: $primary; }
       }
 
@@ -262,6 +277,7 @@ $bg-light: #f9f9f9;
         align-items: center;
         justify-content: center;
         gap: 5px;
+        font-size: 0.9rem;
 
         &:hover { background: $primary-dark; }
       }

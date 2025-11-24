@@ -145,21 +145,8 @@ export class CatalogoComponent implements OnInit {
       localStorage.setItem('session_id', sessionId);
     }
 
-    // CORRECCIÓN: Enviamos producto.id en lugar del objeto producto completo
-    // TypeScript se quejaba porque esperaba un number y recibía un objeto Producto
     this.carritoService.agregarProducto(producto.id, cantidad, sessionId).subscribe({
       next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Agregado',
-          text: `${producto.nombre} se añadió al carrito`,
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          background: '#fff',
-          iconColor: '#7951a8'
-        });
       },
       error: (err) => {
         console.error(err);

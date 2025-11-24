@@ -84,15 +84,12 @@ export class OrdenesService {
 
     const ordenGuardada = await this.ordenRepo.save(orden);
 
-
     // Retornar la orden con los productos relacionados
     return this.ordenRepo.findOne({
       where: { id: ordenGuardada.id },
       relations: ['detalles', 'detalles.producto'],
     });
   }
-
-
 
   async listarPorUsuario(usuario_id: number) {
     return this.ordenRepo.find({
@@ -138,8 +135,6 @@ export class OrdenesService {
     return this.ordenRepo.save(orden);
   }
 
-
-
   findAll() {
     return this.ordenRepo.find({
       relations: ['usuario', 'detalles', 'detalles.producto','pagos','pagos.metodo']
@@ -168,9 +163,13 @@ export class OrdenesService {
   
     return this.ordenRepo.save(orden);
   }
-  
-  
 
-
+  async findOne(id: number) {
+    return this.ordenRepo.findOne({
+      where: { id },
+      // Traemos todas las relaciones necesarias para el PDF
+      relations: ['usuario', 'detalles', 'detalles.producto', 'pagos', 'pagos.metodo']
+    });
+  }
 
 }

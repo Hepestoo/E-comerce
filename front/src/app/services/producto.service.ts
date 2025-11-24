@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../..//environments/environments';
+import { environment } from '../../environments/environments'; // Ruta corregida
 
 export interface Producto {
   id: number;
@@ -14,6 +14,11 @@ export interface Producto {
   subcategoria: {
     id: number;
     nombre: string;
+    // Opcional: si el backend devuelve la categoría padre dentro de la subcategoría
+    categoria?: {
+      id: number;
+      nombre: string;
+    }
   };
 }
 
@@ -33,7 +38,10 @@ export interface ProductoDTO {
   providedIn: 'root'
 })
 export class ProductoService {
-  private api = `${environment.apiUrl}/productos`;
+  // Base URL general (ej: http://localhost:3000)
+  private apiUrl = environment.apiUrl;
+  // URL específica de productos
+  private apiProductos = `${this.apiUrl}/productos`;
 
   constructor(private http: HttpClient) {}
 
@@ -44,31 +52,40 @@ export class ProductoService {
     });
   }
 
+  // --- CRUD DE PRODUCTOS ---
+
   listar(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.api);
+    return this.http.get<Producto[]>(this.apiProductos);
   }
 
   crear(producto: ProductoDTO): Observable<Producto> {
-    return this.http.post<Producto>(this.api, producto, {
+    return this.http.post<Producto>(this.apiProductos, producto, {
       headers: this.getAuthHeaders()
     });
   }
 
   actualizar(id: number, producto: ProductoDTO): Observable<Producto> {
-    return this.http.put<Producto>(`${this.api}/${id}`, producto, {
+    return this.http.put<Producto>(`${this.apiProductos}/${id}`, producto, {
       headers: this.getAuthHeaders()
     });
   }
 
   eliminar(id: number): Observable<any> {
-    return this.http.delete(`${this.api}/${id}`, {
+    return this.http.delete(`${this.apiProductos}/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
   
   obtenerPorSubcategoria(subcategoriaId: number) {
-    return this.http.get<any[]>(`${this.api}/subcategoria/${subcategoriaId}`);
+    return this.http.get<any[]>(`${this.apiProductos}/subcategoria/${subcategoriaId}`);
   }
   
+  obtenerCategoriasPadre() {
+    return this.http.get<any[]>(`${this.apiUrl}/categorias`);
+  }
+
+  obtenerSubcategorias() {
+    return this.http.get<any[]>(`${this.apiUrl}/subcategorias`);
+  }
   
 }
