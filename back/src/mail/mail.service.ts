@@ -12,20 +12,22 @@ export class MailService {
     const pass = this.configService.get('EMAIL_PASS');
     
     console.log('📧 Configurando correo con usuario:', usuario ? 'OK (Cargado)' : 'FALTA');
-    console.log('🔑 Contraseña cargada:', pass ? 'OK (Cargado)' : 'FALTA');
+    // No imprimimos la contraseña por seguridad
 
+    //  PUERTO 587 (STARTTLS) ---
     this.transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com', 
-      port: 465,              
-      secure: true,           
+      port: 587,              // Cambio a 587 (Más compatible en la nube)
+      secure: false,          // ¡OJO! false es OBLIGATORIO para el puerto 587
       auth: {
         user: usuario,
         pass: pass,
       },
       tls: {
-        rejectUnauthorized: false
+        rejectUnauthorized: false, // Ayuda con certificados
+        ciphers: 'SSLv3'           // A veces ayuda con la compatibilidad de Node
       },
-      family: 4, 
+      family: 4, // Mantenemos IPv4 por estabilidad
     } as any);
   }
 
